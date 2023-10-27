@@ -1,83 +1,103 @@
 <template>
 
   <!-- OS Titlebar Controls -->
-    <div class="titlebar-controls">
-        <div class="titlebar-controls-minimize" id="minimize-app">
-            <i class="fa-light fa-window-minimize"></i>
-        </div>
-        <div class="titlebar-controls-close" id="close-app">
-            <i class="fa-light fa-xmark"></i>
-        </div>
+  <div class="titlebar-controls">
+    <h1>Telemetry</h1>
+    <div class="titlebar-controls-minimize" id="minimize-app">
+      <i class="fa-light fa-window-minimize"></i>
     </div>
+    <div class="titlebar-controls-maximize" id="maximize-app">
+      <i class="fa-light fa-square"></i>
+    </div>
+    <div class="titlebar-controls-close" id="close-app">
+      <i class="fa-light fa-xmark"></i>
+    </div>
+  </div>
 
   <!-- Left Sidebar -->
-    <aside id="menu">
+  <aside id="menu">
 
-        <!-- Collection Selector -->
-        <div class="collection-selector">
-            <div class="collection-selector__icon">
-                <i class="fa-sharp fa-solid fa-telescope"></i>
-            </div>
-            <div class="collection-selector__meta">
-                <div class="collection-selector__meta__name">
-                    <span>Telemetry</span>
-                </div>
-                <div class="collection-selector__meta__count">
-                    <span>0 upcoming goals</span>
-                </div>
-            </div>
-            <div class="collection-selector__shortcut-indicator">
-                <i class="fa-sharp fa-regular fa-slash-forward"></i>
-            </div>
+    <!-- Collection Selector -->
+    <div class="collection-selector">
+      <div class="collection-selector__icon">
+
+      </div>
+      <div class="collection-selector__meta">
+        <div class="collection-selector__meta__name">
+          <span>Collection Label</span>
         </div>
-
-        <!-- Metrics -->
-        <div class="metric-nav-toggle" @click.prevent="toggleDisplayMetrics">
-            <i class="fa-regular fa-chevron-down" v-if="displayMetrics"></i>
-            <i class="fa-regular fa-chevron-up" v-if="!displayMetrics"></i>
-            <span>Trackers</span>
+        <div class="collection-selector__meta__count">
+          <span>0 upcoming goals</span>
         </div>
-        <ul class="metric-nav" v-if="metrics && displayMetrics">
-            <li v-for="(metric, index) in metrics" :key="index" class="metric-nav-item">
-                <span class="metric-nav-item__label">{{ metric.label }}</span>
-                <span class="metric-nav-item__records">---</span>
-            </li>
-        </ul>
+      </div>
+      <div class="collection-selector__shortcut-indicator">
+        <i class="fa-sharp fa-regular fa-slash-forward"></i>
+      </div>
+    </div>
 
-    </aside>
+    <!-- Metrics -->
+    <div class="metric-nav-toggle" @click.prevent="toggleDisplayMetrics">
+      <i class="fa-regular fa-chevron-down" v-if="displayMetrics"></i>
+      <i class="fa-regular fa-chevron-up" v-if="!displayMetrics"></i>
+      <span>Trackers</span>
+    </div>
+    <ul class="metric-nav" v-if="displayMetrics">
+      <li class="metric-nav-item">
+        <span class="metric-nav-item__label">Label</span>
+        <span class="metric-nav-item__records">0</span>
+      </li>
+      <li class="metric-nav-item">
+        <span class="metric-nav-item__label">Label</span>
+        <span class="metric-nav-item__records">0</span>
+      </li>
+      <li class="metric-nav-item">
+        <span class="metric-nav-item__label">Label</span>
+        <span class="metric-nav-item__records">0</span>
+      </li>
+      <li class="metric-nav-item">
+        <span class="metric-nav-item__label">Label</span>
+        <span class="metric-nav-item__records">0</span>
+      </li>
+      <li class="metric-nav-item">
+        <span class="metric-nav-item__label">Label</span>
+        <span class="metric-nav-item__records">0</span>
+      </li>
+    </ul>
+
+  </aside>
 
   <!-- Main Content -->
-    <main id="main">
-        <h1 style="margin-bottom:5px">Telemetry for Windows <small
-                v-if="systemInformation.version">v{{ systemInformation.version }}</small></h1>
-        <p class="subtitle" v-if="systemInformation.uuid">Device Identity: {{ systemInformation.uuid }}</p>
+  <main id="main">
+    <h1 style="margin-bottom:5px">Telemetry for Windows <small
+        v-if="systemInformation.version">v{{ systemInformation.version }}</small></h1>
+    <p class="subtitle" v-if="systemInformation.uuid">Device Identity: {{ systemInformation.uuid }}</p>
 
-        <dataGraph/>
-    </main>
+    <dataGraph/>
+  </main>
 
 </template>
 
 <script setup>
 
-import { ref, onMounted } from 'vue';
+import {ref, onMounted} from 'vue';
 import dataGraph from "./components/dataGraph.vue";
 import {useFetch} from "@vueuse/core";
 
 const systemInformation = ref({
-    version: null,
-    uuid: null
+  version: null,
+  uuid: null
 });
 
 const displayMetrics = ref(true);
 
 const toggleDisplayMetrics = () => {
-    displayMetrics.value = !displayMetrics.value;
+  displayMetrics.value = !displayMetrics.value;
 };
 
 let metrics = ref([]);
 
 onMounted(async () => {
-    systemInformation.value = await window["electronAPI"].getSystemInformation();
+  systemInformation.value = await window["electronAPI"].getSystemInformation();
 });
 
 </script>
@@ -124,17 +144,10 @@ h1 {
 #menu {
   background-color: #F7F9FF;
   position: fixed;
-  top: 0;
+  top: 40px;
   left: 0;
-  width: 340px;
-  height: 780px;
   bottom: 0;
-  -webkit-user-select: none;
-  -webkit-app-region: drag;
-
-  * {
-    -webkit-app-region: no-drag;
-  }
+  width: 340px;
 }
 
 .metric-nav-toggle {
@@ -196,7 +209,7 @@ h1 {
 
 #main {
   position: fixed;
-  top: 0;
+  top: 40px;
   left: 340px;
   bottom: 0;
   right: 0;
@@ -204,19 +217,34 @@ h1 {
 }
 
 .titlebar-controls {
-  position: fixed;
-  top: 0;
-  right: 0;
+  width: 100%;
   z-index: 999;
   display: flex;
   flex-direction: row;
   flex-wrap: nowrap;
+  justify-content: flex-end;
+  height: 40px;
+  background-color: #EEF2FD;
+  -webkit-user-select: none;
+  -webkit-app-region: drag;
+
+  h1 {
+    position: absolute;
+    top:13px;
+    left: 13px;
+    font-size: 11px;
+    font-weight: 400;
+  }
+
+  * {
+    -webkit-app-region: no-drag;
+  }
 }
 
-.titlebar-controls-close, .titlebar-controls-minimize {
+.titlebar-controls-close, .titlebar-controls-minimize, .titlebar-controls-maximize {
   color: #787F95;
-  font-size: 18px;
-  padding: 14px;
+  font-size: 16px;
+  padding: 12px 12px;
   width: 20px;
   display: flex;
   justify-content: center;
@@ -224,8 +252,14 @@ h1 {
   cursor: pointer;
 
   &:hover {
-    background-color: #ECEFF9;
+    background-color: #101828;
+    color: white;
   }
+}
+
+.titlebar-controls-maximize{
+  font-size: 14px;
+  padding-top: 14px;
 }
 
 .collection-selector {
@@ -250,7 +284,7 @@ h1 {
   .collection-selector__icon {
     width: 56px;
     aspect-ratio: 1;
-    background-color: white;
+    background-color: #59DEC3;
     border-radius: 8px;
     display: flex;
     justify-content: center;

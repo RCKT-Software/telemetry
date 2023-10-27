@@ -13,11 +13,13 @@ const isDev = process.env.IS_DEV === 'true';
 function createWindow() {
     const mainWindow = new BrowserWindow({
         show: false,
+        minWidth: 600,
         width: 1380,
+        minHeight: 780,
         height: 780,
         center: true,
-        resizable: false,
-        maximizable: false,
+        resizable: true,
+        maximizable: true,
         fullscreenable: false,
         icon: path.join(__dirname, 'src/assets/icon.ico'),
         frame: false,
@@ -42,9 +44,14 @@ function createWindow() {
         app.quit();
     });
 
-// Handle user-initiated "minimize" method
+    // Handle user-initiated "minimize" method
     ipcMain.handle('minimize-app', () => {
         mainWindow.minimize();
+    });
+
+    // Handle user-initiated "maximize" method
+    ipcMain.handle('maximize-app', () => {
+        mainWindow.maximize();
     });
 
 }

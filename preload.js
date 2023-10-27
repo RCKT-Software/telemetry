@@ -11,6 +11,13 @@ window.addEventListener('DOMContentLoaded', () => {
     });
 });
 
+// Handle user maximizing the application
+window.addEventListener('DOMContentLoaded', () => {
+    document.getElementById('maximize-app').addEventListener('click', () => {
+        ipcRenderer.invoke('maximize-app').then();
+    });
+});
+
 // Handle user closing the application window
 window.addEventListener('DOMContentLoaded', () => {
     document.getElementById('close-app').addEventListener('click', () => {
