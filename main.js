@@ -13,10 +13,10 @@ const isDev = process.env.IS_DEV === 'true';
 function createWindow() {
     const mainWindow = new BrowserWindow({
         show: false,
-        minWidth: 600,
+        minWidth: 800,
         width: 1380,
-        minHeight: 780,
-        height: 780,
+        minHeight: 600,
+        height: 820,
         center: true,
         resizable: true,
         maximizable: true,
@@ -51,7 +51,7 @@ function createWindow() {
 
     // Handle user-initiated "maximize" method
     ipcMain.handle('maximize-app', () => {
-        mainWindow.maximize();
+        mainWindow.isMaximized() ? mainWindow.unmaximize() : mainWindow.maximize();
     });
 
 }

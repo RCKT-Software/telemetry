@@ -1,18 +1,7 @@
 <template>
 
-  <!-- OS Titlebar Controls -->
-  <div class="titlebar-controls">
-    <h1>Telemetry</h1>
-    <div class="titlebar-controls-minimize" id="minimize-app">
-      <i class="fa-light fa-window-minimize"></i>
-    </div>
-    <div class="titlebar-controls-maximize" id="maximize-app">
-      <i class="fa-light fa-square"></i>
-    </div>
-    <div class="titlebar-controls-close" id="close-app">
-      <i class="fa-light fa-xmark"></i>
-    </div>
-  </div>
+  <!-- OS Title Bar -->
+  <osTitleBar />
 
   <!-- Left Sidebar -->
   <aside id="menu">
@@ -42,25 +31,25 @@
       <span>Trackers</span>
     </div>
     <ul class="metric-nav" v-if="displayMetrics">
-      <li class="metric-nav-item">
-        <span class="metric-nav-item__label">Label</span>
-        <span class="metric-nav-item__records">0</span>
+      <li class="tracker-nav-item">
+        <span class="tracker-nav-item__label">Label</span>
+        <span class="tracker-nav-item__records">0</span>
       </li>
-      <li class="metric-nav-item">
-        <span class="metric-nav-item__label">Label</span>
-        <span class="metric-nav-item__records">0</span>
+      <li class="tracker-nav-item">
+        <span class="tracker-nav-item__label">Label</span>
+        <span class="tracker-nav-item__records">0</span>
       </li>
-      <li class="metric-nav-item">
-        <span class="metric-nav-item__label">Label</span>
-        <span class="metric-nav-item__records">0</span>
+      <li class="tracker-nav-item">
+        <span class="tracker-nav-item__label">Label</span>
+        <span class="tracker-nav-item__records">0</span>
       </li>
-      <li class="metric-nav-item">
-        <span class="metric-nav-item__label">Label</span>
-        <span class="metric-nav-item__records">0</span>
+      <li class="tracker-nav-item">
+        <span class="tracker-nav-item__label">Label</span>
+        <span class="tracker-nav-item__records">0</span>
       </li>
-      <li class="metric-nav-item">
-        <span class="metric-nav-item__label">Label</span>
-        <span class="metric-nav-item__records">0</span>
+      <li class="tracker-nav-item">
+        <span class="tracker-nav-item__label">Label</span>
+        <span class="tracker-nav-item__records">0</span>
       </li>
     </ul>
 
@@ -81,7 +70,7 @@
 
 import {ref, onMounted} from 'vue';
 import dataGraph from "./components/dataGraph.vue";
-import {useFetch} from "@vueuse/core";
+import OsTitleBar from "./components/osTitleBar.vue";
 
 const systemInformation = ref({
   version: null,
@@ -182,7 +171,7 @@ h1 {
   margin: 0;
 }
 
-.metric-nav-item {
+.tracker-nav-item {
   padding: 10px 15px;
   border-radius: 8px;
   display: flex;
@@ -194,16 +183,16 @@ h1 {
     background-color: #ECEFF9;
   }
 
-  span.metric-nav-item__label {
+  span.tracker-nav-item__label {
     font-size: 13px;
     font-weight: 400;
     color: $heading;
   }
 
-  span.metric-nav-item__records {
+  span.tracker-nav-item__records {
     font-size: 12px;
     font-weight: 400;
-    color: $copy;
+    color: #9AB2D4;
   }
 }
 
@@ -214,52 +203,6 @@ h1 {
   bottom: 0;
   right: 0;
   padding: 30px 30px 0;
-}
-
-.titlebar-controls {
-  width: 100%;
-  z-index: 999;
-  display: flex;
-  flex-direction: row;
-  flex-wrap: nowrap;
-  justify-content: flex-end;
-  height: 40px;
-  background-color: #EEF2FD;
-  -webkit-user-select: none;
-  -webkit-app-region: drag;
-
-  h1 {
-    position: absolute;
-    top:13px;
-    left: 13px;
-    font-size: 11px;
-    font-weight: 400;
-  }
-
-  * {
-    -webkit-app-region: no-drag;
-  }
-}
-
-.titlebar-controls-close, .titlebar-controls-minimize, .titlebar-controls-maximize {
-  color: #787F95;
-  font-size: 16px;
-  padding: 12px 12px;
-  width: 20px;
-  display: flex;
-  justify-content: center;
-  text-align: center;
-  cursor: pointer;
-
-  &:hover {
-    background-color: #101828;
-    color: white;
-  }
-}
-
-.titlebar-controls-maximize{
-  font-size: 14px;
-  padding-top: 14px;
 }
 
 .collection-selector {
@@ -300,7 +243,7 @@ h1 {
     font-size: 14px;
     font-weight: bold;
     color: $heading;
-    margin-bottom: 2px;
+    margin-bottom: 4px;
   }
 
   .collection-selector__meta__count {
@@ -310,13 +253,14 @@ h1 {
   }
 
   .collection-selector__shortcut-indicator {
-    font-size: 14px;
+    font-size: 12px;
     color: white;
-    background: $heading;
+    background: #9AB2D4;
     padding: 5px 9px;
     border-radius: 3px;
     margin-left: auto;
     display: none;
+    font-weight: 500;
   }
 
 }
