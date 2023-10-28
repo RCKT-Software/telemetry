@@ -1,7 +1,7 @@
 {
   "name": "telemetry",
   "author": "RCKT Software, LLC.",
-  "description": "An open-source progress tracking that predicts when you'll reach your goals",
+  "description": "An open-source progress tracker that predicts when you'll reach your goals",
   "private": true,
   "version": "0.3.2",
   "main": "main.js",
