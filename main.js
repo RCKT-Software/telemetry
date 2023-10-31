@@ -28,6 +28,7 @@ function createWindow() {
             nodeIntegration: true,
             devTools: isDev
         },
+        backgroundColor: '#FFFFFF'
     });
     if (isDev) {
         mainWindow.loadURL('http://localhost:3000');

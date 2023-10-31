@@ -1,7 +1,7 @@
 <template>
 
   <!-- OS Title Bar -->
-  <osTitleBar />
+  <osTitleBar/>
 
   <!-- Left Sidebar -->
   <aside id="menu">
@@ -9,7 +9,7 @@
     <!-- Collection Selector -->
     <div class="collection-selector">
       <div class="collection-selector__icon">
-
+        <h1>CL</h1>
       </div>
       <div class="collection-selector__meta">
         <div class="collection-selector__meta__name">
@@ -20,7 +20,7 @@
         </div>
       </div>
       <div class="collection-selector__shortcut-indicator">
-        <i class="fa-sharp fa-regular fa-slash-forward"></i>
+        <i class="fa-sharp fa-regular fa-angle-down"></i>
       </div>
     </div>
 
@@ -28,7 +28,7 @@
     <div class="metric-nav-toggle" @click.prevent="toggleDisplayMetrics">
       <i class="fa-regular fa-chevron-down" v-if="displayMetrics"></i>
       <i class="fa-regular fa-chevron-up" v-if="!displayMetrics"></i>
-      <span>Trackers</span>
+      <span>All Trackers</span>
     </div>
     <ul class="metric-nav" v-if="displayMetrics">
       <li class="tracker-nav-item">
@@ -53,13 +53,44 @@
       </li>
     </ul>
 
+    <!-- Middle Divider -->
+    <div class="divider divider__middle"/>
+
+    <!-- Secondary Navigation Items -->
+    <ul class="secondary-nav">
+      <li class="secondary-nav__item">
+        Trash
+      </li>
+      <li class="secondary-nav__item">
+        Support
+      </li>
+      <li class="secondary-nav__item">
+        Feedback
+      </li>
+      <li class="secondary-nav__item">
+        Notifications
+      </li>
+    </ul>
+
+    <!-- Bottom Divider -->
+    <div class="divider divider__bottom"/>
+
+    <!-- Version Number -->
+    <span class="version-number">{{ systemInformation.uuid }} / v{{ systemInformation.version }}</span>
+
   </aside>
 
   <!-- Main Content -->
   <main id="main">
-    <h1 style="margin-bottom:5px">Telemetry for Windows <small
-        v-if="systemInformation.version">v{{ systemInformation.version }}</small></h1>
-    <p class="subtitle" v-if="systemInformation.uuid">Device Identity: {{ systemInformation.uuid }}</p>
+    <h1 style="margin-bottom:10px">Label <span class="value-tag" style="margin-left: 6px">0</span></h1>
+    <div class="quick-stats">
+      <div class="quick-stats__statistic">
+        <i class="fa-sharp fa-regular fa-database"></i> <span>0 data points</span>
+      </div>
+      <div class="quick-stats__statistic">
+        <i class="fa-sharp fa-regular fa-clock-rotate-left"></i> <span>Last updated just now</span>
+      </div>
+    </div>
 
     <dataGraph/>
   </main>
@@ -108,6 +139,10 @@ body, html {
   font-size: 13px;
   color: $copy;
   cursor: default;
+
+  * {
+    user-select: none;
+  }
 }
 
 h1, h2, h3, h4, h5, h6 {
@@ -121,7 +156,8 @@ p {
 }
 
 h1 {
-  font-size: 18px;
+  font-size: 20px;
+  font-weight: 600;
 
   small {
     font-size: 16px;
@@ -137,11 +173,38 @@ h1 {
   left: 0;
   bottom: 0;
   width: 340px;
+
+  .version-number {
+    font-size: 11px;
+    position: absolute;
+    bottom: 30px;
+    right: 35px;
+    color: #9AB2D4;
+  }
+
+  .divider {
+    height: 1px;
+    width: calc(100% - 65px);
+    background-color: #E1E6F5;
+    margin-left: 30px;
+    margin-top: 35px;
+    margin-bottom: 35px;
+
+    &.divider__middle {
+      position: absolute;
+      bottom: 190px;
+    }
+
+    &.divider__bottom {
+      position: absolute;
+      bottom: 35px;
+    }
+  }
 }
 
 .metric-nav-toggle {
   cursor: pointer;
-  margin-top: 30px;
+  margin-top: 20px;
   padding: 10px;
 
   i {
@@ -178,13 +241,14 @@ h1 {
   align-items: center;
   justify-content: space-between;
   cursor: pointer;
+  transition: background-color 0.05s ease;
 
   &:hover {
     background-color: #ECEFF9;
   }
 
   span.tracker-nav-item__label {
-    font-size: 13px;
+    font-size: 14px;
     font-weight: 400;
     color: $heading;
   }
@@ -215,6 +279,7 @@ h1 {
   gap: 15px;
   align-items: center;
   cursor: pointer;
+  transition: background-color 0.05s ease;
 
   &:hover {
     background-color: #ECEFF9;
@@ -232,6 +297,11 @@ h1 {
     display: flex;
     justify-content: center;
     align-items: center;
+
+    h1 {
+      margin: 0 !important;
+      color: white;
+    }
 
     i {
       color: $heading;
@@ -255,8 +325,8 @@ h1 {
   .collection-selector__shortcut-indicator {
     font-size: 12px;
     color: white;
-    background: #9AB2D4;
-    padding: 5px 9px;
+    background: #101828;
+    padding: 6px 8px;
     border-radius: 3px;
     margin-left: auto;
     display: none;
@@ -265,9 +335,68 @@ h1 {
 
 }
 
-.subtitle {
-  padding: 0;
-  margin: 0;
+.quick-stats {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  gap: 15px;
+  align-items: center;
+
+  .quick-stats__statistic {
+
+    i {
+      margin-right: 3px;
+    }
+
+    span {
+      font-size: 12px;
+      font-weight: 400;
+      color: #475467;
+    }
+  }
 }
+
+.value-tag {
+  color: #475467;
+  background-color: #EEF1FD;
+  border-radius: 3px;
+  font-size: 12px;
+  padding: 2px 7px;
+  vertical-align: baseline;
+}
+
+h1 {
+
+  .value-tag {
+    padding: 3px 8px;
+    font-size: 14px;
+  }
+}
+
+#menu {
+  border-right: 1px solid #EEF2FD;
+}
+
+.secondary-nav {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  position: absolute;
+  bottom: 90px;
+  left: 30px;
+
+  .secondary-nav__item {
+    font-size: 14px;
+    font-weight: 400;
+    padding: 6px 0;
+    transition: color 0.1s ease;
+    cursor: pointer;
+
+    &:hover {
+      color: $heading;
+    }
+  }
+}
+
 
 </style>
