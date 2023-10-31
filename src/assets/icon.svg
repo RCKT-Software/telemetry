@@ -1,20 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- Generator: Adobe Illustrator 26.5.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<!-- Generator: Adobe Illustrator 28.0.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
 <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
-	 viewBox="0 0 205 204" style="enable-background:new 0 0 205 204;" xml:space="preserve">
+	 viewBox="0 0 84.4 85.4" style="enable-background:new 0 0 84.4 85.4;" xml:space="preserve">
 <style type="text/css">
 	.st0{fill:#FFFFFF;}
 	.st1{enable-background:new    ;}
 	.st2{fill:#101828;}
 </style>
-<g id="Group_45" transform="translate(937 302.5) rotate(90)">
-	<path id="Rectangle_322" class="st0" d="M-292.9,732.3h184c5.5,0,10,4.5,10,10v185c0,5.5-4.5,10-10,10h-184c-5.5,0-10-4.5-10-10
-		v-185C-302.9,736.8-298.5,732.3-292.9,732.3z"/>
+<g id="Group_509" transform="translate(816.604 303) rotate(90)">
+	<path id="Rectangle_322" class="st0" d="M-293,732.2h65.4c5.5,0,10,4.5,10,10v64.4c0,5.5-4.5,10-10,10H-293c-5.5,0-10-4.5-10-10
+		v-64.4C-303,736.7-298.5,732.2-293,732.2z"/>
 	<g class="st1">
-		<path class="st2" d="M-173.6,882.3h0.7h19.7v13.1h-19.7v1.6v4.9h-4.9h-6.6h-29.5h-6.6h-4.9v-4.9v-1.6h-19.7v-13.1h19.7h0.7
-			l5.9-11.2v-62.6c0-14.4,4.8-26.2,16.7-35.1l3-2.2l3,2.2c11.9,8.9,16.7,20.7,16.7,35.1v62.6L-173.6,882.3z M-225.4,875.8h-19.7
-			v-13.1l19.7-32.8V875.8z M-153.2,862.6v13.1h-19.7v-45.9L-153.2,862.6z M-200.8,797c-4.5,0-8.2,3.7-8.2,8.2h19.7
-			c0-4.5-3.7-8.2-8.2-8.2H-200.8z"/>
+		<path class="st2" d="M-259.6,761.6L-259.6,761.6l4.2,7.7l17.9-7.3v4.7l-15.8,6.5l15.8,6.5v4.7l-12.7-5.2l5.6,10.4l-2.5,1.5l2.9,5
+			l-7.8,4.5l-2.9-5l-3,1.7l-17.1-26.7c0.2-0.1,0.3-0.2,0.5-0.3L-259.6,761.6z M-278.5,769.1l-5-8.7l19.9-11.5l5,8.7L-278.5,769.1z"
+			/>
 	</g>
 </g>
 </svg>
