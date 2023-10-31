@@ -1,5 +1,13 @@
 <template>
 
+  <!-- Collection Selector Popup -->
+  <div class="collection-selector-popup" v-if="displayCollectionSelector">
+
+  </div>
+
+  <!-- Overlay -->
+  <div class="overlay" @click.prevent="toggleDisplayCollectionSelector" v-if="displayCollectionSelector"/>
+
   <!-- OS Title Bar -->
   <osTitleBar/>
 
@@ -7,7 +15,7 @@
   <aside id="menu">
 
     <!-- Collection Selector -->
-    <div class="collection-selector">
+    <div class="collection-selector" @click.prevent="toggleDisplayCollectionSelector">
       <div class="collection-selector__icon">
         <h1>CL</h1>
       </div>
@@ -114,7 +122,11 @@ const toggleDisplayMetrics = () => {
   displayMetrics.value = !displayMetrics.value;
 };
 
-let metrics = ref([]);
+const displayCollectionSelector = ref(false);
+
+const toggleDisplayCollectionSelector = () => {
+  displayCollectionSelector.value = !displayCollectionSelector.value;
+};
 
 onMounted(async () => {
   systemInformation.value = await window["electronAPI"].getSystemInformation();
@@ -396,6 +408,32 @@ h1 {
       color: $heading;
     }
   }
+}
+
+.overlay {
+  position: fixed;
+  top: 40px;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(190, 195, 205, 0.6);
+  z-index: 9000;
+  backdrop-filter: blur(2px);
+}
+
+.collection-selector-popup{
+  background-color: white;
+  padding: 20px;
+  border-radius: 8px;
+  position: absolute;
+  top: 60px;
+  left: 20px;
+  box-shadow: rgba(0, 0, 0, 0.02) 0 1px 3px 3px, rgba(0, 0, 0, 0.01) 0 1px 4px 0;
+  z-index: 9050;
+  width: 430px;
+  height: 200px;
 }
 
 
