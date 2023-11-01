@@ -32,11 +32,19 @@
       </div>
     </div>
 
+    <!-- Collection Control Bar -->
+    <div class="collection-control">
+      <i class="fa-sharp fa-regular fa-marker"></i>
+      <i class="fa-sharp fa-regular fa-cog"></i>
+      <i class="fa-sharp fa-regular fa-file-export"></i>
+      <i class="fa-sharp fa-regular fa-trash"></i>
+    </div>
+
     <!-- Metrics -->
     <div class="metric-nav-toggle" @click.prevent="toggleDisplayMetrics">
       <i class="fa-regular fa-chevron-down" v-if="displayMetrics"></i>
       <i class="fa-regular fa-chevron-up" v-if="!displayMetrics"></i>
-      <span>All Trackers</span>
+      <span>All progress trackers</span>
     </div>
     <ul class="metric-nav" v-if="displayMetrics">
       <li class="tracker-nav-item">
@@ -59,7 +67,40 @@
         <span class="tracker-nav-item__label">Label</span>
         <span class="tracker-nav-item__records">0</span>
       </li>
+      <li class="tracker-nav-item">
+        <span class="tracker-nav-item__label">Label</span>
+        <span class="tracker-nav-item__records">0</span>
+      </li>
+      <li class="tracker-nav-item">
+        <span class="tracker-nav-item__label">Label</span>
+        <span class="tracker-nav-item__records">0</span>
+      </li>
+      <li class="tracker-nav-item">
+        <span class="tracker-nav-item__label">Label</span>
+        <span class="tracker-nav-item__records">0</span>
+      </li>
+      <li class="tracker-nav-item">
+        <span class="tracker-nav-item__label">Label</span>
+        <span class="tracker-nav-item__records">0</span>
+      </li>
+      <li class="tracker-nav-item">
+        <span class="tracker-nav-item__label">Label</span>
+        <span class="tracker-nav-item__records">0</span>
+      </li>
+      <li class="tracker-nav-item">
+        <span class="tracker-nav-item__label">Label</span>
+        <span class="tracker-nav-item__records">0</span>
+      </li>
+      <li class="tracker-nav-item">
+        <span class="tracker-nav-item__label">Label</span>
+        <span class="tracker-nav-item__records">0</span>
+      </li>
+      <li class="tracker-nav-item">
+        <span class="tracker-nav-item__label">Label</span>
+        <span class="tracker-nav-item__records">0</span>
+      </li>
     </ul>
+    <span class="tracker-add-button"><i class="fa-sharp fa-regular fa-plus"></i> New</span>
 
     <!-- Middle Divider -->
     <div class="divider divider__middle"/>
@@ -141,6 +182,8 @@ onMounted(async () => {
 
 $heading: #060a10;
 $copy: #43556b;
+$medium: #E1E6F5;
+$light: #EEF2FD;
 
 body, html {
   background-color: white;
@@ -216,7 +259,7 @@ h1 {
 
 .metric-nav-toggle {
   cursor: pointer;
-  margin-top: 20px;
+  margin-top: 10px;
   padding: 10px;
 
   i {
@@ -244,6 +287,44 @@ h1 {
   list-style: none;
   padding: 0 20px 0 45px;
   margin: 0;
+  max-height: calc(100vh - 530px);
+  overflow-y: scroll;
+  scroll-snap-type: y proximity;
+  scrollbar-color: $medium;
+  scrollbar-width: thin;
+
+  &::-webkit-scrollbar {
+    width: 8px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background-color: transparent;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background-clip: content-box;
+    background-color: $medium;
+    border: 1px solid transparent;
+    border-radius: 8px;
+  }
+}
+
+.tracker-add-button {
+  color: #9AB2D4;
+  font-size: 14px;
+  display: block;
+  padding-top: 10px;
+  padding-left: 35px;
+  cursor: pointer;
+  transition: color 0.05s ease;
+
+  i {
+    padding-right: 8px;
+  }
+
+  &:hover {
+    color: $heading;
+  }
 }
 
 .tracker-nav-item {
@@ -254,6 +335,7 @@ h1 {
   justify-content: space-between;
   cursor: pointer;
   transition: background-color 0.05s ease;
+  scroll-snap-align: start;
 
   &:hover {
     background-color: #ECEFF9;
@@ -347,6 +429,30 @@ h1 {
 
 }
 
+.collection-control{
+  background-color: $light;
+  padding: 12px 12px 12px 20px;
+  margin-left: 25px;
+  border-radius: 8px 0 0 8px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 20px;
+  flex-direction: row;
+  flex-wrap: nowrap;
+
+  i{
+    color: $copy;
+    font-size: 16px;
+    cursor: pointer;
+    transition: color 0.05s ease;
+
+    &:hover{
+      color: $heading;
+    }
+  }
+}
+
 .quick-stats {
   display: flex;
   flex-direction: row;
@@ -423,7 +529,7 @@ h1 {
   backdrop-filter: blur(2px);
 }
 
-.collection-selector-popup{
+.collection-selector-popup {
   background-color: white;
   padding: 20px;
   border-radius: 8px;
