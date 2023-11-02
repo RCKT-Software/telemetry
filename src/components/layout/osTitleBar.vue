@@ -33,7 +33,7 @@
   flex-wrap: nowrap;
   justify-content: space-between;
   height: 40px;
-  background-color: #EEF2FD;
+  background-color: var(--light);
   -webkit-user-select: none;
   -webkit-app-region: drag;
 
@@ -55,7 +55,7 @@
 }
 
 .titlebar-controls-close, .titlebar-controls-minimize, .titlebar-controls-maximize, .titlebar-controls-menu {
-  color: #787F95;
+  color: var(--dark);
   font-size: 16px;
   padding: 12px 12px;
   width: 20px;
@@ -65,8 +65,8 @@
   cursor: pointer;
 
   &:hover {
-    background-color: #101828;
-    color: white;
+    background-color: var(--black);
+    color: var(--white);
   }
 }
 

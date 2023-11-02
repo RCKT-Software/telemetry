@@ -146,7 +146,7 @@ const toggleDisplayCollectionSelector = () => {
   transition: background-color 0.05s ease;
 
   &:hover {
-    background-color: #ECEFF9;
+    background-color: var(--light);
 
     .collection-item__shortcut-indicator {
       display: block;
@@ -167,7 +167,7 @@ const toggleDisplayCollectionSelector = () => {
   .collection-item__icon {
     width: 56px;
     aspect-ratio: 1;
-    background-color: #59DEC3;
+    background-color: var(--primary);
     border-radius: 8px;
     display: flex;
     justify-content: center;
@@ -175,12 +175,12 @@ const toggleDisplayCollectionSelector = () => {
 
     h1 {
       margin: 0 !important;
-      color: white;
+      color: var(--white);
       cursor: pointer;
     }
 
     i {
-      color: #060a10;
+      color: var(--black);
       font-size: 24px;
     }
   }
@@ -188,20 +188,20 @@ const toggleDisplayCollectionSelector = () => {
   .collection-item__meta__name {
     font-size: 14px;
     font-weight: bold;
-    color: #060a10;
+    color: var(--heading);
     margin-bottom: 4px;
   }
 
   .collection-item__meta__count {
     font-size: 12px;
     font-weight: 400;
-    color: #43556b;
+    color: var(--darker);
   }
 
   .collection-item__shortcut-indicator {
     font-size: 12px;
-    color: white;
-    background: #101828;
+    color: var(--white);
+    background: var(--black);
     padding: 6px 8px;
     border-radius: 3px;
     margin-left: auto;
@@ -212,7 +212,7 @@ const toggleDisplayCollectionSelector = () => {
 }
 
 .collection-selector-popup {
-  background-color: white;
+  background-color: var(--white);
   padding: 20px;
   border-radius: 8px;
   position: absolute;
