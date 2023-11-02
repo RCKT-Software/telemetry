@@ -1,43 +1,19 @@
 <template>
 
-  <!-- Collection Selector Popup -->
-  <div class="collection-selector-popup" v-if="displayCollectionSelector">
-
-  </div>
-
-  <!-- Overlay -->
-  <div class="overlay" @click.prevent="toggleDisplayCollectionSelector" v-if="displayCollectionSelector"/>
-
   <!-- OS Title Bar -->
   <osTitleBar/>
 
   <!-- Left Sidebar -->
   <aside id="menu">
 
-    <!-- Collection Selector -->
-    <div class="collection-selector" @click.prevent="toggleDisplayCollectionSelector">
-      <div class="collection-selector__icon">
-        <h1>CL</h1>
-      </div>
-      <div class="collection-selector__meta">
-        <div class="collection-selector__meta__name">
-          <span>Collection Label</span>
-        </div>
-        <div class="collection-selector__meta__count">
-          <span>0 upcoming goals</span>
-        </div>
-      </div>
-      <div class="collection-selector__shortcut-indicator">
-        <i class="fa-sharp fa-regular fa-angle-down"></i>
-      </div>
-    </div>
+    <collectionSelector/>
 
     <!-- Collection Control Bar -->
     <div class="collection-control">
-      <i class="fa-sharp fa-regular fa-marker"></i>
-      <i class="fa-sharp fa-regular fa-cog"></i>
-      <i class="fa-sharp fa-regular fa-file-export"></i>
-      <i class="fa-sharp fa-regular fa-trash"></i>
+      <i class="fa-sharp fa-regular fa-plus" title="New progress tracker"></i>
+      <i class="fa-sharp fa-regular fa-cog" title="Collection settings"></i>
+      <i class="fa-sharp fa-regular fa-file-export" title="Export to CSV"></i>
+      <i class="fa-sharp fa-regular fa-trash" title="Delete collection"></i>
     </div>
 
     <!-- Metrics -->
@@ -100,7 +76,7 @@
         <span class="tracker-nav-item__records">0</span>
       </li>
     </ul>
-    <span class="tracker-add-button"><i class="fa-sharp fa-regular fa-plus"></i> New</span>
+    <span class="tracker-add-button" title="Add a new progress tracker"><i class="fa-sharp fa-regular fa-plus"></i> New</span>
 
     <!-- Middle Divider -->
     <div class="divider divider__middle"/>
@@ -151,6 +127,7 @@
 import {ref, onMounted} from 'vue';
 import dataGraph from "./components/dataGraph.vue";
 import OsTitleBar from "./components/osTitleBar.vue";
+import CollectionSelector from "./components/collectionSelector.vue";
 
 const systemInformation = ref({
   version: null,
@@ -161,12 +138,6 @@ const displayMetrics = ref(true);
 
 const toggleDisplayMetrics = () => {
   displayMetrics.value = !displayMetrics.value;
-};
-
-const displayCollectionSelector = ref(false);
-
-const toggleDisplayCollectionSelector = () => {
-  displayCollectionSelector.value = !displayCollectionSelector.value;
 };
 
 onMounted(async () => {
@@ -271,7 +242,7 @@ h1 {
 
   span {
     font-size: 14px;
-    font-weight: bold;
+    font-weight: 500;
     color: $heading;
   }
 
@@ -313,10 +284,11 @@ h1 {
   color: #9AB2D4;
   font-size: 14px;
   display: block;
-  padding-top: 10px;
+  padding-top: 12px;
   padding-left: 35px;
   cursor: pointer;
   transition: color 0.05s ease;
+  font-weight: 500;
 
   i {
     padding-right: 8px;
@@ -363,73 +335,7 @@ h1 {
   padding: 30px 30px 0;
 }
 
-.collection-selector {
-  padding: 7px 15px 7px 10px;
-  margin: 20px;
-  border-radius: 8px;
-  display: flex;
-  flex-direction: row;
-  flex-wrap: nowrap;
-  gap: 15px;
-  align-items: center;
-  cursor: pointer;
-  transition: background-color 0.05s ease;
-
-  &:hover {
-    background-color: #ECEFF9;
-
-    .collection-selector__shortcut-indicator {
-      display: block;
-    }
-  }
-
-  .collection-selector__icon {
-    width: 56px;
-    aspect-ratio: 1;
-    background-color: #59DEC3;
-    border-radius: 8px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-
-    h1 {
-      margin: 0 !important;
-      color: white;
-    }
-
-    i {
-      color: $heading;
-      font-size: 24px;
-    }
-  }
-
-  .collection-selector__meta__name {
-    font-size: 14px;
-    font-weight: bold;
-    color: $heading;
-    margin-bottom: 4px;
-  }
-
-  .collection-selector__meta__count {
-    font-size: 12px;
-    font-weight: 400;
-    color: $copy;
-  }
-
-  .collection-selector__shortcut-indicator {
-    font-size: 12px;
-    color: white;
-    background: #101828;
-    padding: 6px 8px;
-    border-radius: 3px;
-    margin-left: auto;
-    display: none;
-    font-weight: 500;
-  }
-
-}
-
-.collection-control{
+.collection-control {
   background-color: $light;
   padding: 12px 12px 12px 20px;
   margin-left: 25px;
@@ -441,13 +347,13 @@ h1 {
   flex-direction: row;
   flex-wrap: nowrap;
 
-  i{
+  i {
     color: $copy;
     font-size: 16px;
     cursor: pointer;
     transition: color 0.05s ease;
 
-    &:hover{
+    &:hover {
       color: $heading;
     }
   }
@@ -527,19 +433,6 @@ h1 {
   background-color: rgba(190, 195, 205, 0.6);
   z-index: 9000;
   backdrop-filter: blur(2px);
-}
-
-.collection-selector-popup {
-  background-color: white;
-  padding: 20px;
-  border-radius: 8px;
-  position: absolute;
-  top: 60px;
-  left: 20px;
-  box-shadow: rgba(0, 0, 0, 0.02) 0 1px 3px 3px, rgba(0, 0, 0, 0.01) 0 1px 4px 0;
-  z-index: 9050;
-  width: 430px;
-  height: 200px;
 }
 
 
