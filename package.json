@@ -3,7 +3,7 @@
   "author": "RCKT Software, LLC.",
   "description": "An open-source progress tracker that predicts when you'll reach your goals",
   "private": true,
-  "version": "0.3.7",
+  "version": "0.3.10",
   "main": "main.js",
   "scripts": {
     "start": "npm run build && npm run electron:start",
@@ -41,7 +41,7 @@
     "forge": {
       "packagerConfig": {
         "appCopyright": "Copyright © 2023 RCKT Software, LLC.",
-        "icon": "/public/icon.ico",
+        "icon": "./src/assets/icon",
         "name": "Telemetry",
         "win32metadata": {
           "ProductName": "Telemetry"
