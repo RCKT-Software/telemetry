@@ -8,17 +8,48 @@
 
   <!-- Main Content -->
   <main id="main">
-    <h1 style="margin-bottom:10px">Label <span class="value-tag" style="margin-left: 6px">0</span></h1>
-    <div class="quick-stats">
-      <div class="quick-stats__statistic">
-        <i class="fa-sharp fa-regular fa-database"></i> <span>0 data points</span>
-      </div>
-      <div class="quick-stats__statistic">
-        <i class="fa-sharp fa-regular fa-clock-rotate-left"></i> <span>Last updated just now</span>
-      </div>
-    </div>
+    <div class="center-content">
 
-    <dataGraph/>
+      <div class="title-bar">
+        <div class="title-bar__left">
+
+          <h1 style="margin-bottom:10px">Label <span class="value-tag" style="margin-left: 6px">0</span></h1>
+          <div class="quick-stats">
+            <div class="quick-stats__statistic">
+              <i class="fa-sharp fa-regular fa-database"></i> <span>0 data points</span>
+            </div>
+            <div class="quick-stats__statistic">
+              <i class="fa-sharp fa-regular fa-clock-rotate-left"></i> <span>Last updated just now</span>
+            </div>
+          </div>
+
+        </div>
+        <div class="title-bar__right">
+
+          <button class="btn btn--primary">
+            <i class="fa-sharp fa-regular fa-plus"></i>
+            <span>Data point</span>
+          </button>
+
+          <select class="time-period">
+            <i class="select__icon fa-sharp fa-regular fa-plus"></i>
+            <option value="0">24 hours</option>
+            <option value="0">3 days</option>
+            <option value="0">7 days</option>
+            <option value="0" selected>30 days</option>
+            <option value="0">60 days</option>
+            <option value="0">90 days</option>
+            <option value="0">2023</option>
+            <option value="0">All time</option>
+          </select>
+
+        </div>
+      </div>
+
+      <dataGraph/>
+
+
+    </div>
   </main>
 
 </template>
@@ -101,12 +132,15 @@ h1 {
 
 
 #main {
-  position: fixed;
-  top: 40px;
-  left: 340px;
-  bottom: 0;
-  right: 0;
-  padding: 30px 30px 0;
+  width: calc(100vw - 341px);
+  height: calc(100vh - 40px);
+  margin-left: 341px;
+  overflow-x: hidden;
+  overflow-y: auto;
+  .center-content {
+    max-width: 1140px;
+    margin: 0 auto;
+  }
 }
 
 
@@ -151,6 +185,68 @@ h1 {
   background-color: rgba(190, 195, 205, 0.6);
   z-index: 9000;
   backdrop-filter: blur(2px);
+}
+
+.title-bar {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  align-items: flex-start;
+  justify-content: space-between;
+  padding: 30px;
+
+  .title-bar__right {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    align-items: center;
+    gap: 30px;
+  }
+}
+
+.btn {
+  padding: 10px 15px;
+  gap: 10px;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  align-items: center;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  background-color: var(--light);
+  color: var(--heading);
+  font-family: 'Inter', sans-serif;
+
+  span {
+    font-weight: 600;
+    font-size: 14px;
+  }
+
+  &.btn--primary {
+    background-color: var(--black);
+    color: var(--lighter);
+
+    &:hover {
+      transform: scale(1.01);
+      color: var(--white);
+    }
+  }
+}
+
+select {
+  border: 1px solid var(--medium);
+  border-radius: 5px;
+  font-family: 'Inter', sans-serif;
+  padding: 10px 15px;
+  color: var(--darker);
+  outline: none;
+  min-width: 200px;
+  font-weight: 500;
+}
+
+.time-period {
+  width: 230px;
 }
 
 
