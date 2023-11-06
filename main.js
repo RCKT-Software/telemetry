@@ -13,10 +13,10 @@ const isDev = process.env.IS_DEV === 'true';
 function createWindow() {
     const mainWindow = new BrowserWindow({
         show: false,
-        minWidth: 800,
-        width: 1380,
+        minWidth: 1160,
+        width: 1520,
         minHeight: 600,
-        height: 820,
+        height: 860,
         center: true,
         resizable: true,
         maximizable: true,

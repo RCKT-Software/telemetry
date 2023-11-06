@@ -46,8 +46,10 @@
         </div>
       </div>
 
-      <chart />
-
+      <div class="chart-row">
+        <chart />
+        <goalBox />
+      </div>
 
     </div>
   </main>
@@ -57,10 +59,10 @@
 <script setup>
 
 import {ref, onMounted} from 'vue';
-//import dataGraph from "./components/dataGraph.vue";
 import chart from "./components/chart.vue";
 import OsTitleBar from "./components/layout/osTitleBar.vue";
 import NavigationPanel from "./components/layout/navigationPanel.vue";
+import GoalBox from "./components/goalBox.vue";
 
 const systemInformation = ref({
   version: null,
@@ -94,6 +96,8 @@ onMounted(async () => {
   --light: #EEF2FD;
   --lighter: #F7F9FF;
   --white: #FFFFFF;
+  --success: #68c026;
+  --success-light: #D7FAC0;
 }
 
 body, html {
@@ -121,6 +125,11 @@ p {
   margin: 0;
 }
 
+a{
+  color: unset;
+  text-decoration: unset;
+}
+
 h1 {
   font-size: 20px;
   font-weight: 600;
@@ -138,8 +147,14 @@ h1 {
   margin-left: 341px;
   overflow-x: hidden;
   overflow-y: auto;
+
   .center-content {
-    max-width: 1140px;
+    width: 1140px;
+    margin: 0 auto;
+  }
+
+  @media (max-width: 1481px) {
+    width: 100vw;
     margin: 0 auto;
   }
 }
@@ -167,12 +182,23 @@ h1 {
 }
 
 .value-tag {
+  display: inline-block;
   color: var(--darker);
   background-color: var(--light);
   border-radius: 3px;
   font-size: 12px;
   padding: 2px 7px;
   vertical-align: baseline;
+  width: fit-content;
+
+  i{
+    margin-right: 3px;
+  }
+
+  &.value-tag--success{
+    color: var(--success);
+    background-color: var(--success-light);
+  }
 }
 
 .overlay {
@@ -250,5 +276,19 @@ select {
   width: 230px;
 }
 
+.chart-row{
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  gap: 0;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.divider {
+  height: 1px;
+  width: 100%;
+  background-color: var(--light);
+}
 
 </style>

@@ -86,7 +86,7 @@
         Support
       </li>
       <li class="secondary-nav__item">
-        Feedback
+        <a href="https://github.com/RCKT-Software/telemetry/issues/new?title=Feedback%20for%20Telemetry..." target="_blank">Feedback</a>
       </li>
       <li class="secondary-nav__item">
         Notifications
@@ -134,6 +134,13 @@ onMounted(async () => {
   bottom: 0;
   width: 340px;
   border-right: 1px solid var(--light);
+  z-index: 9999;
+  transition: transform 0.2s ease-in-out;
+
+  @media (max-width: 1481px) {
+    transition: none;
+    transform: translateX(-100%) translateZ(0);
+  }
 
   .version-number {
     font-size: 11px;
@@ -144,7 +151,6 @@ onMounted(async () => {
   }
 
   .divider {
-    height: 1px;
     width: calc(100% - 65px);
     background-color: var(--medium);
     margin-left: 30px;

@@ -1,5 +1,5 @@
 <template>
-  <div style="width: 860px;">
+  <div style="width: 850px; position: relative">
     <canvas id="chart-canvas"/>
   </div>
 </template>
@@ -13,13 +13,20 @@ import Chart from 'chart.js/auto'
  * Placeholder input data.
  */
 const data = [
-  {year: 2010, count: 10},
+  {year: 2010, count: 17},
   {year: 2011, count: 20},
-  {year: 2012, count: 15},
+  {year: 2012, count: 19},
   {year: 2013, count: 25},
-  {year: 2014, count: 22},
+  {year: 2014, count: 26},
   {year: 2015, count: 30},
   {year: 2016, count: 27},
+  {year: 2017, count: 32},
+  {year: 2018, count: 29},
+  {year: 2019, count: 35},
+  {year: 2020, count: 35},
+  {year: 2021, count: 40},
+  {year: 2022, count: 42},
+  {year: 2023, count: 50},
 ];
 
 /* Keep a record of the chart for mounting/unmounting */
@@ -39,6 +46,16 @@ onMounted(async () => {
       {
         type: 'line',
         options: {
+          scales: {
+            y: {
+              min: 0,
+              max: 70,
+            }
+          },
+          interaction: {
+            intersect: false,
+            mode: 'index',
+          },
           animation: true,
           plugins: {
             legend: {
@@ -51,21 +68,22 @@ onMounted(async () => {
           layout: {
             padding: {
               left: 2,
+              right: 0,
             }
-          }
+          },
+          aspectRatio: 2.07,
         },
         data: {
           labels: data.map(row => row.year),
           datasets: [
             {
-              label: 'Acquisitions by year',
               data: data.map(row => row.count),
               fill: {
                 target: 'start',
                 above: '#F0FFFC',
               },
+              pointStyle: false,
               borderColor: '#26DCB7',
-              tension: 0.1
             }
           ]
         }
