@@ -46,10 +46,20 @@
         </div>
       </div>
 
+      <!-- Chart & Next Goal -->
       <div class="chart-row">
-        <chart />
-        <goalBox />
+        <chart/>
+        <goalBox/>
       </div>
+
+      <!-- Tabbed Section -->
+      <div class="tabs">
+        <button class="tab tab--active"><i class="fa-sharp fa-solid fa-list-timeline"></i> Recent Activity</button>
+        <button class="tab"><i class="fa-sharp fa-regular fa-table-rows"></i> Manage Data</button>
+        <button class="tab"><i class="fa-sharp fa-solid fa-chart-line"></i> Chart Settings</button>
+      </div>
+
+      <div style="background-color: var(--light); width: 100%; height: 800px; border-radius: 5px;"></div>
 
     </div>
   </main>
@@ -125,7 +135,7 @@ p {
   margin: 0;
 }
 
-a{
+a {
   color: unset;
   text-decoration: unset;
 }
@@ -146,7 +156,25 @@ h1 {
   height: calc(100vh - 40px);
   margin-left: 341px;
   overflow-x: hidden;
-  overflow-y: auto;
+  overflow-y: scroll;
+  scroll-snap-type: y proximity;
+  scrollbar-color: var(--medium);
+  scrollbar-width: thin;
+
+  &::-webkit-scrollbar {
+    width: 8px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background-color: transparent;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background-clip: content-box;
+    background-color: var(--medium);
+    border: 1px solid transparent;
+    border-radius: 8px;
+  }
 
   .center-content {
     width: 1140px;
@@ -191,11 +219,11 @@ h1 {
   vertical-align: baseline;
   width: fit-content;
 
-  i{
+  i {
     margin-right: 3px;
   }
 
-  &.value-tag--success{
+  &.value-tag--success {
     color: var(--success);
     background-color: var(--success-light);
   }
@@ -246,7 +274,7 @@ h1 {
   font-family: 'Inter', sans-serif;
 
   span {
-    font-weight: 600;
+    font-weight: 500;
     font-size: 14px;
   }
 
@@ -276,19 +304,52 @@ select {
   width: 230px;
 }
 
-.chart-row{
+.chart-row {
   display: flex;
   flex-direction: row;
   flex-wrap: nowrap;
   gap: 0;
   justify-content: space-between;
   align-items: flex-start;
+  margin-bottom: 40px;
 }
 
 .divider {
   height: 1px;
   width: 100%;
   background-color: var(--light);
+}
+
+.tabs {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  gap: 15px;
+  margin-bottom: 20px;
+  border-bottom: 1px solid var(--light);
+  padding-bottom: 10px;
+  width: fit-content;
+}
+
+.tab {
+  padding: 10px 15px;
+  gap: 10px;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  align-items: center;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  background-color: var(--white);
+  color: var(--heading);
+  font-family: 'Inter', sans-serif;
+  font-weight: 500;
+  font-size: 14px;
+
+  &.tab--active, &:hover {
+    background-color: var(--lighter);
+  }
 }
 
 </style>
