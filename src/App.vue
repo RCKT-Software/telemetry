@@ -46,7 +46,7 @@
         </div>
       </div>
 
-      <dataGraph/>
+      <chart />
 
 
     </div>
@@ -57,7 +57,8 @@
 <script setup>
 
 import {ref, onMounted} from 'vue';
-import dataGraph from "./components/dataGraph.vue";
+//import dataGraph from "./components/dataGraph.vue";
+import chart from "./components/chart.vue";
 import OsTitleBar from "./components/layout/osTitleBar.vue";
 import NavigationPanel from "./components/layout/navigationPanel.vue";
 
