@@ -134,7 +134,7 @@ onMounted(async () => {
   bottom: 0;
   width: 340px;
   border-right: 1px solid var(--light);
-  z-index: 9999;
+  z-index: 8000;
   transition: transform 0.2s ease-in-out;
 
   @media (max-width: 1481px) {
