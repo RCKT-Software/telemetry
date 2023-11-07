@@ -32,7 +32,6 @@
           </button>
 
           <select class="time-period">
-            <i class="select__icon fa-sharp fa-regular fa-plus"></i>
             <option value="0">24 hours</option>
             <option value="0">3 days</option>
             <option value="0">7 days</option>
@@ -59,10 +58,13 @@
         <button class="tab"><i class="fa-sharp fa-solid fa-chart-line"></i> Chart Settings</button>
       </div>
 
-      <div style="background-color: var(--light); width: 100%; height: 800px; border-radius: 5px;"></div>
+      <div style="background-color: var(--lighter); width: 100%; height: 800px; border-radius: 5px;"></div>
 
     </div>
   </main>
+
+  <!-- New Progress Tracker Modal -->
+  <!--  <progressTrackerModal/>-->
 
 </template>
 
@@ -73,17 +75,13 @@ import chart from "./components/chart.vue";
 import OsTitleBar from "./components/layout/osTitleBar.vue";
 import NavigationPanel from "./components/layout/navigationPanel.vue";
 import GoalBox from "./components/goalBox.vue";
+import ProgressTrackerModal from "./components/modals/progressTracker.vue";
 
 const systemInformation = ref({
   version: null,
   uuid: null
 });
-
-const displayMetrics = ref(true);
-
-const toggleDisplayMetrics = () => {
-  displayMetrics.value = !displayMetrics.value;
-};
+;
 
 onMounted(async () => {
   systemInformation.value = await window["electronAPI"].getSystemInformation();
@@ -237,9 +235,9 @@ h1 {
   right: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(190, 195, 205, 0.6);
+  background-color: rgba(190, 195, 205, 0.8);
   z-index: 9000;
-  backdrop-filter: blur(2px);
+  backdrop-filter: blur(3px);
 }
 
 .title-bar {
@@ -272,10 +270,11 @@ h1 {
   background-color: var(--light);
   color: var(--heading);
   font-family: 'Inter', sans-serif;
+  font-weight: 600;
+  font-size: 14px;
 
-  span {
-    font-weight: 500;
-    font-size: 14px;
+  &:hover {
+    background-color: var(--lighter);
   }
 
   &.btn--primary {
@@ -283,21 +282,62 @@ h1 {
     color: var(--lighter);
 
     &:hover {
-      transform: scale(1.01);
+      background-color: var(--darker);
       color: var(--white);
     }
   }
 }
 
-select {
+select, input {
   border: 1px solid var(--medium);
   border-radius: 5px;
   font-family: 'Inter', sans-serif;
-  padding: 10px 15px;
-  color: var(--darker);
+  padding: 12px 15px;
+  color: var(--heading);
   outline: none;
-  min-width: 200px;
+  min-width: 180px;
   font-weight: 500;
+
+  &:focus {
+    box-shadow: var(--medium) 0 0 0 2px;
+  }
+
+  &::placeholder {
+    color: var(--dark);
+    opacity: 1;
+  }
+}
+
+input {
+  font-weight: 400;
+  min-width: unset;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+label {
+  display: block;
+  color: var(--black);
+  font-weight: 500;
+  font-size: 14px;
+  font-family: 'Inter', sans-serif;
+  margin-bottom: 8px;
+
+  span {
+    color: var(--dark);
+    font-weight: 400;
+    font-size: 12px;
+  }
+
+  i {
+    color: var(--dark);
+    cursor: pointer;
+    margin-left: 4px;
+  }
+}
+
+.input-group {
+  margin-bottom: 20px;
 }
 
 .time-period {
@@ -350,6 +390,63 @@ select {
   &.tab--active, &:hover {
     background-color: var(--lighter);
   }
+}
+
+.row {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  gap: 15px;
+}
+
+.modal {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: var(--white);
+  border-radius: 8px;
+  z-index: 9050;
+  box-shadow: rgba(0, 0, 0, 0.02) 0 1px 3px 3px, rgba(0, 0, 0, 0.01) 0 1px 4px 0;
+  border: 1px solid var(--lighter);
+
+  .modal__header {
+    padding: 25px;
+    border-bottom: 1px solid var(--light);
+  }
+
+  .modal__header-icon {
+    color: var(--heading);
+    font-size: 26px;
+    margin-bottom: 30px;
+  }
+
+  .modal__header-title {
+    font-size: 18px;
+    font-weight: 600;
+    margin-bottom: 2px;
+    color: var(--heading);
+  }
+
+  .modal__header-details {
+    font-size: 12px;
+    color: var(--darker);
+  }
+
+  .modal__body {
+    padding: 25px;
+  }
+}
+
+.modal__footer, .collection-selector-popup__footer {
+  padding: 20px;
+  border-top: 1px solid var(--light);
+  display: flex;
+  justify-content: space-between;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  background-color: var(--lighter);
+  border-radius: 0 0 8px 8px;
 }
 
 </style>

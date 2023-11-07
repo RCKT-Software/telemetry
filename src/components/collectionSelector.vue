@@ -96,6 +96,10 @@
         </div>
       </div>
 
+      <div class="collection-selector-popup__footer">
+        <button class="btn">+ New collection</button>
+      </div>
+
     </div>
 
     <!-- Overlay -->
@@ -200,9 +204,7 @@ const toggleDisplayCollectionSelector = () => {
 
   .collection-item__shortcut-indicator {
     font-size: 12px;
-    color: var(--white);
-    background: var(--black);
-    padding: 6px 8px;
+    color: var(--dark);
     border-radius: 3px;
     margin-left: auto;
     display: none;
@@ -213,7 +215,7 @@ const toggleDisplayCollectionSelector = () => {
 
 .collection-selector-popup {
   background-color: var(--white);
-  padding: 20px;
+  padding: 0;
   border-radius: 8px;
   position: absolute;
   top: 60px;
@@ -225,6 +227,7 @@ const toggleDisplayCollectionSelector = () => {
   .collection-item {
     transition: transform 0.1s ease;
     position: relative;
+    margin: 20px;
 
     .value-tag {
       position: absolute;
