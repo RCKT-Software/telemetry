@@ -5,87 +5,15 @@
 
     <div class="collection-selector-popup" v-if="displayCollectionSelector">
 
-      <!-- Example Item -->
-      <div class="collection-item" @click.prevent="toggleDisplayCollectionSelector">
-        <span class="value-tag" style="margin-left: 6px">Selected</span>
-        <div class="collection-item__icon">
-          <h1>CL</h1>
+      <!-- Collection Item -->
+      <div class="collection-item" @click.prevent="setActiveCollection(collection)" v-for="collection in collectionsStore.collections">
+        <span class="value-tag" style="margin-left: 6px" v-if="collectionsStore.activeId === collection.id">Selected</span>
+        <div class="collection-item__icon" :style="{'backgroundColor': collection.color}">
+          <h1>{{collection.abbreviation}}</h1>
         </div>
         <div class="collection-item__meta">
           <div class="collection-item__meta__name">
-            <span>Collection Label</span>
-          </div>
-          <div class="collection-item__meta__count">
-            <span>0 upcoming goals</span>
-          </div>
-        </div>
-        <div class="collection-item__shortcut-indicator">
-          <i class="fa-sharp fa-regular fa-angle-down"></i>
-        </div>
-      </div>
-
-      <!-- Example Item -->
-      <div class="collection-item" @click.prevent="toggleDisplayCollectionSelector">
-        <div class="collection-item__icon">
-          <h1>CL</h1>
-        </div>
-        <div class="collection-item__meta">
-          <div class="collection-item__meta__name">
-            <span>Collection Label</span>
-          </div>
-          <div class="collection-item__meta__count">
-            <span>0 upcoming goals</span>
-          </div>
-        </div>
-        <div class="collection-item__shortcut-indicator">
-          <i class="fa-sharp fa-regular fa-angle-down"></i>
-        </div>
-      </div>
-
-      <!-- Example Item -->
-      <div class="collection-item" @click.prevent="toggleDisplayCollectionSelector">
-        <div class="collection-item__icon">
-          <h1>CL</h1>
-        </div>
-        <div class="collection-item__meta">
-          <div class="collection-item__meta__name">
-            <span>Collection Label</span>
-          </div>
-          <div class="collection-item__meta__count">
-            <span>0 upcoming goals</span>
-          </div>
-        </div>
-        <div class="collection-item__shortcut-indicator">
-          <i class="fa-sharp fa-regular fa-angle-down"></i>
-        </div>
-      </div>
-
-      <!-- Example Item -->
-      <div class="collection-item" @click.prevent="toggleDisplayCollectionSelector">
-        <div class="collection-item__icon">
-          <h1>CL</h1>
-        </div>
-        <div class="collection-item__meta">
-          <div class="collection-item__meta__name">
-            <span>Collection Label</span>
-          </div>
-          <div class="collection-item__meta__count">
-            <span>0 upcoming goals</span>
-          </div>
-        </div>
-        <div class="collection-item__shortcut-indicator">
-          <i class="fa-sharp fa-regular fa-angle-down"></i>
-        </div>
-      </div>
-
-      <!-- Example Item -->
-      <div class="collection-item" @click.prevent="toggleDisplayCollectionSelector">
-        <div class="collection-item__icon">
-          <h1>CL</h1>
-        </div>
-        <div class="collection-item__meta">
-          <div class="collection-item__meta__name">
-            <span>Collection Label</span>
+            <span>{{collection.label}}</span>
           </div>
           <div class="collection-item__meta__count">
             <span>0 upcoming goals</span>
@@ -110,12 +38,12 @@
   <!-- Collection Selector -->
   <div class="collection-selector" @click.prevent="toggleDisplayCollectionSelector">
     <div class="collection-item">
-      <div class="collection-item__icon">
-        <h1>CL</h1>
+      <div class="collection-item__icon" :style="{'backgroundColor': collectionsStore.activeCollection.color}">
+        <h1>{{collectionsStore.activeCollection.abbreviation}}</h1>
       </div>
       <div class="collection-item__meta">
         <div class="collection-item__meta__name">
-          <span>Collection Label</span>
+          <span>{{collectionsStore.activeCollection.label}}</span>
         </div>
         <div class="collection-item__meta__count">
           <span>0 upcoming goals</span>
@@ -132,11 +60,23 @@
 <script setup>
 
 import {ref} from "vue";
+import {useCollectionsStore} from "../stores/collections";
 
 const displayCollectionSelector = ref(false);
 
 const toggleDisplayCollectionSelector = () => {
   displayCollectionSelector.value = !displayCollectionSelector.value;
+};
+
+const collectionsStore = useCollectionsStore();
+
+/**
+ * Sets the active collection
+ * @param collection
+ */
+const setActiveCollection = (collection) => {
+  collectionsStore.activeId = collection.id;
+  toggleDisplayCollectionSelector();
 };
 
 </script>
