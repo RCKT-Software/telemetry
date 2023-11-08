@@ -6,8 +6,9 @@
 
 <script setup>
 
-import {onBeforeUnmount, onMounted} from "vue";
+import {onBeforeUnmount, onMounted, watch} from "vue";
 import Chart from 'chart.js/auto'
+import {useCollectionsStore} from "../stores/collections";
 
 /**
  * Placeholder input data.
@@ -32,11 +33,15 @@ const data = [
 /* Keep a record of the chart for mounting/unmounting */
 let chart;
 
+const collectionsStore = useCollectionsStore();
 
 /**
- * Start drawing the graph on mounted
+ * Creates the chart with the latest data.
  */
-onMounted(async () => {
+const createChart = () => {
+  if (chart) {
+    chart.destroy();
+  }
   Chart.defaults.font.family = "'Inter', sans-serif";
   Chart.defaults.font.size = 11;
   Chart.defaults.color = '#9AB2D4';
@@ -80,16 +85,36 @@ onMounted(async () => {
               data: data.map(row => row.count),
               fill: {
                 target: 'start',
-                above: '#F0FFFC',
+                above: collectionsStore.activeCollection.transparentColor,
               },
               pointStyle: false,
-              borderColor: '#26DCB7',
+              borderColor: collectionsStore.activeCollection.color,
             }
           ]
         }
       }
   );
+}
+
+/**
+ * Start drawing the graph on mounted
+ */
+onMounted(async () => {
+  createChart();
 });
+
+/**
+ * Re-draw the chart when the active collection changes, or any data within it.
+ */
+watch(
+    () => collectionsStore.activeCollection,
+    () => {
+      createChart();
+    },
+    {
+      deep: true
+    }
+);
 
 /**
  * Destroy the chart on unmount
