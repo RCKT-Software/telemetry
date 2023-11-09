@@ -1,27 +1,24 @@
 import {computed, ref} from "vue";
 import colorLib from '@kurkle/color';
-import { v4 as uuidv4 } from 'uuid';
+import {v4 as uuidv4} from 'uuid';
 
 export function useCollection(config = {
+    id: null,
     label: 'My Collection',
     color: '#26DCB7',
-    trackers: []
-}){
+    trackers: [],
+    activeTrackerId: null,
+}) {
 
     /**
      * The assigned ID of the collection
      */
-    const id = uuidv4();
+    const id = config.id || uuidv4();
 
     /**
      * The label (name) of the collection
      */
     const label = ref(config.label);
-
-    /**
-     * The progress trackers that belong to this collection
-     */
-    const trackers = config.trackers;
 
     /**
      * The abbreviation of the collection's label
@@ -47,6 +44,29 @@ export function useCollection(config = {
      */
     const transparentColor = computed(() => colorLib(color.value).alpha(0.4).rgbString());
 
+    /**
+     * The progress trackers that belong to this collection
+     */
+    const trackers = ref(config.trackers);
 
-    return {id, label, abbreviation, color, transparentColor, trackers}
+    /**
+     * The ID of the active tracker
+     * @type {null}
+     */
+    const activeTrackerId = ref(config.activeTrackerId);
+
+    /**
+     * The currently selected tracker (active)
+     */
+    const activeTracker = computed(() => {
+        const tracker = trackers.value.find(tracker => tracker.id === activeTrackerId.value);
+        if (!tracker && trackers.value.length > 0) {
+            activeTrackerId.value = trackers.value[0].id;
+            return trackers.value[0];
+        }
+        return tracker || null;
+    });
+
+
+    return {id, label, abbreviation, color, transparentColor, trackers, activeTracker}
 }

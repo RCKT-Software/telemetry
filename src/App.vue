@@ -13,7 +13,7 @@
       <div class="title-bar">
         <div class="title-bar__left">
 
-          <h1 style="margin-bottom:10px">Label <span class="value-tag" style="margin-left: 6px">0</span></h1>
+          <h1 style="margin-bottom:10px">{{collectionsStore.activeTracker.label}} <span class="value-tag" style="margin-left: 6px">{{collectionsStore.activeTracker.currentValue}}</span></h1>
           <div class="quick-stats">
             <div class="quick-stats__statistic">
               <i class="fa-sharp fa-regular fa-database"></i> <span>0 data points</span>
@@ -76,6 +76,7 @@ import OsTitleBar from "./components/layout/osTitleBar.vue";
 import NavigationPanel from "./components/layout/navigationPanel.vue";
 import GoalBox from "./components/goalBox.vue";
 import ProgressTrackerModal from "./components/modals/progressTracker.vue";
+import {useCollectionsStore} from "./stores/collections";
 
 const systemInformation = ref({
   version: null,
@@ -86,6 +87,8 @@ const systemInformation = ref({
 onMounted(async () => {
   systemInformation.value = await window["electronAPI"].getSystemInformation();
 });
+
+const collectionsStore = useCollectionsStore();
 
 </script>
 

@@ -61,5 +61,12 @@ export const useCollectionsStore = defineStore('collections', () => {
         return collection || null;
     });
 
-    return {collections, activeCollection, activeId}
+    /**
+     * The currently selected tracker (active)
+     */
+    const activeTracker = computed(() => {
+        return activeCollection.value.activeTracker;
+    });
+
+    return {collections, activeCollection, activeId, activeTracker}
 })
