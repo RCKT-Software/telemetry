@@ -19,57 +19,9 @@
       <span>All progress trackers</span>
     </div>
     <ul class="metric-nav" v-if="showTrackers">
-      <li class="tracker-nav-item">
-        <span class="tracker-nav-item__label">Label</span>
-        <span class="tracker-nav-item__records">0</span>
-      </li>
-      <li class="tracker-nav-item">
-        <span class="tracker-nav-item__label">Label</span>
-        <span class="tracker-nav-item__records">0</span>
-      </li>
-      <li class="tracker-nav-item">
-        <span class="tracker-nav-item__label">Label</span>
-        <span class="tracker-nav-item__records">0</span>
-      </li>
-      <li class="tracker-nav-item">
-        <span class="tracker-nav-item__label">Label</span>
-        <span class="tracker-nav-item__records">0</span>
-      </li>
-      <li class="tracker-nav-item">
-        <span class="tracker-nav-item__label">Label</span>
-        <span class="tracker-nav-item__records">0</span>
-      </li>
-      <li class="tracker-nav-item">
-        <span class="tracker-nav-item__label">Label</span>
-        <span class="tracker-nav-item__records">0</span>
-      </li>
-      <li class="tracker-nav-item">
-        <span class="tracker-nav-item__label">Label</span>
-        <span class="tracker-nav-item__records">0</span>
-      </li>
-      <li class="tracker-nav-item">
-        <span class="tracker-nav-item__label">Label</span>
-        <span class="tracker-nav-item__records">0</span>
-      </li>
-      <li class="tracker-nav-item">
-        <span class="tracker-nav-item__label">Label</span>
-        <span class="tracker-nav-item__records">0</span>
-      </li>
-      <li class="tracker-nav-item">
-        <span class="tracker-nav-item__label">Label</span>
-        <span class="tracker-nav-item__records">0</span>
-      </li>
-      <li class="tracker-nav-item">
-        <span class="tracker-nav-item__label">Label</span>
-        <span class="tracker-nav-item__records">0</span>
-      </li>
-      <li class="tracker-nav-item">
-        <span class="tracker-nav-item__label">Label</span>
-        <span class="tracker-nav-item__records">0</span>
-      </li>
-      <li class="tracker-nav-item">
-        <span class="tracker-nav-item__label">Label</span>
-        <span class="tracker-nav-item__records">0</span>
+      <li class="tracker-nav-item" v-for="tracker in collectionsStore.activeCollection.trackers">
+        <span class="tracker-nav-item__label">{{ tracker.label }}</span>
+        <span class="tracker-nav-item__records">{{ tracker.currentValue }}</span>
       </li>
     </ul>
     <span class="tracker-add-button" title="Add a new progress tracker"><i class="fa-sharp fa-regular fa-plus"></i> New</span>
@@ -86,7 +38,8 @@
         Support
       </li>
       <li class="secondary-nav__item">
-        <a href="https://github.com/RCKT-Software/telemetry/issues/new?title=Feedback%20for%20Telemetry..." target="_blank">Feedback</a>
+        <a href="https://github.com/RCKT-Software/telemetry/issues/new?title=Feedback%20for%20Telemetry..."
+           target="_blank">Feedback</a>
       </li>
       <li class="secondary-nav__item">
         Notifications
@@ -106,6 +59,7 @@
 
 import CollectionSelector from "../collectionSelector.vue";
 import {onMounted, ref} from "vue";
+import {useCollectionsStore} from "../../stores/collections";
 
 const systemInformation = ref({
   version: null,
@@ -122,12 +76,14 @@ onMounted(async () => {
   systemInformation.value = await window["electronAPI"].getSystemInformation();
 });
 
+const collectionsStore = useCollectionsStore();
+
 </script>
 
 <style scoped lang="scss">
 
 #menu {
-  background-color:  var(--lighter);
+  background-color: var(--lighter);
   position: fixed;
   top: 40px;
   left: 0;

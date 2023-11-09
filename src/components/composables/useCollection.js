@@ -4,7 +4,8 @@ import { v4 as uuidv4 } from 'uuid';
 
 export function useCollection(config = {
     label: 'My Collection',
-    color: '#26DCB7'
+    color: '#26DCB7',
+    trackers: []
 }){
 
     /**
@@ -16,6 +17,11 @@ export function useCollection(config = {
      * The label (name) of the collection
      */
     const label = ref(config.label);
+
+    /**
+     * The progress trackers that belong to this collection
+     */
+    const trackers = config.trackers;
 
     /**
      * The abbreviation of the collection's label
@@ -42,5 +48,5 @@ export function useCollection(config = {
     const transparentColor = computed(() => colorLib(color.value).alpha(0.4).rgbString());
 
 
-    return {id, label, abbreviation, color, transparentColor}
+    return {id, label, abbreviation, color, transparentColor, trackers}
 }
