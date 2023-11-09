@@ -84,11 +84,21 @@ const systemInformation = ref({
 });
 ;
 
+/**
+ * Get system information when available
+ */
 onMounted(async () => {
   systemInformation.value = await window["electronAPI"].getSystemInformation();
 });
 
 const collectionsStore = useCollectionsStore();
+
+/**
+ * Watch for changes and persist them to disk
+ */
+collectionsStore.$subscribe((mutation, state) => {
+  window["electronAPI"].updateStore(JSON.stringify(state));
+});
 
 </script>
 

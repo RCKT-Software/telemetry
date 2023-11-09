@@ -1,7 +1,8 @@
 const { contextBridge, ipcRenderer } = require('electron')
 
 contextBridge.exposeInMainWorld('electronAPI', {
-    getSystemInformation: () => ipcRenderer.invoke('application-ready')
+    getSystemInformation: () => ipcRenderer.invoke('application-ready'),
+    updateStore: (data) => ipcRenderer.invoke('store-data-updated', data)
 });
 
 // Handle user minimizing the application

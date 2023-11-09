@@ -1,5 +1,6 @@
 const path = require('path');
 const {app, BrowserWindow, ipcMain} = require('electron');
+const fs = require('fs');
 const si = require('systeminformation');
 const packageJSON = require('./package.json');
 
@@ -53,6 +54,15 @@ function createWindow() {
     // Handle user-initiated "maximize" method
     ipcMain.handle('maximize-app', () => {
         mainWindow.isMaximized() ? mainWindow.unmaximize() : mainWindow.maximize();
+    });
+
+    // Handle updates to user data
+    const userDataPath = app.getPath('userData');
+    const dataFilePath = path.join(userDataPath, 'collectionData.json');
+
+    ipcMain.handle('store-data-updated', (event, data) => {
+        fs.writeFileSync(dataFilePath, data);
+        console.log(`Data stored in ${dataFilePath}`);
     });
 
 }
