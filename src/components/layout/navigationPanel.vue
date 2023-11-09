@@ -19,7 +19,7 @@
       <span>All progress trackers</span>
     </div>
     <ul class="metric-nav" v-if="showTrackers">
-      <li class="tracker-nav-item" v-for="tracker in collectionsStore.activeCollection.trackers">
+      <li class="tracker-nav-item" v-for="tracker in collectionsStore.activeCollection.trackers" @click.prevent="collectionsStore.activeCollection.setActiveTracker(tracker)">
         <span class="tracker-nav-item__label">{{ tracker.label }}</span>
         <span class="tracker-nav-item__records">{{ tracker.currentValue }}</span>
       </li>

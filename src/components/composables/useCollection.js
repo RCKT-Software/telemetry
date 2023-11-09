@@ -67,6 +67,14 @@ export function useCollection(config = {
         return tracker || null;
     });
 
+    /**
+     * Sets the active tracker
+     * @param tracker
+     */
+    const setActiveTracker = (tracker) => {
+        activeTrackerId.value = tracker.id;
+    };
 
-    return {id, label, abbreviation, color, transparentColor, trackers, activeTracker}
+
+    return {id, label, abbreviation, color, transparentColor, trackers, activeTracker, setActiveTracker}
 }
