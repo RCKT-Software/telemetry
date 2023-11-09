@@ -2,26 +2,33 @@ const { contextBridge, ipcRenderer } = require('electron')
 
 contextBridge.exposeInMainWorld('electronAPI', {
     getSystemInformation: () => ipcRenderer.invoke('application-ready'),
-    updateStore: (data) => ipcRenderer.invoke('store-data-updated', data)
+    updateStore: (data) => ipcRenderer.invoke('store-data-updated', data),
+    hydrateStore: (callback) => ipcRenderer.on('hydrate-store', (event, ...args) => callback(...args)),
 });
 
-// Handle user minimizing the application
+// Delegate events for minimizing the application
 window.addEventListener('DOMContentLoaded', () => {
-    document.getElementById('minimize-app').addEventListener('click', () => {
-        ipcRenderer.invoke('minimize-app').then();
+    document.body.addEventListener('click', (event) => {
+        if (event.target.classList.contains('minimize-app')) {
+            ipcRenderer.invoke('minimize-app').then();
+        }
     });
 });
 
-// Handle user maximizing the application
+// Delegate events for maximizing the application
 window.addEventListener('DOMContentLoaded', () => {
-    document.getElementById('maximize-app').addEventListener('click', () => {
-        ipcRenderer.invoke('maximize-app').then();
+    document.body.addEventListener('click', (event) => {
+        if (event.target.classList.contains('maximize-app')) {
+            ipcRenderer.invoke('maximize-app').then();
+        }
     });
 });
 
-// Handle user closing the application window
+// Delegate events for closing the application window
 window.addEventListener('DOMContentLoaded', () => {
-    document.getElementById('close-app').addEventListener('click', () => {
-        ipcRenderer.invoke('quit-app').then();
+    document.body.addEventListener('click', (event) => {
+        if (event.target.classList.contains('close-app')) {
+            ipcRenderer.invoke('quit-app').then();
+        }
     });
 });

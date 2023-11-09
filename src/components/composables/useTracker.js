@@ -3,8 +3,19 @@ import { v4 as uuidv4 } from 'uuid';
 
 export function useTracker(config = {
     id: null,
-    label: 'My Collection'
+    label: 'My Progress Tracker'
 }){
+
+    /**
+     * The state to persist between application restarts
+     */
+    const serializeState = () => {
+        return {
+            id: id,
+            label: label.value,
+            currentValue: currentValue.value
+        };
+    };
 
     /**
      * The assigned ID of the collection
@@ -19,8 +30,8 @@ export function useTracker(config = {
     /**
      * The current value of the tracker
      */
-    const currentValue = ref(10);
+    const currentValue = ref(99);
 
 
-    return {id, label, currentValue}
+    return {id, label, currentValue, serializeState}
 }

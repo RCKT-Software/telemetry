@@ -1,14 +1,30 @@
 import {computed, ref} from "vue";
 import colorLib from '@kurkle/color';
 import {v4 as uuidv4} from 'uuid';
+import {useTracker} from "./useTracker";
 
 export function useCollection(config = {
     id: null,
     label: 'My Collection',
     color: '#26DCB7',
-    trackers: [],
+    trackers: [
+        useTracker()
+    ],
     activeTrackerId: null,
 }) {
+
+    /**
+     * The state to persist between application restarts
+     */
+    const serializeState = () => {
+        return {
+            id: id,
+            label: label.value,
+            color: color.value,
+            trackers: trackers.value.map(tracker => tracker.serializeState()),
+            activeTrackerId: activeTrackerId.value,
+        };
+    };
 
     /**
      * The assigned ID of the collection
@@ -76,5 +92,5 @@ export function useCollection(config = {
     };
 
 
-    return {id, label, abbreviation, color, transparentColor, trackers, activeTracker, setActiveTracker}
+    return {id, label, abbreviation, color, transparentColor, trackers, activeTracker, setActiveTracker, serializeState};
 }

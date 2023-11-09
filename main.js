@@ -10,8 +10,10 @@ if (require('electron-squirrel-startup')) {
 }
 
 const isDev = process.env.IS_DEV === 'true';
+const userDataPath = app.getPath('userData');
+const dataFilePath = path.join(userDataPath, 'collectionData.json');
 
-function createWindow() {
+function createWindow(userData) {
     const mainWindow = new BrowserWindow({
         show: false,
         minWidth: 1160,
@@ -36,9 +38,15 @@ function createWindow() {
     } else {
         mainWindow.loadFile(path.join(__dirname, 'app/build', 'index.html'));
     }
+
+    // Show the window when the page is ready
     mainWindow.webContents.once('dom-ready', () => {
-            mainWindow.show();
-            mainWindow.focus();
+        mainWindow.show();
+        mainWindow.focus();
+        if (isDev) {
+            mainWindow.webContents.openDevTools();
+        }
+        mainWindow.webContents.send('hydrate-store', userData);
     });
 
     // Handle user-initiated "close" method
@@ -57,12 +65,8 @@ function createWindow() {
     });
 
     // Handle updates to user data
-    const userDataPath = app.getPath('userData');
-    const dataFilePath = path.join(userDataPath, 'collectionData.json');
-
     ipcMain.handle('store-data-updated', (event, data) => {
         fs.writeFileSync(dataFilePath, data);
-        console.log(`Data stored in ${dataFilePath}`);
     });
 
 }
@@ -82,8 +86,17 @@ app.whenReady().then(() => {
         }
     });
 
-    // Show the application window
-    createWindow();
+    // Get the user data once the application is ready
+    fs.readFile(dataFilePath, 'utf8', (err, data) => {
+        if (err) {
+            console.log('Error reading the data file:', err);
+            return;
+        }
+
+        // Show the application window
+        createWindow(data);
+
+    });
 
     // Handle macOS activation of an existing app window.
     app.on('activate', function () {
