@@ -421,6 +421,7 @@ label {
   z-index: 9050;
   box-shadow: rgba(0, 0, 0, 0.02) 0 1px 3px 3px, rgba(0, 0, 0, 0.01) 0 1px 4px 0;
   border: 1px solid var(--lighter);
+  min-width: 430px;
 
   .modal__header {
     padding: 25px;

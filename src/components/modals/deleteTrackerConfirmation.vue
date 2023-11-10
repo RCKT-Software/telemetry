@@ -3,7 +3,7 @@
   <!-- Modal Window-->
   <div class="modal">
 
-    <div class="modal__body" style="max-width: 300px">
+    <div class="modal__body">
 
       <p>Are you sure you want to delete <strong>"{{collectionsStore.activeTracker.label}}"</strong>? <br><br>Deleting this progress tracker will remove all associated data permanently.</p>
 

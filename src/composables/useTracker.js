@@ -1,6 +1,8 @@
 import {computed, ref} from "vue";
 import { v4 as uuidv4 } from 'uuid';
 import Sugar from 'sugar';
+import {useGoal} from "./useGoal";
+import {formatValue} from "../utility/helpers";
 Sugar.extend();
 
 export function useTracker(config = {
@@ -82,39 +84,19 @@ export function useTracker(config = {
     });
 
     /**
-     * Accepts an input value and formats it based on the tracker's `numberFormat` property
-     * @param value
-     * @returns {*|string}
-     */
-    function formatValue(value) {
-        switch (numberFormat.value) {
-            case 'number':
-                return new Intl.NumberFormat().format(value);
-            case 'usd':
-                return new Intl.NumberFormat('en-US', {
-                    style: 'currency',
-                    currency: 'USD',
-                    maximumFractionDigits: 2,
-                }).format(value);
-            case 'percentage':
-                return new Intl.NumberFormat('en-US', {
-                    style: 'percent',
-                    minimumFractionDigits: 0,
-                    maximumFractionDigits: 2,
-                }).format(value / 100);
-            default:
-                return value;
-        }
-    }
-
-    /**
      * The formatted version of the current value
-     * @type {ComputedRef<*|string>}
      */
     const formattedCurrentValue = computed(() => {
-        return formatValue(currentValue.value);
+        return formatValue(currentValue.value, numberFormat.value);
     });
 
+    /**
+     * Accepts a goal configuration object and adds it to the tracker.
+     * @param config
+     */
+    const addGoal = (config) => {
+        goals.value.push(useGoal(config));
+    };
 
-    return {id, label, currentValue, lastUpdated, startingValue, numberFormat, goals, activeGoal, formattedCurrentValue, formattedLastUpdated, serializeState}
+    return {id, label, currentValue, lastUpdated, startingValue, numberFormat, goals, activeGoal, formattedCurrentValue, formattedLastUpdated, addGoal, serializeState}
 }

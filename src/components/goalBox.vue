@@ -2,7 +2,7 @@
   <div class="goal-box" v-if="collectionsStore.activeGoal">
     <span class="goal-box__label">Goal</span>
     <span class="goal-box__edit">Edit</span>
-    <h1 class="goal-box__heading">{{ collectionsStore.activeGoal.targetValue}} <span>by Jan 1</span></h1>
+    <h1 class="goal-box__heading">{{ collectionsStore.activeGoal.formattedTargetValue}}<br><span>by {{ collectionsStore.activeGoal.formattedDeadline}}</span></h1>
     <div class="goal-box__chart"></div>
     <div class="goal-box__stats">
       <div class="goal-box__stats-item">
@@ -11,17 +11,17 @@
       </div>
       <div class="goal-box__stats-item">
         <span class="goal-box__stats-item-label">Deadline</span>
-        <span class="goal-box__stats-item-value value-tag"><i class="fa-sharp fa-regular fa-calendar"></i> 0 days</span>
+        <span class="goal-box__stats-item-value value-tag"><i class="fa-sharp fa-regular fa-calendar"></i> {{ collectionsStore.activeGoal.formattedRelativeDeadline }}</span>
       </div>
     </div>
     <div class="divider"/>
     <div class="goal-box__prediction-item">
       <span class="goal-box__prediction-item-label">Predicted</span>
-      <h1 class="goal-box__prediction-item-value">Jan 1, 2024</h1>
+      <h1 class="goal-box__prediction-item-value">{{ collectionsStore.activeGoal.formattedPredicted}}</h1>
     </div>
   </div>
   <div class="goal-box" v-if="!collectionsStore.activeGoal">
-    <span class="goal-box__edit">New Goal</span>
+    <span class="goal-box__edit" @click.prevent="modalStore.openModal('goal')">New Goal</span>
     <h1 class="goal-box__heading">No goal set</h1>
   </div>
 </template>
@@ -29,8 +29,10 @@
 <script setup>
 
 import {useCollectionsStore} from "../stores/collections";
+import {useModalStore} from "../stores/modal";
 
 const collectionsStore = useCollectionsStore();
+const modalStore = useModalStore();
 
 </script>
 
@@ -40,7 +42,6 @@ const collectionsStore = useCollectionsStore();
   width: 290px;
   padding: 20px 30px 20px 20px;
   position: relative;
-  border-bottom: 1px solid var(--light);
 
   .goal-box__label {
     font-weight: 600;
@@ -72,7 +73,7 @@ const collectionsStore = useCollectionsStore();
 
     span {
       color: var(--dark);
-      font-size: 18px;
+      font-size: 16px;
     }
   }
 

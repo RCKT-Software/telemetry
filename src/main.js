@@ -7,9 +7,9 @@ import { createPinia } from 'pinia';
 import { useCollectionsStore } from "./stores/collections";
 
 // Import composables (reusable composition functions) related to collections and tracker functionality
-import { useCollection } from "./components/composables/useCollection";
-import { useTracker } from "./components/composables/useTracker";
-import {useGoal} from "./components/composables/useGoal";
+import { useCollection } from "./composables/useCollection";
+import { useTracker } from "./composables/useTracker";
+import {useGoal} from "./composables/useGoal";
 
 // Initialize Pinia state management
 const pinia = createPinia();

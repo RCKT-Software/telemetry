@@ -1,7 +1,7 @@
 import {defineStore} from "pinia";
 import {computed, ref} from "vue";
-import {useCollection} from "../components/composables/useCollection";
-import {useTracker} from "../components/composables/useTracker";
+import {useCollection} from "../composables/useCollection";
+import {useTracker} from "../composables/useTracker";
 
 const sampleCollections = [
     useCollection({
