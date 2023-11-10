@@ -15,7 +15,7 @@
 
           <h1 style="margin-bottom:10px">{{ collectionsStore.activeTracker.label }} <span class="value-tag"
                                                                                           style="margin-left: 6px">{{
-              collectionsStore.activeTracker.currentValue
+              collectionsStore.activeTracker.formattedCurrentValue
             }}</span>
           </h1>
           <div class="quick-stats">

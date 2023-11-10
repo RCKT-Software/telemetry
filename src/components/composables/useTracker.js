@@ -17,7 +17,6 @@ export function useTracker(config = {
         return {
             id: id,
             label: label.value,
-            currentValue: currentValue.value,
             startingValue: startingValue.value,
             numberFormat: numberFormat.value,
             trackingMode: trackingMode.value,
@@ -68,6 +67,40 @@ export function useTracker(config = {
         return goals.value.length ? goals.value[0] : null;
     });
 
+    /**
+     * Accepts an input value and formats it based on the tracker's `numberFormat` property
+     * @param value
+     * @returns {*|string}
+     */
+    function formatValue(value) {
+        switch (numberFormat.value) {
+            case 'number':
+                return new Intl.NumberFormat().format(value);
+            case 'usd':
+                return new Intl.NumberFormat('en-US', {
+                    style: 'currency',
+                    currency: 'USD',
+                    maximumFractionDigits: 2,
+                }).format(value);
+            case 'percentage':
+                return new Intl.NumberFormat('en-US', {
+                    style: 'percent',
+                    minimumFractionDigits: 0,
+                    maximumFractionDigits: 2,
+                }).format(value / 100);
+            default:
+                return value;
+        }
+    }
 
-    return {id, label, currentValue, startingValue, numberFormat, goals, activeGoal, serializeState}
+    /**
+     * The formatted version of the current value
+     * @type {ComputedRef<*|string>}
+     */
+    const formattedCurrentValue = computed(() => {
+        return formatValue(currentValue.value);
+    });
+
+
+    return {id, label, currentValue, startingValue, numberFormat, goals, activeGoal, formattedCurrentValue, serializeState}
 }
