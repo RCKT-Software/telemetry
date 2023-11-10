@@ -13,7 +13,7 @@ const isDev = process.env.IS_DEV === 'true';
 const userDataPath = app.getPath('userData');
 const dataFilePath = path.join(userDataPath, 'collectionData.json');
 
-function createWindow(userData) {
+function createWindow(userData = {}) {
     const mainWindow = new BrowserWindow({
         show: false,
         minWidth: 1160,
@@ -88,14 +88,32 @@ app.whenReady().then(() => {
 
     // Get the user data once the application is ready
     fs.readFile(dataFilePath, 'utf8', (err, data) => {
+
+        // Define the default data as an empty JSON string
+        let jsonData = '{}';
+
         if (err) {
+            // If there is an error reading the file, it might not exist or might be inaccessible
+            // Log the error and continue with default data
             console.log('Error reading the data file:', err);
-            return;
+        } else {
+            // Try to parse the data as JSON
+            try {
+                jsonData = JSON.parse(data);
+            } catch (jsonErr) {
+                // If there is an error parsing the JSON, log it and continue with default data
+                console.log('Error parsing JSON from data file:', jsonErr);
+            }
         }
 
-        // Show the application window
-        createWindow(data);
+        // Ensure jsonData is a valid JSON object, even if it's just empty
+        jsonData = typeof jsonData === 'object' ? jsonData : {};
 
+        // Convert back to a string if necessary
+        const userData = JSON.stringify(jsonData);
+
+        // Show the application window, passing in the user data
+        createWindow(userData);
     });
 
     // Handle macOS activation of an existing app window.
