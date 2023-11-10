@@ -7,13 +7,13 @@
       <h1>Telemetry</h1>
     </div>
     <div class="titlebar-controls__right">
-      <div class="titlebar-controls-minimize" id="minimize-app">
+      <div class="titlebar-controls-minimize" id="minimize-app" @click.prevent="minimizeApp">
         <i class="fa-light fa-window-minimize"></i>
       </div>
-      <div class="titlebar-controls-maximize" id="maximize-app">
+      <div class="titlebar-controls-maximize" id="maximize-app" @click.prevent="maximizeApp">
         <i class="fa-light fa-square"></i>
       </div>
-      <div class="titlebar-controls-close" id="close-app">
+      <div class="titlebar-controls-close" id="close-app" @click.prevent="closeApp">
         <i class="fa-light fa-xmark"></i>
       </div>
     </div>
@@ -21,6 +21,18 @@
 </template>
 
 <script setup>
+
+const minimizeApp = () => {
+  window["electronAPI"].minimizeApp();
+}
+
+const maximizeApp = () => {
+  window["electronAPI"].maximizeApp();
+}
+
+const closeApp = () => {
+  window["electronAPI"].closeApp();
+}
 
 </script>
 

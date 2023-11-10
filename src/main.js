@@ -20,9 +20,7 @@ if (window.electronAPI) {
             return useCollection(collectionData);
         });
         collectionsStore.$patch(hydratedData);
-        console.log(collectionsStore);
         collectionsStore.$subscribe((mutation, state) => {
-            console.log(state.collections[0].serializeState());
             const serializedData = {
                 ...state,
                 collections: state.collections.map(collection => collection.serializeState())
