@@ -41,12 +41,12 @@ function createWindow(userData = {}) {
 
     // Show the window when the page is ready
     mainWindow.webContents.once('dom-ready', () => {
+        mainWindow.webContents.send('hydrate-store', userData);
         mainWindow.show();
         mainWindow.focus();
         if (isDev) {
             //mainWindow.webContents.openDevTools();
         }
-        mainWindow.webContents.send('hydrate-store', userData);
     });
 
     // Handle user-initiated "close" method
