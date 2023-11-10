@@ -101,5 +101,16 @@ export function useCollection(config = {
         setActiveTracker(newTracker);
     };
 
-    return {id, label, abbreviation, color, transparentColor, trackers, activeTracker, setActiveTracker, addTracker, serializeState};
+    /**
+     * Deletes the tracker from the collection
+     * @param tracker
+     */
+    const deleteTracker = (tracker) => {
+        const index = trackers.value.indexOf(tracker);
+        if (index > -1) {
+            trackers.value.splice(index, 1);
+        }
+    }
+
+    return {id, label, abbreviation, color, transparentColor, trackers, activeTracker, deleteTracker, setActiveTracker, addTracker, serializeState};
 }

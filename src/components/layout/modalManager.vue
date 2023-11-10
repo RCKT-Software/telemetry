@@ -8,6 +8,7 @@
 
 import {useModalStore} from "../../stores/modal";
 import progressTracker from "../modals/progressTracker.vue";
+import deleteTrackerConfirmation from "../modals/deleteTrackerConfirmation.vue";
 
 const modalStore = useModalStore();
 
@@ -15,7 +16,8 @@ const modalStore = useModalStore();
  * Map of modal names to their components
  */
 const modals = {
-  'progress-tracker': progressTracker
+  'progress-tracker': progressTracker,
+  'delete-tracker': deleteTrackerConfirmation,
 };
 
 </script>

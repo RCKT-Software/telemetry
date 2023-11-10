@@ -18,7 +18,7 @@ export const useModalStore = defineStore('modals', () => {
      * @param modal - (Ex: 'progress-tracker')
      * @param props
      */
-    const openModal = (modal, props) => {
+    const openModal = (modal, props = {}) => {
         activeModal.value = modal;
         activeModalProps.value = props;
     }

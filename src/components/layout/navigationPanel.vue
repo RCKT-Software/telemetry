@@ -6,10 +6,10 @@
 
     <!-- Collection Control Bar -->
     <div class="collection-control">
-      <i class="fa-sharp fa-regular fa-plus" title="New progress tracker" @click.prevent="modalStore.openModal('progress-tracker', {})"></i>
+      <i class="fa-sharp fa-regular fa-plus" title="New progress tracker" @click.prevent="modalStore.openModal('progress-tracker')"></i>
       <i class="fa-sharp fa-regular fa-cog" title="Collection settings"></i>
       <i class="fa-sharp fa-regular fa-file-export" title="Export to CSV"></i>
-      <i class="fa-sharp fa-regular fa-trash" title="Delete collection"></i>
+      <i class="fa-sharp fa-regular fa-trash" title="Delete tracker" @click.prevent="modalStore.openModal('delete-tracker')"></i>
     </div>
 
     <!-- Progress Trackers -->
@@ -24,7 +24,7 @@
         <span class="tracker-nav-item__records">{{ tracker.formattedCurrentValue }}</span>
       </li>
     </ul>
-    <span class="tracker-add-button" title="Add a new progress tracker"><i class="fa-sharp fa-regular fa-plus"></i> New</span>
+    <span class="tracker-add-button" title="Add a new progress tracker" @click.prevent="modalStore.openModal('progress-tracker')"><i class="fa-sharp fa-regular fa-plus"></i> New</span>
 
     <!-- Middle Divider -->
     <div class="divider divider__middle"/>
