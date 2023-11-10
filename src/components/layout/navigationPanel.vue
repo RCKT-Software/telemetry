@@ -19,7 +19,7 @@
       <span>All progress trackers</span>
     </div>
     <ul class="metric-nav" v-if="showTrackers">
-      <li class="tracker-nav-item" v-for="tracker in collectionsStore.activeCollection.trackers" @click.prevent="collectionsStore.activeCollection.setActiveTracker(tracker)">
+      <li class="tracker-nav-item" :class="{'tracker-nav-item--active': tracker.id === collectionsStore.activeTracker.id}" v-for="tracker in collectionsStore.activeCollection.trackers" @click.prevent="collectionsStore.activeCollection.setActiveTracker(tracker)">
         <span class="tracker-nav-item__label">{{ tracker.label }}</span>
         <span class="tracker-nav-item__records">{{ tracker.currentValue }}</span>
       </li>
@@ -206,7 +206,7 @@ const collectionsStore = useCollectionsStore();
   transition: background-color 0.05s ease;
   scroll-snap-align: start;
 
-  &:hover {
+  &:hover, &.tracker-nav-item--active {
     background-color: var(--light);
   }
 

@@ -44,7 +44,7 @@ function createWindow(userData = {}) {
         mainWindow.show();
         mainWindow.focus();
         if (isDev) {
-            mainWindow.webContents.openDevTools();
+            //mainWindow.webContents.openDevTools();
         }
         mainWindow.webContents.send('hydrate-store', userData);
     });
