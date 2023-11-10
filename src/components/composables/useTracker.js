@@ -1,5 +1,7 @@
 import {computed, ref} from "vue";
 import { v4 as uuidv4 } from 'uuid';
+import Sugar from 'sugar';
+Sugar.extend();
 
 export function useTracker(config = {
     id: null,
@@ -38,6 +40,18 @@ export function useTracker(config = {
      * The current value of the tracker
      */
     const currentValue = ref(99);
+
+    /**
+     * A placeholder for the date the current value was last updated
+     */
+    const lastUpdated = ref(Date.create('yesterday'));
+
+    /**
+     * The relative formatted value for the last updated date
+     */
+    const formattedLastUpdated = computed(() => {
+        return lastUpdated.value.relative()
+    });
 
     /**
      * The initial value of the tracker
@@ -102,5 +116,5 @@ export function useTracker(config = {
     });
 
 
-    return {id, label, currentValue, startingValue, numberFormat, goals, activeGoal, formattedCurrentValue, serializeState}
+    return {id, label, currentValue, lastUpdated, startingValue, numberFormat, goals, activeGoal, formattedCurrentValue, formattedLastUpdated, serializeState}
 }

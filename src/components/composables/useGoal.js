@@ -1,9 +1,12 @@
 import {ref} from "vue";
 import { v4 as uuidv4 } from 'uuid';
+import Sugar from 'sugar';
+Sugar.extend();
 
 export function useGoal(config = {
     id: null,
-    targetValue: 0
+    targetValue: 0,
+    deadline: new Date()
 }){
 
     /**
@@ -12,7 +15,8 @@ export function useGoal(config = {
     const serializeState = () => {
         return {
             id: id,
-            targetValue: targetValue.value
+            targetValue: targetValue.value,
+            deadline: deadline.value
         };
     };
 
@@ -26,6 +30,11 @@ export function useGoal(config = {
      */
     const targetValue = ref(123);
 
+    /**
+     * The goal's deadline, represented as a Date object
+     */
+    const deadline = ref(config.deadline || new Date.create('next Friday'))
 
-    return {id, targetValue, serializeState}
+
+    return {id, targetValue, deadline, serializeState}
 }

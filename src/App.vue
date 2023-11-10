@@ -23,7 +23,7 @@
               <i class="fa-sharp fa-regular fa-database"></i> <span>0 data points</span>
             </div>
             <div class="quick-stats__statistic">
-              <i class="fa-sharp fa-regular fa-clock-rotate-left"></i> <span>Last updated just now</span>
+              <i class="fa-sharp fa-regular fa-clock-rotate-left"></i> <span>Last updated {{collectionsStore.activeTracker.formattedLastUpdated}}</span>
             </div>
           </div>
 
