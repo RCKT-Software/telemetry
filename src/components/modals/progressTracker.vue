@@ -13,7 +13,7 @@
       <div class="row">
         <div class="input-group">
           <label>Label</label>
-          <input type="text" placeholder="Ex: 'Net Worth'">
+          <input type="text" placeholder="Ex: 'Net Worth'" v-model="collectionStore.activeTracker.label">
         </div>
 
         <div class="input-group">
@@ -52,6 +52,10 @@
 <script setup>
 
 import ExpandedSelect from "../input/expandedSelect.vue";
+import {useCollectionsStore} from "../../stores/collections";
+
+const collectionStore = useCollectionsStore();
+
 </script>
 
 <style scoped lang="scss">

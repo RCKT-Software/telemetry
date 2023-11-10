@@ -14,7 +14,9 @@
         <div class="title-bar__left">
 
           <h1 style="margin-bottom:10px">{{ collectionsStore.activeTracker.label }} <span class="value-tag"
-                                                                                          style="margin-left: 6px">{{ collectionsStore.activeTracker.currentValue }}</span>
+                                                                                          style="margin-left: 6px">{{
+              collectionsStore.activeTracker.currentValue
+            }}</span>
           </h1>
           <div class="quick-stats">
             <div class="quick-stats__statistic">
@@ -66,7 +68,7 @@
   </main>
 
   <!-- New Progress Tracker Modal -->
-  <!--  <progressTrackerModal/>-->
+<!--  <progressTrackerModal />-->
 
 </template>
 
@@ -79,8 +81,6 @@ import NavigationPanel from "./components/layout/navigationPanel.vue";
 import GoalBox from "./components/goalBox.vue";
 import ProgressTrackerModal from "./components/modals/progressTracker.vue";
 import {useCollectionsStore} from "./stores/collections";
-import {useCollection} from "./components/composables/useCollection";
-import {useTracker} from "./components/composables/useTracker";
 
 const systemInformation = ref({
   version: null,
