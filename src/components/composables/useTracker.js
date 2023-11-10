@@ -4,6 +4,9 @@ import { v4 as uuidv4 } from 'uuid';
 export function useTracker(config = {
     id: null,
     label: 'My Progress Tracker',
+    startingValue: 0,
+    numberFormat: 'number',
+    trackingMode: 'value',
     goals: [],
 }){
 
@@ -15,6 +18,9 @@ export function useTracker(config = {
             id: id,
             label: label.value,
             currentValue: currentValue.value,
+            startingValue: startingValue.value,
+            numberFormat: numberFormat.value,
+            trackingMode: trackingMode.value,
             goals: goals.value.map(goal => goal.serializeState()),
         };
     };
@@ -35,6 +41,21 @@ export function useTracker(config = {
     const currentValue = ref(99);
 
     /**
+     * The initial value of the tracker
+     */
+    const startingValue = ref(config.startingValue || 0);
+
+    /**
+     * The formatting schema to apply to values when displayed
+     */
+    const numberFormat = ref(config.numberFormat || 'number');
+
+    /**
+     * The tracking mode of the tracker (either 'value' or 'aggregate')
+     */
+    const trackingMode = ref(config.trackingMode || 'value');
+
+    /**
      * The goals that belong to the tracker
      */
     const goals = ref(config.goals || []);
@@ -48,5 +69,5 @@ export function useTracker(config = {
     });
 
 
-    return {id, label, currentValue, goals, activeGoal, serializeState}
+    return {id, label, currentValue, startingValue, numberFormat, goals, activeGoal, serializeState}
 }

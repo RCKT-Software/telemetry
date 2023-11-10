@@ -98,7 +98,6 @@ export function useCollection(config = {
     const addTracker = (config) => {
         const newTracker = useTracker(config);
         trackers.value.push(newTracker);
-        console.log(trackers.value);
         setActiveTracker(newTracker);
     };
 
