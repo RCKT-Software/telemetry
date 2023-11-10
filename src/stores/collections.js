@@ -72,5 +72,12 @@ export const useCollectionsStore = defineStore('collections', () => {
         return activeCollection.value.activeTracker;
     });
 
-    return {collections, activeCollection, activeId, activeTracker}
+    /**
+     * The currently selected goal (active)
+     */
+    const activeGoal = computed(() => {
+        return activeTracker.value.activeGoal;
+    });
+
+    return {collections, activeCollection, activeId, activeTracker, activeGoal}
 })

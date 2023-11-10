@@ -9,6 +9,7 @@ import { useCollectionsStore } from "./stores/collections";
 // Import composables (reusable composition functions) related to collections and tracker functionality
 import { useCollection } from "./components/composables/useCollection";
 import { useTracker } from "./components/composables/useTracker";
+import {useGoal} from "./components/composables/useGoal";
 
 // Initialize Pinia state management
 const pinia = createPinia();
@@ -30,9 +31,16 @@ if (window.electronAPI) {
         const hydratedData = JSON.parse(data);
 
         // Convert the raw collection data into proper collection objects
+        if(!hydratedData.collections) hydratedData.collections = [];
         hydratedData.collections = hydratedData.collections.map(collectionData => {
             // Convert each tracker within the collection into a tracker instance
+            if(!collectionData.trackers) collectionData.trackers = [];
             collectionData.trackers = ref(collectionData.trackers.map(trackerData => {
+                // Convert each goal within the tracker into a goal instance
+                if(!trackerData.goals) trackerData.goals = [];
+                trackerData.goals = ref(trackerData.goals.map(goalData => {
+                    return useGoal(goalData);
+                }));
                 return useTracker(trackerData);
             }));
             // Convert the collection data into a collection instance

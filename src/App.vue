@@ -52,7 +52,7 @@
       <!-- Chart & Next Goal -->
       <div class="chart-row">
         <chart/>
-        <goalBox/>
+        <goalBox />
       </div>
 
       <!-- Tabbed Section -->

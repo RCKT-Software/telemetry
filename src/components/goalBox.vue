@@ -1,8 +1,8 @@
 <template>
-  <div class="goal-box">
+  <div class="goal-box" v-if="collectionsStore.activeGoal">
     <span class="goal-box__label">Goal</span>
     <span class="goal-box__edit">Edit</span>
-    <h1 class="goal-box__heading">0 <span>by Jan 1</span></h1>
+    <h1 class="goal-box__heading">{{ collectionsStore.activeGoal.targetValue}} <span>by Jan 1</span></h1>
     <div class="goal-box__chart"></div>
     <div class="goal-box__stats">
       <div class="goal-box__stats-item">
@@ -20,9 +20,17 @@
       <h1 class="goal-box__prediction-item-value">Jan 1, 2024</h1>
     </div>
   </div>
+  <div class="goal-box" v-if="!collectionsStore.activeGoal">
+    <span class="goal-box__edit">New Goal</span>
+    <h1 class="goal-box__heading">No goal set</h1>
+  </div>
 </template>
 
 <script setup>
+
+import {useCollectionsStore} from "../stores/collections";
+
+const collectionsStore = useCollectionsStore();
 
 </script>
 

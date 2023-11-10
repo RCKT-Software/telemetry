@@ -1,9 +1,10 @@
-import {ref} from "vue";
+import {computed, ref} from "vue";
 import { v4 as uuidv4 } from 'uuid';
 
 export function useTracker(config = {
     id: null,
-    label: 'My Progress Tracker'
+    label: 'My Progress Tracker',
+    goals: [],
 }){
 
     /**
@@ -13,12 +14,13 @@ export function useTracker(config = {
         return {
             id: id,
             label: label.value,
-            currentValue: currentValue.value
+            currentValue: currentValue.value,
+            goals: goals.value.map(goal => goal.serializeState()),
         };
     };
 
     /**
-     * The assigned ID of the collection
+     * The assigned ID of the tracker
      */
     const id = config.id || uuidv4();
 
@@ -32,6 +34,19 @@ export function useTracker(config = {
      */
     const currentValue = ref(99);
 
+    /**
+     * The goals that belong to the tracker
+     */
+    const goals = ref(config.goals);
 
-    return {id, label, currentValue, serializeState}
+    /**
+     * Returns the next upcoming goal
+     * TODO: Once we support multiple goals, this computed should sort by the goal's `targetValue` (ASC OR DESC depending on the goal direction)
+     */
+    const activeGoal = computed(() => {
+        return goals.value.length ? goals.value[0] : null;
+    });
+
+
+    return {id, label, currentValue, goals, activeGoal, serializeState}
 }
