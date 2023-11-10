@@ -52,7 +52,7 @@
       <!-- Chart & Next Goal -->
       <div class="chart-row">
         <chart/>
-        <goalBox />
+        <goalBox/>
       </div>
 
       <!-- Tabbed Section -->
@@ -68,7 +68,7 @@
   </main>
 
   <!-- New Progress Tracker Modal -->
-<!--  <progressTrackerModal />-->
+  <modalManager v-if="modalStore.activeModal" />
 
 </template>
 
@@ -79,8 +79,9 @@ import chart from "./components/chart.vue";
 import OsTitleBar from "./components/layout/osTitleBar.vue";
 import NavigationPanel from "./components/layout/navigationPanel.vue";
 import GoalBox from "./components/goalBox.vue";
-import ProgressTrackerModal from "./components/modals/progressTracker.vue";
 import {useCollectionsStore} from "./stores/collections";
+import {useModalStore} from "./stores/modal";
+import ModalManager from "./components/layout/modalManager.vue";
 
 const systemInformation = ref({
   version: null,
@@ -96,6 +97,7 @@ onMounted(async () => {
 });
 
 const collectionsStore = useCollectionsStore();
+const modalStore = useModalStore();
 
 </script>
 

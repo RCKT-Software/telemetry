@@ -27,7 +27,7 @@ export function useTracker(config = {
     /**
      * The label (name) of the tracker
      */
-    const label = ref(config.label);
+    const label = ref(config.label || 'My Tracker');
 
     /**
      * The current value of the tracker
@@ -37,7 +37,7 @@ export function useTracker(config = {
     /**
      * The goals that belong to the tracker
      */
-    const goals = ref(config.goals);
+    const goals = ref(config.goals || []);
 
     /**
      * Returns the next upcoming goal

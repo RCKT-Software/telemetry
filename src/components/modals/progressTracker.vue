@@ -13,22 +13,22 @@
       <div class="row">
         <div class="input-group">
           <label>Label</label>
-          <input type="text" placeholder="Ex: 'Net Worth'" v-model="collectionStore.activeTracker.label">
+          <input type="text" placeholder="Ex: 'Net Worth'" v-model="trackerConfig.label">
         </div>
 
         <div class="input-group">
           <label>Number format</label>
-          <select>
-            <option value="0" selected>None</option>
-            <option value="0">Currency ($)</option>
-            <option value="0">Percentage (%)</option>
+          <select v-model="trackerConfig.numberFormat">
+            <option value="number" selected>None</option>
+            <option value="usd">Currency ($)</option>
+            <option value="percentage">Percentage (%)</option>
           </select>
         </div>
       </div>
 
       <div class="input-group">
         <label>Starting value <span>(optional)</span></label>
-        <input type="text" placeholder="Ex: '$80,000'">
+        <input type="text" placeholder="Ex: '$80,000'" v-model="trackerConfig.startingValue">
       </div>
 
       <div class="input-group">
@@ -39,22 +39,43 @@
     </div>
 
     <div class="modal__footer">
-      <button class="btn">Cancel</button>
-      <button class="btn btn--primary">Next</button>
+      <button class="btn" @click.prevent="modalStore.closeModal()">Cancel</button>
+      <button class="btn btn--primary" @click.prevent="addTracker">Next</button>
     </div>
   </div>
 
   <!-- Overlay -->
-  <div class="overlay"/>
+  <div class="overlay" @click.prevent="modalStore.closeModal()" />
 
 </template>
 
 <script setup>
 
 import ExpandedSelect from "../input/expandedSelect.vue";
+import {useModalStore} from "../../stores/modal";
+import {ref} from "vue";
 import {useCollectionsStore} from "../../stores/collections";
 
-const collectionStore = useCollectionsStore();
+const modalStore = useModalStore();
+const collectionsStore = useCollectionsStore();
+
+/**
+ * Define the configuration for the new tracker
+ */
+const trackerConfig = ref({
+  label: null,
+  numberFormat: 'number',
+  startingValue: null,
+  trackingMode: null
+});
+
+/**
+ * Adds the tracker to the active collection and closes the modal
+ */
+const addTracker = () => {
+  collectionsStore.activeCollection.addTracker(trackerConfig.value);
+  modalStore.closeModal();
+};
 
 </script>
 

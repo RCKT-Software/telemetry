@@ -6,7 +6,7 @@
 
     <!-- Collection Control Bar -->
     <div class="collection-control">
-      <i class="fa-sharp fa-regular fa-plus" title="New progress tracker"></i>
+      <i class="fa-sharp fa-regular fa-plus" title="New progress tracker" @click.prevent="modalStore.openModal('progress-tracker', {})"></i>
       <i class="fa-sharp fa-regular fa-cog" title="Collection settings"></i>
       <i class="fa-sharp fa-regular fa-file-export" title="Export to CSV"></i>
       <i class="fa-sharp fa-regular fa-trash" title="Delete collection"></i>
@@ -60,6 +60,7 @@
 import CollectionSelector from "../collectionSelector.vue";
 import {onMounted, ref} from "vue";
 import {useCollectionsStore} from "../../stores/collections";
+import {useModalStore} from "../../stores/modal";
 
 const systemInformation = ref({
   version: null,
@@ -77,6 +78,7 @@ onMounted(async () => {
 });
 
 const collectionsStore = useCollectionsStore();
+const modalStore = useModalStore();
 
 </script>
 

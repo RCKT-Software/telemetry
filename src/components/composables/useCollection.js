@@ -91,6 +91,16 @@ export function useCollection(config = {
         activeTrackerId.value = tracker.id;
     };
 
+    /**
+     * Accepts a tracker configuration object and adds it to the collection, setting it as the active tracker.
+     * @param config
+     */
+    const addTracker = (config) => {
+        const newTracker = useTracker(config);
+        trackers.value.push(newTracker);
+        console.log(trackers.value);
+        setActiveTracker(newTracker);
+    };
 
-    return {id, label, abbreviation, color, transparentColor, trackers, activeTracker, setActiveTracker, serializeState};
+    return {id, label, abbreviation, color, transparentColor, trackers, activeTracker, setActiveTracker, addTracker, serializeState};
 }
