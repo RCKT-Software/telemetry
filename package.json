@@ -3,7 +3,7 @@
   "author": "RCKT Software, LLC.",
   "description": "An open-source progress tracker that predicts when you'll reach your goals",
   "private": true,
-  "version": "0.3.41",
+  "version": "0.3.46",
   "main": "main.js",
   "scripts": {
     "start": "npm run build && npm run electron:start",
