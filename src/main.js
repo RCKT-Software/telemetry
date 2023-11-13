@@ -1,14 +1,14 @@
 // Import necessary functions from Vue and component libraries
-import { createApp, ref } from 'vue';
+import {createApp, ref} from 'vue';
 import App from './App.vue';
-import { createPinia } from 'pinia';
+import {createPinia} from 'pinia';
 
 // Import state management for application data
-import { useCollectionsStore } from "./stores/collections";
+import {useCollectionsStore} from "./stores/collections";
 
 // Import composables (reusable composition functions) related to collections and tracker functionality
-import { useCollection } from "./composables/useCollection";
-import { useTracker } from "./composables/useTracker";
+import {useCollection} from "./composables/useCollection";
+import {useTracker} from "./composables/useTracker";
 import {useGoal} from "./composables/useGoal";
 
 // Initialize Pinia state management
@@ -31,13 +31,13 @@ if (window.electronAPI) {
         const hydratedData = JSON.parse(data);
 
         // Convert the raw collection data into proper collection objects
-        if(!hydratedData.collections) hydratedData.collections = [];
+        if (!hydratedData.collections) hydratedData.collections = [];
         hydratedData.collections = hydratedData.collections.map(collectionData => {
             // Convert each tracker within the collection into a tracker instance
-            if(!collectionData.trackers) collectionData.trackers = [];
+            if (!collectionData.trackers) collectionData.trackers = [];
             collectionData.trackers = ref(collectionData.trackers.map(trackerData => {
                 // Convert each goal within the tracker into a goal instance
-                if(!trackerData.goals) trackerData.goals = [];
+                if (!trackerData.goals) trackerData.goals = [];
                 trackerData.goals = ref(trackerData.goals.map(goalData => {
                     return useGoal(goalData);
                 }));
@@ -48,7 +48,9 @@ if (window.electronAPI) {
         });
 
         // Apply the hydrated data to the collections store
-        collectionsStore.$patch(hydratedData);
+        if (hydratedData.collections.length > 0) {
+            collectionsStore.$patch(hydratedData);
+        }
 
         // Subscribe to changes in the collections store to persist state changes back to Electron
         collectionsStore.$subscribe((mutation, state) => {
