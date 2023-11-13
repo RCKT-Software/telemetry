@@ -1,9 +1,10 @@
 const path = require('path');
 const {app, BrowserWindow, ipcMain} = require('electron');
-const fs = require('fs');
+const fs = require('fs').promises;
 const si = require('systeminformation');
 const packageJSON = require('./package.json');
 const sqlite3 = require('sqlite3').verbose();
+const { Sequelize, DataTypes } = require('sequelize');
 
 // Handle creating/removing shortcuts on Windows when installing/uninstalling.
 if (require('electron-squirrel-startup')) {
@@ -12,7 +13,7 @@ if (require('electron-squirrel-startup')) {
 
 const isDev = process.env.IS_DEV === 'true';
 const userDataPath = app.getPath('userData');
-const dataFilePath = path.join(userDataPath, 'collectionData.json');
+const dataFilePath = path.join(userDataPath, 'configuration.json');
 const timeSeriesPath = path.join(userDataPath, 'timeseries.db');
 
 function createWindow(userData = {}) {
@@ -67,10 +68,61 @@ function createWindow(userData = {}) {
     });
 
     // Handle updates to user data
-    ipcMain.handle('store-data-updated', (event, data) => {
-        fs.writeFileSync(dataFilePath, data);
+    ipcMain.handle('store-data-updated', async (event, data) => {
+        try {
+            await fs.writeFile(dataFilePath, data);
+            console.log('Data has been successfully saved to', dataFilePath);
+            return { success: true, message: 'Data saved successfully.' };
+        } catch (err) {
+            console.error('Failed to save data:', err.message);
+            return { success: false, message: err.message };
+        }
     });
 
+}
+
+async function initializeDatabase() {
+    const database = new Sequelize({
+        dialect: 'sqlite',
+        storage: timeSeriesPath,
+        logging: false, // Set to true to see SQL logs
+    });
+
+    try {
+        await database.authenticate();
+        console.log('Connection to the time-series database has been established successfully with Sequelize.');
+        return database;
+    } catch (error) {
+        console.error('Unable to connect to the database:', error);
+        throw error;
+    }
+}
+
+async function initializeAppData() {
+    let jsonData = {};
+    try {
+        const data = await fs.readFile(dataFilePath, 'utf8');
+        jsonData = JSON.parse(data);
+    } catch (readError) {
+        // If there's an error, handle it appropriately
+        if (readError.code === 'ENOENT') {
+            console.log('Data file does not exist, initializing with default data...');
+        } else {
+            console.error('Error reading or parsing the data file:', readError);
+        }
+    }
+    return JSON.stringify(jsonData);
+}
+
+async function initialize() {
+    try {
+        // Initialize database and app data
+        const database = await initializeDatabase();
+        const appData = await initializeAppData();
+        createWindow(appData);
+    } catch (error) {
+        console.error('Failed to initialize the application:', error);
+    }
 }
 
 // This method will be called when Electron has finished
@@ -88,44 +140,10 @@ app.whenReady().then(() => {
         }
     });
 
-    // Get the user data once the application is ready
-    fs.readFile(dataFilePath, 'utf8', (err, data) => {
-
-        let db = new sqlite3.Database(timeSeriesPath, (err) => {
-            if (err) {
-                console.error(err.message);
-            }
-            console.log('Connected to the time-series SQLite database.', timeSeriesPath);
-        });
-
-        // Define the default data as an empty JSON string
-        let jsonData = '{}';
-
-        if (err) {
-            // If there is an error reading the file, it might not exist or might be inaccessible
-            // Log the error and continue with default data
-            console.log('Error reading the data file:', err);
-        } else {
-            // Try to parse the data as JSON
-            try {
-                jsonData = JSON.parse(data);
-            } catch (jsonErr) {
-                // If there is an error parsing the JSON, log it and continue with default data
-                console.log('Error parsing JSON from data file:', jsonErr);
-            }
-        }
-
-        // Ensure jsonData is a valid JSON object, even if it's just empty
-        jsonData = typeof jsonData === 'object' ? jsonData : {};
-
-        // Convert back to a string if necessary
-        const userData = JSON.stringify(jsonData);
-
-        // Show the application window, passing in the user data
-        createWindow(userData);
-    });
+    initialize().then();
 
     // Handle macOS activation of an existing app window.
+    // TODO: Consider that createWindow needs data to be passed in to hydrate the store.
     app.on('activate', function () {
         if (BrowserWindow.getAllWindows().length === 0) createWindow();
     });
