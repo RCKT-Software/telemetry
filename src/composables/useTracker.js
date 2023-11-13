@@ -98,5 +98,17 @@ export function useTracker(config = {
         goals.value.push(useGoal(config));
     };
 
-    return {id, label, currentValue, lastUpdated, startingValue, numberFormat, goals, activeGoal, formattedCurrentValue, formattedLastUpdated, addGoal, serializeState}
+    /**
+     * Accepts a data point and sends it to the main process to be persisted.
+     * @param data
+     */
+    const captureDataPoint = (data) => {
+        window["electronAPI"].captureDataPoint({
+            value: parseFloat(data.datapoint),
+            trackerId: id
+        });
+        currentValue.value = parseFloat(data.datapoint);
+    }
+
+    return {id, label, currentValue, lastUpdated, startingValue, numberFormat, goals, activeGoal, formattedCurrentValue, formattedLastUpdated, addGoal, captureDataPoint, serializeState}
 }

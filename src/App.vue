@@ -30,7 +30,7 @@
         </div>
         <div class="title-bar__right">
 
-          <button class="btn btn--primary">
+          <button class="btn btn--primary" @click.prevent="modalStore.openModal('capture-data-point')">
             <i class="fa-sharp fa-regular fa-plus"></i>
             <span>Data point</span>
           </button>
@@ -98,6 +98,8 @@ onMounted(async () => {
 
 const collectionsStore = useCollectionsStore();
 const modalStore = useModalStore();
+
+
 
 </script>
 

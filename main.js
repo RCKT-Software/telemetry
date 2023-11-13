@@ -3,7 +3,7 @@ const {app, BrowserWindow, ipcMain, globalShortcut} = require('electron');
 const si = require('systeminformation');
 const packageJSON = require('./package.json');
 
-const {initializeDatabase} = require('./src/system/database');
+const {initializeDatabase, captureDataPoint} = require('./src/system/database');
 const {initializeAppData, storeAppData} = require('./src/system/configuration');
 
 // Handle creating/removing shortcuts on Windows when installing/uninstalling.
@@ -65,6 +65,10 @@ function createWindow(userData = {}) {
     // Handle updates to user data
     ipcMain.handle('store-data-updated', async (event, data) => {
         storeAppData(data);
+    });
+
+    ipcMain.handle('capture-data-point', async (event, data) => {
+        captureDataPoint(data);
     });
 
 }
