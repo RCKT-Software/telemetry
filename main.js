@@ -1,5 +1,5 @@
 const path = require('path');
-const {app, BrowserWindow, ipcMain} = require('electron');
+const {app, BrowserWindow, ipcMain, globalShortcut} = require('electron');
 const si = require('systeminformation');
 const packageJSON = require('./package.json');
 
@@ -45,9 +45,6 @@ function createWindow(userData = {}) {
         mainWindow.webContents.send('hydrate-store', userData);
         mainWindow.show();
         mainWindow.focus();
-        if (isDev) {
-            //mainWindow.webContents.openDevTools();
-        }
     });
 
     // Handle user-initiated "close" method
@@ -84,7 +81,17 @@ async function initialize() {
 }
 
 // App is ready to start loading
-app.whenReady().then(async() => {
+app.whenReady().then(async () => {
+
+    // Register Control+D to open dev tools
+    if (isDev) {
+        globalShortcut.register('Control+D', () => {
+            let win = BrowserWindow.getFocusedWindow();
+            if (win) {
+                win.webContents.toggleDevTools();
+            }
+        });
+    }
 
     // Get system initialization information once the application is ready
     ipcMain.handle('application-ready', async () => {
@@ -110,6 +117,7 @@ app.whenReady().then(async() => {
 // for applications and their menu bar to stay active until the user quits
 // explicitly with Cmd + Q.
 app.on('window-all-closed', () => {
+    globalShortcut.unregisterAll();
     if (process.platform !== 'darwin') {
         app.quit();
     }
