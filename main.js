@@ -3,6 +3,7 @@ const {app, BrowserWindow, ipcMain} = require('electron');
 const fs = require('fs');
 const si = require('systeminformation');
 const packageJSON = require('./package.json');
+const sqlite3 = require('sqlite3').verbose();
 
 // Handle creating/removing shortcuts on Windows when installing/uninstalling.
 if (require('electron-squirrel-startup')) {
@@ -12,6 +13,7 @@ if (require('electron-squirrel-startup')) {
 const isDev = process.env.IS_DEV === 'true';
 const userDataPath = app.getPath('userData');
 const dataFilePath = path.join(userDataPath, 'collectionData.json');
+const timeSeriesPath = path.join(userDataPath, 'timeseries.db');
 
 function createWindow(userData = {}) {
     const mainWindow = new BrowserWindow({
@@ -45,7 +47,7 @@ function createWindow(userData = {}) {
         mainWindow.show();
         mainWindow.focus();
         if (isDev) {
-            //mainWindow.webContents.openDevTools();
+            mainWindow.webContents.openDevTools();
         }
     });
 
@@ -88,6 +90,13 @@ app.whenReady().then(() => {
 
     // Get the user data once the application is ready
     fs.readFile(dataFilePath, 'utf8', (err, data) => {
+
+        let db = new sqlite3.Database(timeSeriesPath, (err) => {
+            if (err) {
+                console.error(err.message);
+            }
+            console.log('Connected to the time-series SQLite database.', timeSeriesPath);
+        });
 
         // Define the default data as an empty JSON string
         let jsonData = '{}';
