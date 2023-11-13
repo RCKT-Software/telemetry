@@ -69,14 +69,14 @@ export const useCollectionsStore = defineStore('collections', () => {
      * The currently selected tracker (active)
      */
     const activeTracker = computed(() => {
-        return activeCollection.value.activeTracker;
+        return activeCollection.value ? activeCollection.value.activeTracker : null;
     });
 
     /**
      * The currently selected goal (active)
      */
     const activeGoal = computed(() => {
-        return activeTracker.value.activeGoal;
+        return activeTracker.value ? activeTracker.value.activeGoal : null;
     });
 
     return {collections, activeCollection, activeId, activeTracker, activeGoal}
