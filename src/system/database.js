@@ -42,8 +42,8 @@ async function initializeDatabase() {
     try {
         await database.authenticate();
         console.log('Connection to the time-series database has been established successfully with Sequelize.');
-        await database.sync();
-        console.log('The time-series database has been synced.');
+        await database.sync({alter: true});
+        console.log('The time-series database schema has been synced.');
         return database;
     } catch (error) {
         console.error('Unable to connect to the database:', error);
