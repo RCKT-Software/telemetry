@@ -65,4 +65,25 @@ async function captureDataPoint(data){
     }
 }
 
-module.exports = {initializeDatabase, captureDataPoint};
+/**
+ * Retrieves all data points for a given tracker and configuration.
+ * @param trackerId
+ * @param configuration
+ */
+async function getDataPoints(trackerId, configuration) {
+    try {
+        return await DataPoint.findAll({
+            where: {
+                trackerId: trackerId
+            },
+            order: [
+                ['createdAt', 'ASC']
+            ]
+        });
+    } catch (error) {
+        console.error('Failed to retrieve data points:', error);
+        throw error;
+    }
+}
+
+module.exports = {initializeDatabase, captureDataPoint, getDataPoints};

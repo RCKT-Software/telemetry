@@ -8,4 +8,13 @@ contextBridge.exposeInMainWorld('electronAPI', {
     maximizeApp: () => ipcRenderer.invoke('maximize-app'),
     closeApp: () => ipcRenderer.invoke('quit-app'),
     captureDataPoint: (data) => ipcRenderer.invoke('capture-data-point', data),
+    getDataPoints: (trackerId, configuration, callback) => {
+        ipcRenderer.invoke('get-data-points', trackerId, configuration)
+            .then(dataPoints => {
+                callback(dataPoints);
+            })
+            .catch(err => {
+                console.error("Error getting data points: ", err);
+            });
+    }
 });

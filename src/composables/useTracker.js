@@ -1,8 +1,9 @@
 import {computed, ref} from "vue";
-import { v4 as uuidv4 } from 'uuid';
+import {v4 as uuidv4} from 'uuid';
 import Sugar from 'sugar';
 import {useGoal} from "./useGoal";
 import {formatValue} from "../utility/helpers";
+
 Sugar.extend();
 
 export function useTracker(config = {
@@ -12,7 +13,7 @@ export function useTracker(config = {
     numberFormat: 'number',
     trackingMode: 'value',
     goals: [],
-}){
+}) {
 
     /**
      * The state to persist between application restarts
@@ -41,7 +42,7 @@ export function useTracker(config = {
     /**
      * The current value of the tracker
      */
-    const currentValue = ref(99);
+    const currentValue = ref(null);
 
     /**
      * A placeholder for the date the current value was last updated
@@ -107,8 +108,41 @@ export function useTracker(config = {
             value: parseFloat(data.datapoint),
             trackerId: id
         });
+        updateDataPoints();
         currentValue.value = parseFloat(data.datapoint);
+        lastUpdated.value = Date.create();
     }
 
-    return {id, label, currentValue, lastUpdated, startingValue, numberFormat, goals, activeGoal, formattedCurrentValue, formattedLastUpdated, addGoal, captureDataPoint, serializeState}
+    /**
+     * Fetches the latest data points for the tracker and updates the current value and last updated date.
+     */
+    const updateDataPoints = () => {
+        window["electronAPI"].getDataPoints(id, {}, (dataPoints) => {
+            if (dataPoints.length > 0) {
+                const lastDataPoint = dataPoints[dataPoints.length - 1];
+                currentValue.value = lastDataPoint.dataValues.value;
+                lastUpdated.value = lastDataPoint.dataValues.createdAt;
+            }
+        });
+    }
+
+    updateDataPoints();
+
+
+    return {
+        id,
+        label,
+        currentValue,
+        lastUpdated,
+        startingValue,
+        numberFormat,
+        goals,
+        activeGoal,
+        formattedCurrentValue,
+        formattedLastUpdated,
+        addGoal,
+        captureDataPoint,
+        updateDataPoints,
+        serializeState
+    }
 }
