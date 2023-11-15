@@ -132,8 +132,18 @@ export function useTracker(config = {
         });
     }
 
-    updateDataPoints();
+    /**
+     * Returns the chart data for the tracker.
+     */
+    const chartData = computed(() => {
+        return {
+            labels: recentDataPoints.value.map(point => Date.create(point.createdAt).short()),
+            data: recentDataPoints.value.map(point => point.value),
+        }
+    });
 
+    // Update the tracker's data points upon initialization
+    updateDataPoints();
 
     return {
         id,
@@ -150,6 +160,7 @@ export function useTracker(config = {
         addGoal,
         captureDataPoint,
         updateDataPoints,
+        chartData,
         serializeState
     }
 }

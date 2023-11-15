@@ -17,5 +17,14 @@ contextBridge.exposeInMainWorld('electronAPI', {
             .catch(err => {
                 console.error("Error getting data points: ", err);
             });
+    },
+    getChartData: (trackerId, configuration, callback) => {
+        ipcRenderer.invoke('get-chart-data', trackerId, configuration)
+            .then(dataPoints => {
+                callback(dataPoints);
+            })
+            .catch(err => {
+                console.error("Error getting chart data: ", err);
+            });
     }
 });

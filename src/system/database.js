@@ -55,7 +55,7 @@ async function initializeDatabase() {
  * Captures a single data point.
  * @returns {Promise<void>}
  */
-async function captureDataPoint(data){
+async function captureDataPoint(data) {
     try {
         const dataPoint = await DataPoint.create(data);
         console.log('Data point captured:', JSON.stringify(dataPoint));

@@ -10,26 +10,6 @@ import {onBeforeUnmount, onMounted, watch} from "vue";
 import Chart from 'chart.js/auto'
 import {useCollectionsStore} from "../stores/collections";
 
-/**
- * Placeholder input data.
- */
-const data = [
-  {year: 2010, count: 17},
-  {year: 2011, count: 20},
-  {year: 2012, count: 19},
-  {year: 2013, count: 25},
-  {year: 2014, count: 26},
-  {year: 2015, count: 30},
-  {year: 2016, count: 27},
-  {year: 2017, count: 32},
-  {year: 2018, count: 29},
-  {year: 2019, count: 35},
-  {year: 2020, count: 35},
-  {year: 2021, count: 40},
-  {year: 2022, count: 42},
-  {year: 2023, count: 50},
-];
-
 /* Keep a record of the chart for mounting/unmounting */
 let chart;
 
@@ -38,7 +18,7 @@ const collectionsStore = useCollectionsStore();
 /**
  * Creates the chart with the latest data.
  */
-const createChart = () => {
+const createChart = async () => {
   if (chart) {
     chart.destroy();
   }
@@ -52,10 +32,10 @@ const createChart = () => {
         type: 'line',
         options: {
           scales: {
-            y: {
+            /*y: {
               min: 0,
               max: 70,
-            }
+            }*/
           },
           interaction: {
             intersect: false,
@@ -79,10 +59,10 @@ const createChart = () => {
           aspectRatio: 2.07,
         },
         data: {
-          labels: data.map(row => row.year),
+          labels: collectionsStore.activeTracker.chartData.labels,
           datasets: [
             {
-              data: data.map(row => row.count),
+              data: collectionsStore.activeTracker.chartData.data,
               fill: {
                 target: 'start',
                 above: collectionsStore.activeCollection.transparentColor,
@@ -100,7 +80,7 @@ const createChart = () => {
  * Start drawing the graph on mounted
  */
 onMounted(async () => {
-  createChart();
+  await createChart();
 });
 
 /**
