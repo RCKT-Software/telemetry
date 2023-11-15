@@ -1,6 +1,7 @@
-const { contextBridge, ipcRenderer } = require('electron')
+const { contextBridge, ipcRenderer, shell } = require('electron')
 
 contextBridge.exposeInMainWorld('electronAPI', {
+    openLink: (url) => shell.openExternal(url),
     getSystemInformation: () => ipcRenderer.invoke('application-ready'),
     updateStore: (data) => ipcRenderer.invoke('store-data-updated', data),
     hydrateStore: (callback) => ipcRenderer.on('hydrate-store', (event, ...args) => callback(...args)),

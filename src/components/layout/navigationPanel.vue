@@ -6,10 +6,12 @@
 
     <!-- Collection Control Bar -->
     <div class="collection-control">
-      <i class="fa-sharp fa-regular fa-plus" title="New progress tracker" @click.prevent="modalStore.openModal('progress-tracker')"></i>
+      <i class="fa-sharp fa-regular fa-plus" title="New progress tracker"
+         @click.prevent="modalStore.openModal('progress-tracker')"></i>
       <i class="fa-sharp fa-regular fa-cog" title="Collection settings"></i>
       <i class="fa-sharp fa-regular fa-file-export" title="Export to CSV"></i>
-      <i class="fa-sharp fa-regular fa-trash" title="Delete tracker" @click.prevent="modalStore.openModal('delete-tracker')"></i>
+      <i class="fa-sharp fa-regular fa-trash" title="Delete tracker"
+         @click.prevent="modalStore.openModal('delete-tracker')"></i>
     </div>
 
     <!-- Progress Trackers -->
@@ -19,31 +21,42 @@
       <span>All progress trackers</span>
     </div>
     <ul class="metric-nav" v-if="showTrackers">
-      <li class="tracker-nav-item" :class="{'tracker-nav-item--active': tracker.id === collectionsStore.activeTracker.id}" v-for="tracker in collectionsStore.activeCollection.trackers" @click.prevent="collectionsStore.activeCollection.setActiveTracker(tracker)">
+      <li class="tracker-nav-item"
+          :class="{'tracker-nav-item--active': tracker.id === collectionsStore.activeTracker.id}"
+          v-for="tracker in collectionsStore.activeCollection.trackers"
+          @click.prevent="collectionsStore.activeCollection.setActiveTracker(tracker)">
         <span class="tracker-nav-item__label">{{ tracker.label }}</span>
         <span class="tracker-nav-item__records">{{ tracker.formattedCurrentValue }}</span>
       </li>
     </ul>
-    <span class="tracker-add-button" title="Add a new progress tracker" @click.prevent="modalStore.openModal('progress-tracker')"><i class="fa-sharp fa-regular fa-plus"></i> New</span>
+    <span class="tracker-add-button" title="Add a new progress tracker"
+          @click.prevent="modalStore.openModal('progress-tracker')"><i
+        class="fa-sharp fa-regular fa-plus"></i> New</span>
 
     <!-- Middle Divider -->
     <div class="divider divider__middle"/>
 
     <!-- Secondary Navigation Items -->
     <ul class="secondary-nav">
-      <li class="secondary-nav__item">
-        Trash
-      </li>
+      <!--      <li class="secondary-nav__item">
+              Trash
+            </li>-->
       <li class="secondary-nav__item">
         Support
       </li>
       <li class="secondary-nav__item">
-        <a href="https://github.com/RCKT-Software/telemetry/issues/new?title=Feedback%20for%20Telemetry..."
+        <a href="#"
+           @click.prevent="openLink('https://github.com/RCKT-Software/telemetry/issues')"
            target="_blank">Feedback</a>
       </li>
       <li class="secondary-nav__item">
-        Notifications
+        <a href="#"
+           @click.prevent="openLink('https://github.com/RCKT-Software/telemetry')"
+           target="_blank">GitHub</a>
       </li>
+      <!--      <li class="secondary-nav__item">
+              Notifications
+            </li>-->
     </ul>
 
     <!-- Bottom Divider -->
@@ -79,6 +92,14 @@ onMounted(async () => {
 
 const collectionsStore = useCollectionsStore();
 const modalStore = useModalStore();
+
+/**
+ * Open an external link in the default browser
+ * @param url
+ */
+const openLink = (url) => {
+  window.electronAPI.openLink(url);
+}
 
 </script>
 
@@ -117,7 +138,7 @@ const modalStore = useModalStore();
 
     &.divider__middle {
       position: absolute;
-      bottom: 190px;
+      bottom: 160px;
     }
 
     &.divider__bottom {
