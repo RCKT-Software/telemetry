@@ -137,7 +137,7 @@ export function useTracker(config = {
      */
     const chartData = computed(() => {
         return {
-            labels: recentDataPoints.value.map(point => Date.create(point.createdAt).short()),
+            labels: recentDataPoints.value.map(point => point.createdAt),
             data: recentDataPoints.value.map(point => point.value),
         }
     });

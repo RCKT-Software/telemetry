@@ -8,6 +8,7 @@
 
 import {onBeforeUnmount, onMounted, watch} from "vue";
 import Chart from 'chart.js/auto'
+import 'chartjs-adapter-moment';
 import {useCollectionsStore} from "../stores/collections";
 
 /* Keep a record of the chart for mounting/unmounting */
@@ -32,6 +33,12 @@ const createChart = async () => {
         type: 'line',
         options: {
           scales: {
+            x: {
+              type: 'time',
+              time: {
+                unit: 'day'
+              }
+            },
             /*y: {
               min: 0,
               max: 70,
