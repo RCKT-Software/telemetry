@@ -62,7 +62,9 @@
         <button class="tab"><i class="fa-sharp fa-solid fa-chart-line"></i> Chart Settings</button>
       </div>
 
-      <div style="background-color: var(--lighter); width: 100%; height: 800px; border-radius: 5px;"></div>
+      <div style="background-color: var(--lighter); width: 100%; height: 800px; border-radius: 5px;">
+        <p v-for="dataPoint in collectionsStore.activeTracker.recentDataPoints">{{dataPoint.createdAt}} => {{dataPoint.value}}</p>
+      </div>
 
     </div>
   </main>

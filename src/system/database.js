@@ -72,7 +72,7 @@ async function captureDataPoint(data){
  */
 async function getDataPoints(trackerId, configuration) {
     try {
-        return await DataPoint.findAll({
+        const dataPoints = await DataPoint.findAll({
             where: {
                 trackerId: trackerId
             },
@@ -80,6 +80,7 @@ async function getDataPoints(trackerId, configuration) {
                 ['createdAt', 'ASC']
             ]
         });
+        return dataPoints.map(record => record.dataValues);
     } catch (error) {
         console.error('Failed to retrieve data points:', error);
         throw error;

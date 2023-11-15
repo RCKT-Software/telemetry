@@ -45,6 +45,11 @@ export function useTracker(config = {
     const currentValue = ref(null);
 
     /**
+     * The recent data points for the tracker
+     */
+    const recentDataPoints = ref([]);
+
+    /**
      * A placeholder for the date the current value was last updated
      */
     const lastUpdated = ref(Date.create('yesterday'));
@@ -120,8 +125,9 @@ export function useTracker(config = {
         window["electronAPI"].getDataPoints(id, {}, (dataPoints) => {
             if (dataPoints.length > 0) {
                 const lastDataPoint = dataPoints[dataPoints.length - 1];
-                currentValue.value = lastDataPoint.dataValues.value;
-                lastUpdated.value = lastDataPoint.dataValues.createdAt;
+                currentValue.value = lastDataPoint.value;
+                lastUpdated.value = lastDataPoint.createdAt;
+                recentDataPoints.value = dataPoints;
             }
         });
     }
@@ -133,6 +139,7 @@ export function useTracker(config = {
         id,
         label,
         currentValue,
+        recentDataPoints,
         lastUpdated,
         startingValue,
         numberFormat,
