@@ -6,7 +6,7 @@
 
 <script setup>
 
-import {onBeforeUnmount, onMounted, watch} from "vue";
+import {nextTick, onBeforeUnmount, onMounted, watch} from "vue";
 import Chart from 'chart.js/auto'
 import 'chartjs-adapter-moment';
 import {useAppDataStore} from "../stores/appData";
@@ -17,6 +17,15 @@ let chart;
 const appDataStore = useAppDataStore();
 
 /**
+ * ChartJS draws with the canvas, so we need to manually pass it CSS vars.
+ * @param variableName
+ * @returns {string}
+ */
+const getCSSVariable = (variableName) => {
+  return getComputedStyle(document.getElementById('top-level')).getPropertyValue(variableName);
+}
+
+/**
  * Creates the chart with the latest data.
  */
 const createChart = async () => {
@@ -25,8 +34,9 @@ const createChart = async () => {
   }
   Chart.defaults.font.family = "'Inter', sans-serif";
   Chart.defaults.font.size = 11;
-  Chart.defaults.color = '#9AB2D4';
-  Chart.defaults.borderColor = '#EEF1FD';
+  Chart.defaults.color = getCSSVariable('--dark');
+  Chart.defaults.borderColor = getCSSVariable('--lighter');
+
   chart = new Chart(
       document.getElementById('chart-canvas'),
       {
@@ -37,12 +47,16 @@ const createChart = async () => {
               type: 'time',
               time: {
                 unit: 'day'
+              },
+              grid: {
+                color: getCSSVariable('--lighter')
               }
             },
-            /*y: {
-              min: 0,
-              max: 70,
-            }*/
+            y: {
+              grid: {
+                color: getCSSVariable('--lighter')
+              }
+            }
           },
           interaction: {
             intersect: false,
@@ -94,7 +108,7 @@ onMounted(async () => {
  * Re-draw the chart when the active collection changes, or any data within it.
  */
 watch(
-    () => appDataStore.activeCollection,
+    [() => appDataStore.activeCollection, () => appDataStore.darkMode],
     () => {
       createChart();
     },
