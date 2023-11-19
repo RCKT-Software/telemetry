@@ -1,87 +1,94 @@
 <template>
 
-  <!-- OS Title Bar -->
-  <osTitleBar/>
+  <!-- Dark Mode Wrapper -->
+  <section id="top-level" :style="rootStyles">
 
-  <!-- Navigation Panel  -->
-  <navigationPanel/>
+    <!-- OS Title Bar -->
+    <osTitleBar/>
 
-  <!-- Main Content -->
-  <main id="main">
-    <div class="center-content">
+    <!-- Navigation Panel  -->
+    <navigationPanel/>
 
-      <div class="title-bar">
-        <div class="title-bar__left">
+    <!-- Main Content -->
+    <main id="main">
+      <div class="center-content">
 
-          <h1 style="margin-bottom:10px">{{ collectionsStore.activeTracker.label }} <span class="value-tag"
-                                                                                          style="margin-left: 6px">{{
-              collectionsStore.activeTracker.formattedCurrentValue
-            }}</span>
-          </h1>
-          <div class="quick-stats">
-            <div class="quick-stats__statistic">
-              <i class="fa-sharp fa-regular fa-database"></i> <span>0 data points</span>
+        <div class="title-bar">
+          <div class="title-bar__left">
+
+            <h1 style="margin-bottom:10px">{{ appDataStore.activeTracker.label }} <span class="value-tag"
+                                                                                        style="margin-left: 6px">{{
+                appDataStore.activeTracker.formattedCurrentValue
+              }}</span>
+            </h1>
+            <div class="quick-stats">
+              <div class="quick-stats__statistic">
+                <i class="fa-sharp fa-regular fa-database"></i> <span>0 data points</span>
+              </div>
+              <div class="quick-stats__statistic">
+                <i class="fa-sharp fa-regular fa-clock-rotate-left"></i>
+                <span>Last updated {{ appDataStore.activeTracker.formattedLastUpdated }}</span>
+              </div>
             </div>
-            <div class="quick-stats__statistic">
-              <i class="fa-sharp fa-regular fa-clock-rotate-left"></i> <span>Last updated {{collectionsStore.activeTracker.formattedLastUpdated}}</span>
-            </div>
+
           </div>
+          <div class="title-bar__right">
 
+            <button class="btn btn--primary" @click.prevent="modalStore.openModal('capture-data-point')">
+              <i class="fa-sharp fa-regular fa-plus"></i>
+              <span>Data point</span>
+            </button>
+
+            <select class="time-period">
+              <option value="0">24 hours</option>
+              <option value="0">3 days</option>
+              <option value="0">7 days</option>
+              <option value="0" selected>30 days</option>
+              <option value="0">60 days</option>
+              <option value="0">90 days</option>
+              <option value="0">2023</option>
+              <option value="0">All time</option>
+            </select>
+
+          </div>
         </div>
-        <div class="title-bar__right">
 
-          <button class="btn btn--primary" @click.prevent="modalStore.openModal('capture-data-point')">
-            <i class="fa-sharp fa-regular fa-plus"></i>
-            <span>Data point</span>
-          </button>
-
-          <select class="time-period">
-            <option value="0">24 hours</option>
-            <option value="0">3 days</option>
-            <option value="0">7 days</option>
-            <option value="0" selected>30 days</option>
-            <option value="0">60 days</option>
-            <option value="0">90 days</option>
-            <option value="0">2023</option>
-            <option value="0">All time</option>
-          </select>
-
+        <!-- Chart & Next Goal -->
+        <div class="chart-row">
+          <chart/>
+          <goalBox/>
         </div>
+
+        <!-- Tabbed Section -->
+        <div class="tabs">
+          <button class="tab tab--active"><i class="fa-sharp fa-solid fa-list-timeline"></i> Recent Activity</button>
+          <button class="tab"><i class="fa-sharp fa-regular fa-table-rows"></i> Manage Data</button>
+          <button class="tab"><i class="fa-sharp fa-solid fa-chart-line"></i> Chart Settings</button>
+        </div>
+
+        <div style="background-color: var(--lighter); width: 100%; height: 800px; border-radius: 5px;">
+          <p v-for="dataPoint in appDataStore.activeTracker.recentDataPoints">{{ dataPoint.createdAt }} =>
+            {{ dataPoint.value }}</p>
+        </div>
+
       </div>
+    </main>
 
-      <!-- Chart & Next Goal -->
-      <div class="chart-row">
-        <chart/>
-        <goalBox/>
-      </div>
+    <!-- New Progress Tracker Modal -->
+    <modalManager v-if="modalStore.activeModal"/>
 
-      <!-- Tabbed Section -->
-      <div class="tabs">
-        <button class="tab tab--active"><i class="fa-sharp fa-solid fa-list-timeline"></i> Recent Activity</button>
-        <button class="tab"><i class="fa-sharp fa-regular fa-table-rows"></i> Manage Data</button>
-        <button class="tab"><i class="fa-sharp fa-solid fa-chart-line"></i> Chart Settings</button>
-      </div>
-
-      <div style="background-color: var(--lighter); width: 100%; height: 800px; border-radius: 5px;">
-        <p v-for="dataPoint in collectionsStore.activeTracker.recentDataPoints">{{dataPoint.createdAt}} => {{dataPoint.value}}</p>
-      </div>
-
-    </div>
-  </main>
-
-  <!-- New Progress Tracker Modal -->
-  <modalManager v-if="modalStore.activeModal" />
+  </section>
 
 </template>
 
 <script setup>
 
-import {ref, onMounted} from 'vue';
+import {ref, onMounted, computed} from 'vue';
 import chart from "./components/chart.vue";
 import OsTitleBar from "./components/layout/osTitleBar.vue";
 import NavigationPanel from "./components/layout/navigationPanel.vue";
 import GoalBox from "./components/goalBox.vue";
-import {useCollectionsStore} from "./stores/collections";
+import {useAppDataStore} from "./stores/appData";
 import {useModalStore} from "./stores/modal";
 import ModalManager from "./components/layout/modalManager.vue";
 
@@ -98,10 +105,40 @@ onMounted(async () => {
   systemInformation.value = await window["electronAPI"].getSystemInformation();
 });
 
-const collectionsStore = useCollectionsStore();
+const appDataStore = useAppDataStore();
 const modalStore = useModalStore();
 
-
+const rootStyles = computed(() => {
+  if (appDataStore.darkMode) {
+    return {
+      '--primary': '#59DEC3',
+      '--heading': '#EFEFEF',
+      '--black': '#EFEFEF',
+      '--darker': '#91A4CB',
+      '--dark': '#6D82AB',
+      '--medium': '#243351',
+      '--light': '#18243B',
+      '--lighter': '#101828',
+      '--white': '#0C131F',
+      '--success': '#68c026',
+      '--success-light': '#D7FAC0',
+    };
+  } else {
+    return {
+      '--primary': '#59DEC3',
+      '--heading': '#060a10',
+      '--black': '#060a10',
+      '--darker': '#475467',
+      '--dark': '#9AB2D4',
+      '--medium': '#E1E6F5',
+      '--light': '#EEF2FD',
+      '--lighter': '#F7F9FF',
+      '--white': '#FFFFFF',
+      '--success': '#68c026',
+      '--success-light': '#D7FAC0',
+    };
+  }
+});
 
 </script>
 
@@ -174,6 +211,7 @@ h1 {
   scroll-snap-type: y proximity;
   scrollbar-color: var(--medium);
   scrollbar-width: thin;
+  background-color: var(--white);
 
   &::-webkit-scrollbar {
     width: 8px;
@@ -251,9 +289,8 @@ h1 {
   right: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(190, 195, 205, 0.8);
   z-index: 9000;
-  backdrop-filter: blur(3px);
+  backdrop-filter: blur(8px) brightness(0.4) contrast(0.7);
 }
 
 .title-bar {
@@ -313,6 +350,7 @@ select, input {
   outline: none;
   min-width: 180px;
   font-weight: 500;
+  background-color: var(--white);
 
   &:focus {
     box-shadow: var(--medium) 0 0 0 2px;
@@ -452,6 +490,7 @@ label {
 
   .modal__body {
     padding: 25px;
+    color: var(--heading);
   }
 }
 

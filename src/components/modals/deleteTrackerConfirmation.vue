@@ -5,7 +5,7 @@
 
     <div class="modal__body">
 
-      <p>Are you sure you want to delete <strong>"{{collectionsStore.activeTracker.label}}"</strong>? <br><br>Deleting this progress tracker will remove all associated data permanently.</p>
+      <p>Are you sure you want to delete <strong>"{{appDataStore.activeTracker.label}}"</strong>? <br><br>Deleting this progress tracker will remove all associated data permanently.</p>
 
     </div>
 
@@ -23,16 +23,16 @@
 <script setup>
 
 import {useModalStore} from "../../stores/modal";
-import {useCollectionsStore} from "../../stores/collections";
+import {useAppDataStore} from "../../stores/appData";
 
 const modalStore = useModalStore();
-const collectionsStore = useCollectionsStore();
+const appDataStore = useAppDataStore();
 
 /**
  * Deletes the tracker and closes the modal
  */
 const deleteTracker = () => {
-  collectionsStore.activeCollection.deleteTracker(collectionsStore.activeTracker);
+  appDataStore.activeCollection.deleteTracker(appDataStore.activeTracker);
   modalStore.closeModal();
 };
 

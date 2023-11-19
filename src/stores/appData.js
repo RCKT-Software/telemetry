@@ -39,7 +39,7 @@ const sampleCollections = [
     })
 ];
 
-export const useCollectionsStore = defineStore('collections', () => {
+export const useAppDataStore = defineStore('appData', () => {
 
     /**
      * List of all collections
@@ -79,5 +79,10 @@ export const useCollectionsStore = defineStore('collections', () => {
         return activeTracker.value ? activeTracker.value.activeGoal : null;
     });
 
-    return {collections, activeCollection, activeId, activeTracker, activeGoal}
+    /**
+     * A flag indicating whether the app is in dark mode
+     */
+    const darkMode = ref(false);
+
+    return {collections, activeCollection, activeId, activeTracker, activeGoal, darkMode};
 })

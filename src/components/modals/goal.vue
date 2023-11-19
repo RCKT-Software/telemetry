@@ -4,7 +4,7 @@
   <div class="modal">
     <div class="modal__header">
       <i class="fa-sharp fa-solid fa-flag modal__header-icon"></i>
-      <h1 class="modal__header-title">Set a goal for "<strong>{{collectionsStore.activeTracker.label}}</strong>"</h1>
+      <h1 class="modal__header-title">Set a goal for "<strong>{{appDataStore.activeTracker.label}}</strong>"</h1>
       <span class="modal__header-details">What do you want to accomplish?</span>
     </div>
 
@@ -12,7 +12,7 @@
 
         <div class="input-group">
           <label>Goal</label>
-          <input type="text" :placeholder="'Ex: ' + collectionsStore.activeTracker.currentValue" v-model="goalConfig.targetValue">
+          <input type="text" :placeholder="'Ex: ' + appDataStore.activeTracker.currentValue" v-model="goalConfig.targetValue">
         </div>
 
     </div>
@@ -32,10 +32,10 @@
 
 import {useModalStore} from "../../stores/modal";
 import {ref} from "vue";
-import {useCollectionsStore} from "../../stores/collections";
+import {useAppDataStore} from "../../stores/appData";
 
 const modalStore = useModalStore();
-const collectionsStore = useCollectionsStore();
+const appDataStore = useAppDataStore();
 
 /**
  * Define the configuration for the new goal
@@ -48,7 +48,7 @@ const goalConfig = ref({
  * Adds the goal to the active tracker and closes the modal
  */
 const addGoal = () => {
-  collectionsStore.activeTracker.addGoal(goalConfig.value);
+  appDataStore.activeTracker.addGoal(goalConfig.value);
   modalStore.closeModal();
 };
 

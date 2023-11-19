@@ -3,14 +3,14 @@
   <!-- Modal Window-->
   <div class="modal">
     <div class="modal__header">
-      <h1 class="modal__header-title">Add Data for <strong>"{{ collectionsStore.activeTracker.label }}"</strong></h1>
+      <h1 class="modal__header-title">Add Data for <strong>"{{ appDataStore.activeTracker.label }}"</strong></h1>
     </div>
 
     <div class="modal__body">
 
       <div class="input-group">
         <label>Updated value</label>
-        <input type="text" :placeholder="'Ex: ' + collectionsStore.activeTracker.formattedCurrentValue"
+        <input type="text" :placeholder="'Ex: ' + appDataStore.activeTracker.formattedCurrentValue"
                v-model="captureConfig.datapoint">
       </div>
 
@@ -31,10 +31,10 @@
 
 import {useModalStore} from "../../stores/modal";
 import {ref} from "vue";
-import {useCollectionsStore} from "../../stores/collections";
+import {useAppDataStore} from "../../stores/appData";
 
 const modalStore = useModalStore();
-const collectionsStore = useCollectionsStore();
+const appDataStore = useAppDataStore();
 
 /**
  * Define the data point payload to be captured
@@ -47,7 +47,7 @@ const captureConfig = ref({
  * Captures the data point and closes the modal
  */
 const captureDataPoint = () => {
-  collectionsStore.activeTracker.captureDataPoint(captureConfig.value);
+  appDataStore.activeTracker.captureDataPoint(captureConfig.value);
   modalStore.closeModal();
 };
 

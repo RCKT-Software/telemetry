@@ -9,12 +9,12 @@
 import {onBeforeUnmount, onMounted, watch} from "vue";
 import Chart from 'chart.js/auto'
 import 'chartjs-adapter-moment';
-import {useCollectionsStore} from "../stores/collections";
+import {useAppDataStore} from "../stores/appData";
 
 /* Keep a record of the chart for mounting/unmounting */
 let chart;
 
-const collectionsStore = useCollectionsStore();
+const appDataStore = useAppDataStore();
 
 /**
  * Creates the chart with the latest data.
@@ -66,16 +66,16 @@ const createChart = async () => {
           aspectRatio: 2.07,
         },
         data: {
-          labels: collectionsStore.activeTracker.chartData.labels,
+          labels: appDataStore.activeTracker.chartData.labels,
           datasets: [
             {
-              data: collectionsStore.activeTracker.chartData.data,
+              data: appDataStore.activeTracker.chartData.data,
               fill: {
                 target: 'start',
-                above: collectionsStore.activeCollection.transparentColor,
+                above: appDataStore.activeCollection.transparentColor,
               },
               pointStyle: false,
-              borderColor: collectionsStore.activeCollection.color,
+              borderColor: appDataStore.activeCollection.color,
             }
           ]
         }
@@ -94,7 +94,7 @@ onMounted(async () => {
  * Re-draw the chart when the active collection changes, or any data within it.
  */
 watch(
-    () => collectionsStore.activeCollection,
+    () => appDataStore.activeCollection,
     () => {
       createChart();
     },

@@ -54,10 +54,10 @@
 import ExpandedSelect from "../input/expandedSelect.vue";
 import {useModalStore} from "../../stores/modal";
 import {ref} from "vue";
-import {useCollectionsStore} from "../../stores/collections";
+import {useAppDataStore} from "../../stores/appData";
 
 const modalStore = useModalStore();
-const collectionsStore = useCollectionsStore();
+const appDataStore = useAppDataStore();
 
 /**
  * Define the configuration for the new tracker
@@ -73,7 +73,7 @@ const trackerConfig = ref({
  * Adds the tracker to the active collection and closes the modal
  */
 const addTracker = () => {
-  collectionsStore.activeCollection.addTracker(trackerConfig.value);
+  appDataStore.activeCollection.addTracker(trackerConfig.value);
   modalStore.closeModal();
 };
 

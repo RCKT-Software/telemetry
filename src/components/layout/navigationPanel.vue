@@ -22,9 +22,9 @@
     </div>
     <ul class="metric-nav" v-if="showTrackers">
       <li class="tracker-nav-item"
-          :class="{'tracker-nav-item--active': tracker.id === collectionsStore.activeTracker.id}"
-          v-for="tracker in collectionsStore.activeCollection.trackers"
-          @click.prevent="collectionsStore.activeCollection.setActiveTracker(tracker)">
+          :class="{'tracker-nav-item--active': tracker.id === appDataStore.activeTracker.id}"
+          v-for="tracker in appDataStore.activeCollection.trackers"
+          @click.prevent="appDataStore.activeCollection.setActiveTracker(tracker)">
         <span class="tracker-nav-item__label">{{ tracker.label }}</span>
         <span class="tracker-nav-item__records">{{ tracker.formattedCurrentValue }}</span>
       </li>
@@ -62,8 +62,16 @@
     <!-- Bottom Divider -->
     <div class="divider divider__bottom"/>
 
+    <!-- Dark Mode Toggle -->
+    <div class="dark-mode-toggle" @click.prevent="toggleDarkMode">
+      <i class="fa-sharp fa-solid fa-moon" title="Toggle dark mode"
+         v-if="appDataStore.darkMode"></i>
+      <i class="fa-sharp fa-regular fa-sun-bright" title="Toggle dark mode"
+         v-if="!appDataStore.darkMode"></i>
+    </div>
+
     <!-- Version Number -->
-    <span class="version-number">{{ systemInformation.uuid }} / v{{ systemInformation.version }}</span>
+    <span class="version-number">v{{ systemInformation.version }}</span>
 
   </aside>
 </template>
@@ -72,7 +80,7 @@
 
 import CollectionSelector from "../collectionSelector.vue";
 import {onMounted, ref} from "vue";
-import {useCollectionsStore} from "../../stores/collections";
+import {useAppDataStore} from "../../stores/appData";
 import {useModalStore} from "../../stores/modal";
 
 const systemInformation = ref({
@@ -90,7 +98,7 @@ onMounted(async () => {
   systemInformation.value = await window["electronAPI"].getSystemInformation();
 });
 
-const collectionsStore = useCollectionsStore();
+const appDataStore = useAppDataStore();
 const modalStore = useModalStore();
 
 /**
@@ -99,6 +107,14 @@ const modalStore = useModalStore();
  */
 const openLink = (url) => {
   window.electronAPI.openLink(url);
+}
+
+/**
+ * Allows the UI to toggle dark mode
+ * @returns {Promise<void>}
+ */
+const toggleDarkMode = async () => {
+  appDataStore.darkMode = !appDataStore.darkMode;
 }
 
 </script>
@@ -288,6 +304,33 @@ const openLink = (url) => {
 
     &:hover {
       color: var(--black);
+    }
+  }
+}
+
+.dark-mode-toggle {
+  display: flex;
+  width: 40px;
+  height: 35px;
+  border-radius: 5px;
+  background-color: var(--light);
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  position: absolute;
+  bottom: 20px;
+  left: 25px;
+
+  i {
+    font-size: 16px;
+    color: var(--dark);
+    cursor: pointer;
+  }
+
+  &:hover{
+
+    i{
+      color: var(--darker);
     }
   }
 }

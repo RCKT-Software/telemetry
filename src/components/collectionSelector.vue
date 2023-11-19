@@ -1,13 +1,13 @@
 <template>
 
   <!-- Collection Selector Popup -->
-  <Teleport to="body">
+  <Teleport to="#top-level" v-if="bodyIsMounted">
 
     <div class="collection-selector-popup" v-if="displayCollectionSelector">
 
       <!-- Collection Item -->
-      <div class="collection-item" @click.prevent="setActiveCollection(collection)" v-for="collection in collectionsStore.collections">
-        <span class="value-tag" style="margin-left: 6px" v-if="collectionsStore.activeId === collection.id">Selected</span>
+      <div class="collection-item" @click.prevent="setActiveCollection(collection)" v-for="collection in appDataStore.collections">
+        <span class="value-tag" style="margin-left: 6px" v-if="appDataStore.activeId === collection.id">Selected</span>
         <div class="collection-item__icon" :style="{'backgroundColor': collection.color}">
           <h1>{{collection.abbreviation}}</h1>
         </div>
@@ -38,12 +38,12 @@
   <!-- Collection Selector -->
   <div class="collection-selector" @click.prevent="toggleDisplayCollectionSelector">
     <div class="collection-item">
-      <div class="collection-item__icon" :style="{'backgroundColor': collectionsStore.activeCollection.color}">
-        <h1>{{collectionsStore.activeCollection.abbreviation}}</h1>
+      <div class="collection-item__icon" :style="{'backgroundColor': appDataStore.activeCollection.color}">
+        <h1>{{appDataStore.activeCollection.abbreviation}}</h1>
       </div>
       <div class="collection-item__meta">
         <div class="collection-item__meta__name">
-          <span>{{collectionsStore.activeCollection.label}}</span>
+          <span>{{appDataStore.activeCollection.label}}</span>
         </div>
         <div class="collection-item__meta__count">
           <span>0 upcoming goals</span>
@@ -59,8 +59,8 @@
 
 <script setup>
 
-import {ref} from "vue";
-import {useCollectionsStore} from "../stores/collections";
+import {nextTick, onMounted, ref} from "vue";
+import {useAppDataStore} from "../stores/appData";
 
 const displayCollectionSelector = ref(false);
 
@@ -68,16 +68,24 @@ const toggleDisplayCollectionSelector = () => {
   displayCollectionSelector.value = !displayCollectionSelector.value;
 };
 
-const collectionsStore = useCollectionsStore();
+const appDataStore = useAppDataStore();
 
 /**
  * Sets the active collection
  * @param collection
  */
 const setActiveCollection = (collection) => {
-  collectionsStore.activeId = collection.id;
+  appDataStore.activeId = collection.id;
   toggleDisplayCollectionSelector();
 };
+
+/**
+ * Ensure we can teleport to parent element
+ */
+const bodyIsMounted = ref(false);
+nextTick(() => {
+  bodyIsMounted.value = true;
+});
 
 </script>
 

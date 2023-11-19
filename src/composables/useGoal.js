@@ -2,7 +2,7 @@ import {computed, ref} from "vue";
 import { v4 as uuidv4 } from 'uuid';
 import Sugar from 'sugar';
 import {formatValue} from "../utility/helpers";
-import {useCollectionsStore} from "../stores/collections";
+import {useAppDataStore} from "../stores/appData";
 Sugar.extend();
 
 export function useGoal(config = {
@@ -46,7 +46,7 @@ export function useGoal(config = {
      * The formatted version of the target value
      */
     const formattedTargetValue = computed(() => {
-        return formatValue(targetValue.value, useCollectionsStore().activeTracker.numberFormat);
+        return formatValue(targetValue.value, useAppDataStore().activeTracker.numberFormat);
     });
 
     /**

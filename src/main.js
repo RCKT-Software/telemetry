@@ -4,7 +4,7 @@ import App from './App.vue';
 import {createPinia} from 'pinia';
 
 // Import state management for application data
-import {useCollectionsStore} from "./stores/collections";
+import {useAppDataStore} from "./stores/appData";
 
 // Import composables (reusable composition functions) related to collections and tracker functionality
 import {useCollection} from "./composables/useCollection";
@@ -25,7 +25,7 @@ if (window.electronAPI) {
     // Use the Electron API to hydrate the store with data from the Electron layer
     window.electronAPI.hydrateStore((data) => {
         // Obtain an instance of the collections store
-        const collectionsStore = useCollectionsStore();
+        const appDataStore = useAppDataStore();
 
         // Parse the hydrated data received from Electron
         const hydratedData = JSON.parse(data);
@@ -49,11 +49,11 @@ if (window.electronAPI) {
 
         // Apply the hydrated data to the collections store
         if (hydratedData.collections.length > 0) {
-            collectionsStore.$patch(hydratedData);
+            appDataStore.$patch(hydratedData);
         }
 
         // Subscribe to changes in the collections store to persist state changes back to Electron
-        collectionsStore.$subscribe((mutation, state) => {
+        appDataStore.$subscribe((mutation, state) => {
             // Serialize the state for storage, converting collections to their serialized form
             const serializedData = {
                 ...state,
