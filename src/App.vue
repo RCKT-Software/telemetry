@@ -23,7 +23,7 @@
             </h1>
             <div class="quick-stats">
               <div class="quick-stats__statistic">
-                <i class="fa-sharp fa-regular fa-database"></i> <span>0 data points</span>
+                <i class="fa-sharp fa-regular fa-database"></i> <span>{{appDataStore.activeTracker.recentDataPoints.length}} data points</span>
               </div>
               <div class="quick-stats__statistic">
                 <i class="fa-sharp fa-regular fa-clock-rotate-left"></i>
