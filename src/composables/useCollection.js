@@ -84,6 +84,15 @@ export function useCollection(config = {
     });
 
     /**
+     * The total number of goals across all trackers in the collection
+     */
+    const goalCount = computed(() => {
+        return trackers.value.reduce((accumulator, tracker) => {
+            return accumulator + tracker.goals.length;
+        }, 0);
+    });
+
+    /**
      * Sets the active tracker
      * @param tracker
      */
@@ -112,5 +121,5 @@ export function useCollection(config = {
         }
     }
 
-    return {id, label, abbreviation, color, transparentColor, trackers, activeTracker, deleteTracker, setActiveTracker, addTracker, serializeState};
+    return {id, label, abbreviation, color, transparentColor, trackers, activeTracker, goalCount, deleteTracker, setActiveTracker, addTracker, serializeState};
 }

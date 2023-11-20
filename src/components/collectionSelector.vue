@@ -16,7 +16,7 @@
             <span>{{collection.label}}</span>
           </div>
           <div class="collection-item__meta__count">
-            <span>0 upcoming goals</span>
+            <span>{{collection.trackers.length}} trackers, {{collection.goalCount}} goals</span>
           </div>
         </div>
         <div class="collection-item__shortcut-indicator">
@@ -46,7 +46,7 @@
           <span>{{appDataStore.activeCollection.label}}</span>
         </div>
         <div class="collection-item__meta__count">
-          <span>0 upcoming goals</span>
+          <span>{{appDataStore.activeCollection.trackers.length}} trackers, {{appDataStore.activeCollection.goalCount}} goals</span>
         </div>
       </div>
       <div class="collection-item__shortcut-indicator">
