@@ -60,15 +60,17 @@
         </div>
 
         <!-- Tabbed Section -->
-        <div class="tabs">
-          <button class="tab tab--active"><i class="fa-sharp fa-solid fa-list-timeline"></i> Recent Activity</button>
-          <button class="tab"><i class="fa-sharp fa-regular fa-table-rows"></i> Manage Data</button>
-          <button class="tab"><i class="fa-sharp fa-solid fa-chart-line"></i> Chart Settings</button>
-        </div>
+        <div class="tab-section">
+          <div class="tabs">
+            <button class="tab tab--active"><i class="fa-sharp fa-solid fa-list-timeline"></i> Recent Activity</button>
+            <button class="tab"><i class="fa-sharp fa-regular fa-table-rows"></i> Manage Data</button>
+            <button class="tab"><i class="fa-sharp fa-solid fa-chart-line"></i> Chart Settings</button>
+          </div>
 
-        <div style="background-color: var(--lighter); width: 100%; height: 800px; border-radius: 5px;">
-          <p v-for="dataPoint in appDataStore.activeTracker.recentDataPoints">{{ dataPoint.createdAt }} =>
-            {{ dataPoint.value }}</p>
+          <div style="background-color: var(--lighter); width: 100%; height: 800px; border-radius: 5px; padding: 20px">
+            <p v-for="dataPoint in appDataStore.activeTracker.recentDataPoints">{{ dataPoint.createdAt }} =>
+              {{ dataPoint.value }}</p>
+          </div>
         </div>
 
       </div>
@@ -503,6 +505,10 @@ label {
   flex-wrap: nowrap;
   background-color: var(--lighter);
   border-radius: 0 0 8px 8px;
+}
+
+.tab-section{
+  padding: 0 30px;
 }
 
 </style>
