@@ -41,9 +41,9 @@
       <!--      <li class="secondary-nav__item">
               Trash
             </li>-->
-      <li class="secondary-nav__item">
-        Support
-      </li>
+      <!--      <li class="secondary-nav__item">
+              Support
+            </li>-->
       <li class="secondary-nav__item">
         <a href="#"
            @click.prevent="openLink('https://github.com/RCKT-Software/telemetry/issues')"
@@ -154,7 +154,7 @@ const toggleDarkMode = async () => {
 
     &.divider__middle {
       position: absolute;
-      bottom: 160px;
+      bottom: 135px;
     }
 
     &.divider__bottom {
@@ -327,9 +327,9 @@ const toggleDarkMode = async () => {
     cursor: pointer;
   }
 
-  &:hover{
+  &:hover {
 
-    i{
+    i {
       color: var(--darker);
     }
   }
