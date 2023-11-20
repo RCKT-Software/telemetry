@@ -1,6 +1,6 @@
 <template>
   <!-- Navigation Panel -->
-  <aside id="menu">
+  <aside id="menu" :class="{'menu--active': interfaceStore.isResponsive ? interfaceStore.responsiveNavigationOpen : interfaceStore.navigationOpen}">
 
     <collectionSelector/>
 
@@ -82,6 +82,7 @@ import CollectionSelector from "../collectionSelector.vue";
 import {onMounted, ref} from "vue";
 import {useAppDataStore} from "../../stores/appData";
 import {useModalStore} from "../../stores/modal";
+import {useInterfaceStore} from "../../stores/interface";
 
 const systemInformation = ref({
   version: null,
@@ -100,6 +101,7 @@ onMounted(async () => {
 
 const appDataStore = useAppDataStore();
 const modalStore = useModalStore();
+const interfaceStore = useInterfaceStore();
 
 /**
  * Open an external link in the default browser
@@ -130,7 +132,13 @@ const toggleDarkMode = async () => {
   width: 340px;
   border-right: 1px solid var(--light);
   z-index: 8000;
-  transition: transform 0.2s ease-in-out;
+  transition: transform 0.1s ease-in-out;
+  transform: translateX(-100%) translateZ(0);
+
+  &.menu--active{
+    transition: transform 0.2s ease-in-out;
+    transform: none;
+  }
 
   @media (max-width: 1481px) {
     transition: none;

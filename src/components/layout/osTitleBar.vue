@@ -1,7 +1,7 @@
 <template>
   <div class="titlebar-controls">
     <div class="titlebar-controls__left">
-      <div class="titlebar-controls-menu" id="menu-toggle">
+      <div class="titlebar-controls-menu" id="menu-toggle" @click.prevent="toggleNavigation">
         <i class="fa-light fa-bars"></i>
       </div>
       <h1>Telemetry</h1>
@@ -22,6 +22,8 @@
 
 <script setup>
 
+import {useInterfaceStore} from "../../stores/interface";
+
 const minimizeApp = () => {
   window["electronAPI"].minimizeApp();
 }
@@ -32,6 +34,25 @@ const maximizeApp = () => {
 
 const closeApp = () => {
   window["electronAPI"].closeApp();
+}
+
+const interfaceStore = useInterfaceStore();
+
+/**
+ * Toggles the left-side navigation menu
+ */
+const toggleNavigation = () => {
+  if (interfaceStore.isResponsive) {
+    interfaceStore.responsiveNavigationOpen = !interfaceStore.responsiveNavigationOpen;
+    if(interfaceStore.responsiveNavigationOpen) {
+      interfaceStore.navigationOpen = true;
+    }
+  } else {
+    interfaceStore.navigationOpen = !interfaceStore.navigationOpen;
+    if(!interfaceStore.navigationOpen) {
+      interfaceStore.responsiveNavigationOpen = false;
+    }
+  }
 }
 
 </script>

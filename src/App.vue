@@ -10,7 +10,7 @@
     <navigationPanel/>
 
     <!-- Main Content -->
-    <main id="main">
+    <main id="main" :class="{'hide-navigation': !interfaceStore.navigationOpen}">
       <div class="center-content">
 
         <div class="title-bar">
@@ -93,6 +93,7 @@ import GoalBox from "./components/goalBox.vue";
 import {useAppDataStore} from "./stores/appData";
 import {useModalStore} from "./stores/modal";
 import ModalManager from "./components/layout/modalManager.vue";
+import {useInterfaceStore} from "./stores/interface";
 
 const systemInformation = ref({
   version: null,
@@ -109,6 +110,7 @@ onMounted(async () => {
 
 const appDataStore = useAppDataStore();
 const modalStore = useModalStore();
+const interfaceStore = useInterfaceStore();
 
 const rootStyles = computed(() => {
   if (appDataStore.darkMode) {
@@ -214,6 +216,11 @@ h1 {
   scrollbar-color: var(--medium);
   scrollbar-width: thin;
   background-color: var(--white);
+
+  &.hide-navigation{
+    width: 100vw;
+    margin: 0 auto;
+  }
 
   &::-webkit-scrollbar {
     width: 8px;
