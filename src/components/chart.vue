@@ -94,6 +94,7 @@ const createChart = async () => {
             {
               data: appDataStore.activeTracker.chartRegressionData,
               fill: false,
+              pointStyle: false,
               borderColor: getCSSVariable('--darker'),
               lineTension: 0,
             }
