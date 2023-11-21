@@ -16,14 +16,15 @@
         <div class="title-bar">
           <div class="title-bar__left">
 
-            <h1 style="margin-bottom:10px">{{ appDataStore.activeTracker.label }} <span class="value-tag"
+            <h1 style="margin-bottom: 10px"><span class="tracker-title">{{ appDataStore.activeTracker.label }}</span> <span class="value-tag"
                                                                                         style="margin-left: 6px">{{
                 appDataStore.activeTracker.formattedCurrentValue
               }}</span>
             </h1>
             <div class="quick-stats">
               <div class="quick-stats__statistic">
-                <i class="fa-sharp fa-regular fa-database"></i> <span>{{appDataStore.activeTracker.recentDataPoints.length}} data points</span>
+                <i class="fa-sharp fa-regular fa-database"></i>
+                <span>{{ appDataStore.activeTracker.recentDataPoints.length }} data points</span>
               </div>
               <div class="quick-stats__statistic">
                 <i class="fa-sharp fa-regular fa-clock-rotate-left"></i>
@@ -62,14 +63,18 @@
         <!-- Tabbed Section -->
         <div class="tab-section">
           <div class="tabs">
-            <button class="tab tab--active"><i class="fa-sharp fa-solid fa-list-timeline"></i> Recent Activity</button>
-            <button class="tab"><i class="fa-sharp fa-regular fa-table-rows"></i> Manage Data</button>
-            <button class="tab"><i class="fa-sharp fa-solid fa-chart-line"></i> Chart Settings</button>
+            <!--            <button class="tab tab&#45;&#45;active"><i class="fa-sharp fa-solid fa-list-timeline"></i> Analytics</button>-->
+            <button class="tab"><i class="fa-sharp fa-regular fa-table-rows"></i> Data</button>
+            <button class="tab"><i class="fa-sharp fa-solid fa-gear"></i> Settings</button>
+            <!--            <button class="tab"><i class="fa-sharp fa-solid fa-chart-line"></i> Chart Settings</button>-->
           </div>
 
           <div style="background-color: var(--lighter); width: 100%; height: 800px; border-radius: 5px; padding: 20px">
-            <p style="margin-bottom: 10px; display: block; font-weight: bold">{{appDataStore.activeTracker.regressionData.calculation.string}}</p>
-            <p style="margin-bottom: 10px; display: block; font-weight: bold">{{ Math.floor(appDataStore.activeTracker.regressionData.calculation.r2 * 100)}}% regression model fit using {{appDataStore.activeTracker.regressionData.name}}.</p>
+            <p style="margin-bottom: 10px; display: block; font-weight: bold">
+              {{ appDataStore.activeTracker.regressionData.calculation.string }}</p>
+            <p style="margin-bottom: 10px; display: block; font-weight: bold">
+              {{ Math.floor(appDataStore.activeTracker.regressionData.calculation.r2 * 100) }}% regression model fit
+              using {{ appDataStore.activeTracker.regressionData.name }}.</p>
             <p v-for="dataPoint in appDataStore.activeTracker.recentDataPoints">{{ dataPoint.createdAt }} =>
               {{ dataPoint.value }}</p>
           </div>
@@ -219,7 +224,7 @@ h1 {
   scrollbar-width: thin;
   background-color: var(--white);
 
-  &.hide-navigation{
+  &.hide-navigation {
     width: 100vw;
     margin: 0 auto;
   }
@@ -516,8 +521,18 @@ label {
   border-radius: 0 0 8px 8px;
 }
 
-.tab-section{
+.tab-section {
   padding: 0 30px;
+}
+
+.tracker-title{
+  border-bottom: 1px solid transparent;
+  padding-bottom: 2px;
+
+  &:hover{
+    border-bottom: 1px dotted var(--dark);
+    cursor: pointer;
+  }
 }
 
 </style>
