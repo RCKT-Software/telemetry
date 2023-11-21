@@ -266,7 +266,7 @@ h1 {
   .quick-stats__statistic {
 
     i {
-      margin-right: 3px;
+      margin-right: 6px;
     }
 
     span {
@@ -526,11 +526,11 @@ label {
 }
 
 .tracker-title{
-  border-bottom: 1px solid transparent;
+  border-bottom: 2px solid transparent;
   padding-bottom: 2px;
 
   &:hover{
-    border-bottom: 1px dotted var(--dark);
+    border-bottom: 2px dotted var(--dark);
     cursor: pointer;
   }
 }

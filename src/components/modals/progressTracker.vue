@@ -26,7 +26,7 @@
         </div>
       </div>
 
-      <div class="input-group">
+<!--      <div class="input-group">
         <label>Starting value <span>(optional)</span></label>
         <input type="text" placeholder="Ex: '$80,000'" v-model="trackerConfig.startingValue">
       </div>
@@ -34,7 +34,7 @@
       <div class="input-group">
         <label>Tracking mode</label>
         <expandedSelect />
-      </div>
+      </div>-->
 
     </div>
 
