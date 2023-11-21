@@ -124,22 +124,30 @@ const methods = {
 
         const run = ((len * sum[2]) - (sum[0] * sum[0]));
         const rise = ((len * sum[3]) - (sum[0] * sum[1]));
-        const gradient = run === 0 ? 0 : round(rise / run, options.precision);
-        const intercept = round((sum[1] / len) - ((gradient * sum[0]) / len), options.precision);
+        const slope = run === 0 ? 0 : round(rise / run, options.precision);
+        const intercept = round((sum[1] / len) - ((slope * sum[0]) / len), options.precision);
 
         const predict = x => ([
                 round(x, options.precision),
-                round((gradient * x) + intercept, options.precision)]
+                round((slope * x) + intercept, options.precision)]
         );
+
+        const predictX = y => {
+            if (slope === 0) {
+                return false;
+            }
+            return [round((y - intercept) / slope, options.precision), round(y, options.precision)];
+        };
 
         const points = data.map(point => predict(point[0]));
 
         return {
             points,
             predict,
-            equation: [gradient, intercept],
+            predictX,
+            equation: [slope, intercept],
             r2: round(determinationCoefficient(data, points), options.precision),
-            string: intercept === 0 ? `y = ${gradient}x` : `y = ${gradient}x + ${intercept}`,
+            string: intercept === 0 ? `y = ${slope}x` : `y = ${slope}x + ${intercept}`,
         };
     },
 
@@ -167,11 +175,14 @@ const methods = {
             round(coeffA * Math.exp(coeffB * x), options.precision),
         ]);
 
+        const predictX = y => false;
+
         const points = data.map(point => predict(point[0]));
 
         return {
             points,
             predict,
+            predictX,
             equation: [coeffA, coeffB],
             string: `y = ${coeffA}e^(${coeffB}x)`,
             r2: round(determinationCoefficient(data, points), options.precision),
@@ -200,11 +211,14 @@ const methods = {
             round(round(coeffA + (coeffB * Math.log(x)), options.precision), options.precision),
         ]);
 
+        const predictX = y => false;
+
         const points = data.map(point => predict(point[0]));
 
         return {
             points,
             predict,
+            predictX,
             equation: [coeffA, coeffB],
             string: `y = ${coeffA} + ${coeffB} ln(x)`,
             r2: round(determinationCoefficient(data, points), options.precision),
@@ -234,11 +248,14 @@ const methods = {
             round(round(coeffA * (x ** coeffB), options.precision), options.precision),
         ]);
 
+        const predictX = y => false;
+
         const points = data.map(point => predict(point[0]));
 
         return {
             points,
             predict,
+            predictX,
             equation: [coeffA, coeffB],
             string: `y = ${coeffA}x^${coeffB}`,
             r2: round(determinationCoefficient(data, points), options.precision),
@@ -287,6 +304,8 @@ const methods = {
             ),
         ]);
 
+        const predictX = y => false;
+
         const points = data.map(point => predict(point[0]));
 
         let string = 'y = ';
@@ -304,6 +323,7 @@ const methods = {
             string,
             points,
             predict,
+            predictX,
             equation: [...coefficients].reverse(),
             r2: round(determinationCoefficient(data, points), options.precision),
         };

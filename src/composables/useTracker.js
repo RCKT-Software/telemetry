@@ -175,9 +175,13 @@ export function useTracker(config = {
             for (let i = 1; i <= 7; i++) {
                 let predicted = regressionData.value.calculation.predict(new Date.create(`${i} days from now`).valueOf());
                 if (predicted) {
-                    points.push(predicted);
+                    //points.push(predicted);
                 }
             }
+        }
+        if(regressionData.value.calculation.predictX(parseFloat(activeGoal.value.targetValue))){
+            console.log(new Date(regressionData.value.calculation.predictX(parseFloat(activeGoal.value.targetValue))[0]).medium());
+            points.push([regressionData.value.calculation.predictX(parseFloat(activeGoal.value.targetValue))[0], parseFloat(activeGoal.value.targetValue)]);
         }
         return points;
     });
