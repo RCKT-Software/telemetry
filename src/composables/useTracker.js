@@ -3,6 +3,8 @@ import {v4 as uuidv4} from 'uuid';
 import Sugar from 'sugar';
 import {useGoal} from "./useGoal";
 import {formatValue} from "../utility/helpers";
+import regression from 'regression';
+import moment from "moment";
 
 Sugar.extend();
 
@@ -142,6 +144,31 @@ export function useTracker(config = {
         }
     });
 
+    /**
+     * Get the regression data for the given data points.
+     */
+    const regressionData = computed(() => {
+        const data = recentDataPoints.value.map((point) => [moment(point.createdAt).valueOf(), point.value]);
+        const linear = regression.linear(data, { precision: 20 });
+        const exponential = regression.exponential(data, { precision: 20 });
+        const logarithmic = regression.logarithmic(data, { precision: 20 });
+        const power = regression.power(data, { precision: 20 });
+        const polynomial = regression.polynomial(data, { precision: 20 });
+        const results = [
+            { name: 'linear', calculation: linear },
+            { name: 'exponential', calculation: exponential },
+            { name: 'logarithmic', calculation: logarithmic },
+            { name: 'power', calculation: power },
+            { name: 'polynomial', calculation: polynomial },
+        ];
+        results.sort((a, b) => b.calculation.r2 - a.calculation.r2);
+        return results[0];
+    });
+
+    const chartRegressionData = computed(() => {
+        return regressionData.value.calculation.points;
+    });
+
     // Update the tracker's data points upon initialization
     updateDataPoints();
 
@@ -161,6 +188,8 @@ export function useTracker(config = {
         captureDataPoint,
         updateDataPoints,
         chartData,
+        regressionData,
+        chartRegressionData,
         serializeState
     }
 }

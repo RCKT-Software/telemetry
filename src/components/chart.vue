@@ -90,6 +90,12 @@ const createChart = async () => {
               },
               pointStyle: false,
               borderColor: appDataStore.activeCollection.color,
+            },
+            {
+              data: appDataStore.activeTracker.chartRegressionData,
+              fill: false,
+              borderColor: 'rgba(75, 192, 192, 1)',
+              lineTension: 0,
             }
           ]
         }
