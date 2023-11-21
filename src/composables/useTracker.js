@@ -170,7 +170,16 @@ export function useTracker(config = {
     });
 
     const chartRegressionData = computed(() => {
-        return regressionData.value.calculation.points;
+        let points = regressionData.value.calculation.points;
+        if (activeGoal.value) {
+            for (let i = 1; i <= 7; i++) {
+                let predicted = regressionData.value.calculation.predict(new Date.create(`${i} days from now`).valueOf());
+                if (predicted) {
+                    points.push(predicted);
+                }
+            }
+        }
+        return points;
     });
 
     // Update the tracker's data points upon initialization
