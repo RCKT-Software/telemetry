@@ -149,13 +149,13 @@ export function useTracker(config = {
      */
     const regressionData = computed(() => {
         const data = recentDataPoints.value.map((point) => [moment(point.createdAt).valueOf(), point.value]);
-        const linear = regression.linear(data, { precision: 100 });
-        const exponential = regression.exponential(data, { precision: 100 });
-        const logarithmic = regression.logarithmic(data, { precision: 100 });
-        const power = regression.power(data, { precision: 100 });
-        const polynomial2 = regression.polynomial(data, { precision: 100, order: 2 });
-        const polynomial3 = regression.polynomial(data, { precision: 100, order: 3 });
-        const polynomial4 = regression.polynomial(data, { precision: 100, order: 4 });
+        const linear = regression.linear(data);
+        const exponential = regression.exponential(data);
+        const logarithmic = regression.logarithmic(data);
+        const power = regression.power(data);
+        const polynomial2 = regression.polynomial(data, { order: 2 });
+        const polynomial3 = regression.polynomial(data, { order: 3 });
+        const polynomial4 = regression.polynomial(data, { order: 4 });
         const results = [
             { name: 'linear', calculation: linear },
             { name: 'exponential', calculation: exponential },

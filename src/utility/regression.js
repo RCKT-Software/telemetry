@@ -85,18 +85,20 @@ function gaussianElimination(input, order) {
 }
 
 /**
- * Round a number to a precision, specificed in number of decimal places
+ * Round a number to a precision, specified in number of decimal places
  *
  * @param {number} number - The number to round
  * @param {number} precision - The number of decimal places to round to:
  *                             > 0 means decimals, < 0 means powers of 10
  *
  *
- * @return {numbr} - The number, rounded
+ * @return {number} - The number, rounded
  */
 function round(number, precision) {
-    const factor = 10 ** precision;
-    return Math.round(number * factor) / factor;
+    //const factor = 10 ** precision;
+   // return Math.round(number * factor) / factor;
+    // TODO: Only round output values, never during calculations.
+    return number;
 }
 
 /**
