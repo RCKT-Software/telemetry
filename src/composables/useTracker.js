@@ -3,7 +3,7 @@ import {v4 as uuidv4} from 'uuid';
 import Sugar from 'sugar';
 import {useGoal} from "./useGoal";
 import {formatValue} from "../utility/helpers";
-import regression from 'regression';
+import regression from '../utility/regression';
 import moment from "moment";
 
 Sugar.extend();
