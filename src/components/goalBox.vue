@@ -16,7 +16,7 @@
     </div>
     <div class="divider"/>
     <div class="goal-box__prediction-item">
-      <span class="goal-box__prediction-item-label">Predicted</span>
+      <span class="goal-box__prediction-item-label">Predicted ({{appDataStore.activeTracker.regressionData.name}})</span>
       <h1 class="goal-box__prediction-item-value">{{ appDataStore.activeGoal.formattedPredicted}}</h1>
     </div>
   </div>
