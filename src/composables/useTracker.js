@@ -103,7 +103,10 @@ export function useTracker(config = {
      * @param config
      */
     const addGoal = (config) => {
-        goals.value.push(useGoal(config));
+        goals.value.push(useGoal({
+            ...config,
+            trackerId: id
+        }));
     };
 
     /**
@@ -155,34 +158,33 @@ export function useTracker(config = {
         const power = regression.power(data);
         const polynomial2 = regression.polynomial(data, { order: 2 });
         const polynomial3 = regression.polynomial(data, { order: 3 });
-        const polynomial4 = regression.polynomial(data, { order: 4 });
         const results = [
             { name: 'linear', calculation: linear },
             { name: 'exponential', calculation: exponential },
             { name: 'logarithmic', calculation: logarithmic },
             { name: 'power', calculation: power },
             { name: 'polynomial (2)', calculation: polynomial2 },
-            { name: 'polynomial (3)', calculation: polynomial3 },
-            { name: 'polynomial (4)', calculation: polynomial4 },
+            { name: 'polynomial (3)', calculation: polynomial3 }
         ];
         results.sort((a, b) => b.calculation.r2 - a.calculation.r2);
         return results[0];
     });
 
     const chartRegressionData = computed(() => {
-        let points = regressionData.value.calculation.points;
+        //let points = regressionData.value.calculation.points;
+        let points = [regressionData.value.calculation.points[regressionData.value.calculation.points.length - 1]];
         if (activeGoal.value) {
             for (let i = 1; i <= 7; i++) {
                 let predicted = regressionData.value.calculation.predict(new Date.create(`${i} days from now`).valueOf());
                 if (predicted) {
-                    //points.push(predicted);
+                    points.push(predicted);
                 }
             }
         }
-        if(regressionData.value.calculation.predictX(parseFloat(activeGoal.value.targetValue))){
-            console.log(new Date(regressionData.value.calculation.predictX(parseFloat(activeGoal.value.targetValue))[0]).medium());
+        // TODO: Have each goal draw it's own point directly to the chart.
+        /*if(regressionData.value.calculation.predictX(parseFloat(activeGoal.value.targetValue))){
             points.push([regressionData.value.calculation.predictX(parseFloat(activeGoal.value.targetValue))[0], parseFloat(activeGoal.value.targetValue)]);
-        }
+        }*/
         return points;
     });
 

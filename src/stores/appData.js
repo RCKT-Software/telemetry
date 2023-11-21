@@ -73,6 +73,21 @@ export const useAppDataStore = defineStore('appData', () => {
     });
 
     /**
+     * Get a tracker by its ID
+     * @param id
+     * @returns {*|null}
+     */
+    const getTrackerById = (id) => {
+        for (let collection of collections.value) {
+            const tracker = collection.trackers.find(tracker => tracker.id === id);
+            if (tracker) {
+                return tracker;
+            }
+        }
+        return null;
+    }
+
+    /**
      * The currently selected goal (active)
      */
     const activeGoal = computed(() => {
@@ -84,5 +99,5 @@ export const useAppDataStore = defineStore('appData', () => {
      */
     const darkMode = ref(false);
 
-    return {collections, activeCollection, activeId, activeTracker, activeGoal, darkMode};
+    return {collections, activeCollection, activeId, activeTracker, activeGoal, darkMode, getTrackerById};
 })

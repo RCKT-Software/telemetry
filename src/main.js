@@ -39,7 +39,10 @@ if (window.electronAPI) {
                 // Convert each goal within the tracker into a goal instance
                 if (!trackerData.goals) trackerData.goals = [];
                 trackerData.goals = ref(trackerData.goals.map(goalData => {
-                    return useGoal(goalData);
+                    return useGoal({
+                        ...goalData,
+                        trackerId: trackerData.id
+                    });
                 }));
                 return useTracker(trackerData);
             }));

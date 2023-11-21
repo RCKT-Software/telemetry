@@ -37,6 +37,21 @@ function determinationCoefficient(data, results) {
     return 1 - (sse / ssyy);
 }
 
+// Newton-Raphson method for finding roots
+const newtonRaphson = (func, derivative, initialGuess) => {
+    let x = initialGuess;
+    let xPrev = 0;
+    let iteration = 0;
+    const maxIteration = 1000;
+    const precision = 1e7;
+    while (iteration <= maxIteration && Math.abs(x - xPrev) > precision) {
+        xPrev = x;
+        x = x - func(x) / derivative(x);
+        iteration++;
+    }
+    return (Math.abs(x - xPrev) > precision) || (maxIteration === iteration) ? false : x
+};
+
 /**
  * Determine the solution of a system of linear equations A * x = b using
  * Gaussian elimination.
@@ -175,7 +190,13 @@ const methods = {
             round(coeffA * Math.exp(coeffB * x), options.precision),
         ]);
 
-        const predictX = y => false;
+        const predictX = y => {
+            if (coeffA === 0) {
+                return false;
+            }
+            const x = Math.log(y / coeffA) / coeffB;
+            return [round(x, options.precision), round(y, options.precision)];
+        };
 
         const points = data.map(point => predict(point[0]));
 
@@ -211,7 +232,13 @@ const methods = {
             round(round(coeffA + (coeffB * Math.log(x)), options.precision), options.precision),
         ]);
 
-        const predictX = y => false;
+        const predictX = y => {
+            if (coeffA === 0) {
+                return false;
+            }
+            const x = Math.exp((y - coeffA) / coeffB);
+            return [round(x, options.precision), round(y, options.precision)];
+        };
 
         const points = data.map(point => predict(point[0]));
 
@@ -248,7 +275,15 @@ const methods = {
             round(round(coeffA * (x ** coeffB), options.precision), options.precision),
         ]);
 
-        const predictX = y => false;
+        const predictX = y => {
+            if (coeffA === 0 || coeffB === 0) {
+                return false;
+            }
+            if (y < 0 || coeffA < 0) {
+                return false;
+            }
+            return round(Math.pow(y / coeffA, 1 / coeffB), options.precision);
+        };
 
         const points = data.map(point => predict(point[0]));
 
@@ -304,7 +339,11 @@ const methods = {
             ),
         ]);
 
-        const predictX = y => false;
+        const predictX = y => {
+            const func = x => coefficients.reduce((sum, coeff, power) => sum + (coeff * (x ** power)), 0) - y;
+            const derivative = x => coefficients.reduce((sum, coeff, power) => sum + (power * coeff * (x ** (power - 1))), 0);
+            return [newtonRaphson(func, derivative, new Date()), round(y, options.precision)];
+        };
 
         const points = data.map(point => predict(point[0]));
 
