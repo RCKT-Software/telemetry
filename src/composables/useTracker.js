@@ -149,12 +149,13 @@ export function useTracker(config = {
      */
     const regressionData = computed(() => {
         const data = recentDataPoints.value.map((point) => [moment(point.createdAt).valueOf(), point.value]);
-        const linear = regression.linear(data, { precision: 50 });
-        const exponential = regression.exponential(data, { precision: 50 });
-        const logarithmic = regression.logarithmic(data, { precision: 50 });
-        const power = regression.power(data, { precision: 50 });
-        const polynomial2 = regression.polynomial(data, { precision: 50, order: 2 });
-        const polynomial3 = regression.polynomial(data, { precision: 50, order: 3 });
+        const linear = regression.linear(data, { precision: 100 });
+        const exponential = regression.exponential(data, { precision: 100 });
+        const logarithmic = regression.logarithmic(data, { precision: 100 });
+        const power = regression.power(data, { precision: 100 });
+        const polynomial2 = regression.polynomial(data, { precision: 100, order: 2 });
+        const polynomial3 = regression.polynomial(data, { precision: 100, order: 3 });
+        const polynomial4 = regression.polynomial(data, { precision: 100, order: 4 });
         const results = [
             { name: 'linear', calculation: linear },
             { name: 'exponential', calculation: exponential },
@@ -162,6 +163,7 @@ export function useTracker(config = {
             { name: 'power', calculation: power },
             { name: 'polynomial (2)', calculation: polynomial2 },
             { name: 'polynomial (3)', calculation: polynomial3 },
+            { name: 'polynomial (4)', calculation: polynomial4 },
         ];
         results.sort((a, b) => b.calculation.r2 - a.calculation.r2);
         return results[0];
