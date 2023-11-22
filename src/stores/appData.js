@@ -99,5 +99,15 @@ export const useAppDataStore = defineStore('appData', () => {
      */
     const darkMode = ref(false);
 
-    return {collections, activeCollection, activeId, activeTracker, activeGoal, darkMode, getTrackerById};
+    /**
+     * Adds a new collection of trackers/goals
+     * @param collection
+     */
+    const addCollection = (collection) => {
+        const newCollection = useCollection(collection);
+        collections.value.push(newCollection);
+        activeId.value = newCollection.id;
+    }
+
+    return {collections, activeCollection, activeId, activeTracker, activeGoal, darkMode, getTrackerById, addCollection};
 })

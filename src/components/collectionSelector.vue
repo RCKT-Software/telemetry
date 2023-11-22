@@ -6,17 +6,18 @@
     <div class="collection-selector-popup" v-if="displayCollectionSelector">
 
       <!-- Collection Item -->
-      <div class="collection-item" @click.prevent="setActiveCollection(collection)" v-for="collection in appDataStore.collections">
+      <div class="collection-item" @click.prevent="setActiveCollection(collection)"
+           v-for="collection in appDataStore.collections">
         <span class="value-tag" style="margin-left: 6px" v-if="appDataStore.activeId === collection.id">Selected</span>
         <div class="collection-item__icon" :style="{'backgroundColor': collection.color}">
-          <h1>{{collection.abbreviation}}</h1>
+          <h1>{{ collection.abbreviation }}</h1>
         </div>
         <div class="collection-item__meta">
           <div class="collection-item__meta__name">
-            <span>{{collection.label}}</span>
+            <span>{{ collection.label }}</span>
           </div>
           <div class="collection-item__meta__count">
-            <span>{{collection.trackers.length}} trackers, {{collection.goalCount}} goals</span>
+            <span>{{ collection.trackers.length }} trackers, {{ collection.goalCount }} goals</span>
           </div>
         </div>
         <div class="collection-item__shortcut-indicator">
@@ -25,7 +26,7 @@
       </div>
 
       <div class="collection-selector-popup__footer">
-        <button class="btn">+ New collection</button>
+        <button class="btn" @click.prevent="newCollection">+ New collection</button>
       </div>
 
     </div>
@@ -39,14 +40,14 @@
   <div class="collection-selector" @click.prevent="toggleDisplayCollectionSelector">
     <div class="collection-item">
       <div class="collection-item__icon" :style="{'backgroundColor': appDataStore.activeCollection.color}">
-        <h1>{{appDataStore.activeCollection.abbreviation}}</h1>
+        <h1>{{ appDataStore.activeCollection.abbreviation }}</h1>
       </div>
       <div class="collection-item__meta">
         <div class="collection-item__meta__name">
-          <span>{{appDataStore.activeCollection.label}}</span>
+          <span>{{ appDataStore.activeCollection.label }}</span>
         </div>
         <div class="collection-item__meta__count">
-          <span>{{appDataStore.activeCollection.trackers.length}} trackers, {{appDataStore.activeCollection.goalCount}} goals</span>
+          <span>{{ appDataStore.activeCollection.trackers.length }} trackers, {{ appDataStore.activeCollection.goalCount }} goals</span>
         </div>
       </div>
       <div class="collection-item__shortcut-indicator">
@@ -61,6 +62,7 @@
 
 import {nextTick, onMounted, ref} from "vue";
 import {useAppDataStore} from "../stores/appData";
+import {useModalStore} from "../stores/modal";
 
 const displayCollectionSelector = ref(false);
 
@@ -69,15 +71,26 @@ const toggleDisplayCollectionSelector = () => {
 };
 
 const appDataStore = useAppDataStore();
+const modalStore = useModalStore();
 
 /**
  * Sets the active collection
  * @param collection
  */
 const setActiveCollection = (collection) => {
-  appDataStore.activeId = collection.id;
+  appDataStore.$patch((state) => {
+    state.activeId = collection.id;
+  });
   toggleDisplayCollectionSelector();
 };
+
+/**
+ * Opens the modal to create a new collection, while closing this selector
+ */
+const newCollection = () => {
+  modalStore.openModal('collection');
+  toggleDisplayCollectionSelector();
+}
 
 /**
  * Ensure we can teleport to parent element

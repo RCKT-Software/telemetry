@@ -11,6 +11,7 @@ import progressTracker from "../modals/progressTracker.vue";
 import deleteTrackerConfirmation from "../modals/deleteTrackerConfirmation.vue";
 import goal from "../modals/goal.vue";
 import captureDataPoint from "../modals/captureDataPoint.vue";
+import collection from "../modals/collection.vue";
 
 const modalStore = useModalStore();
 
@@ -21,7 +22,8 @@ const modals = {
   'progress-tracker': progressTracker,
   'delete-tracker': deleteTrackerConfirmation,
   'goal': goal,
-  'capture-data-point': captureDataPoint
+  'capture-data-point': captureDataPoint,
+  'collection': collection
 };
 
 </script>

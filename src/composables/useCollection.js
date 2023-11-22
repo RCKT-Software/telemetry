@@ -7,9 +7,7 @@ export function useCollection(config = {
     id: null,
     label: 'My Collection',
     color: '#26DCB7',
-    trackers: [
-        useTracker()
-    ],
+    trackers: [],
     activeTrackerId: null,
 }) {
 
@@ -34,7 +32,7 @@ export function useCollection(config = {
     /**
      * The label (name) of the collection
      */
-    const label = ref(config.label);
+    const label = ref(config.label || 'My Collection');
 
     /**
      * The abbreviation of the collection's label
@@ -53,7 +51,7 @@ export function useCollection(config = {
     /**
      * The primary color of the collection
      */
-    const color = ref(config.color);
+    const color = ref(config.color || '#26DCB7');
 
     /**
      * The transparent version of the collection's primary color
@@ -63,7 +61,7 @@ export function useCollection(config = {
     /**
      * The progress trackers that belong to this collection
      */
-    const trackers = ref(config.trackers);
+    const trackers = ref(config.trackers || [useTracker()]);
 
     /**
      * The ID of the active tracker
