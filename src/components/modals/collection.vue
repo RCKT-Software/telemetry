@@ -42,8 +42,8 @@ const props = defineProps({
   collection: Object
 });
 
-//const collection = props.collection ? useCollection(props.collection.serializeState()) : useCollection();
-const collection = useCollection();
+const collection = props.collection ? useCollection(props.collection.serializeState()) : useCollection();
+//const collection = useCollection();
 
 console.log(collection);
 
