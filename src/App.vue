@@ -16,8 +16,11 @@
         <div class="title-bar">
           <div class="title-bar__left">
 
-            <h1 style="margin-bottom: 10px"><span class="tracker-title">{{ appDataStore.activeTracker.label }}</span> <span class="value-tag"
-                                                                                        style="margin-left: 6px">{{
+            <h1 style="margin-bottom: 10px"><span class="tracker-title"
+                                                  @click.prevent="modalStore.openModal('progress-tracker', {tracker: appDataStore.activeTracker})">{{
+                appDataStore.activeTracker.label
+              }}</span> <span class="value-tag"
+                              style="margin-left: 6px">{{
                 appDataStore.activeTracker.formattedCurrentValue
               }}</span>
             </h1>
@@ -66,6 +69,8 @@
             <!--            <button class="tab tab&#45;&#45;active"><i class="fa-sharp fa-solid fa-list-timeline"></i> Analytics</button>-->
             <button class="tab"><i class="fa-sharp fa-regular fa-table-rows"></i> Data</button>
             <button class="tab"><i class="fa-sharp fa-solid fa-gear"></i> Settings</button>
+            <button class="tab" @click.prevent="modalStore.openModal('delete-tracker')"><i class="fa-sharp fa-solid fa-trash"></i> Delete
+            </button>
             <!--            <button class="tab"><i class="fa-sharp fa-solid fa-chart-line"></i> Chart Settings</button>-->
           </div>
 
@@ -525,11 +530,11 @@ label {
   padding: 0 30px;
 }
 
-.tracker-title{
+.tracker-title {
   border-bottom: 2px solid transparent;
   padding-bottom: 2px;
 
-  &:hover{
+  &:hover {
     border-bottom: 2px dotted var(--dark);
     cursor: pointer;
   }

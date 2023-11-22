@@ -117,13 +117,17 @@ export function useCollection(config = {
 
     /**
      * Accepts a tracker configuration object and adds it to the collection, setting it as the active tracker.
-     * @param config
      */
-    const addTracker = (config) => {
-        const newTracker = useTracker(config);
-        trackers.value.push(newTracker);
-        setActiveTracker(newTracker);
-    };
+
+    const addTracker = (tracker) => {
+        const index = trackers.value.findIndex(t => t.id === tracker.id);
+        if (index !== -1) {
+            trackers.value[index] = tracker;
+        } else {
+            trackers.value.push(tracker);
+        }
+        setActiveTracker(tracker);
+    }
 
     /**
      * Deletes the tracker from the collection

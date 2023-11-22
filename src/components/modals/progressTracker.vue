@@ -4,8 +4,13 @@
   <div class="modal">
     <div class="modal__header">
       <i class="fa-sharp fa-solid fa-chart-mixed modal__header-icon"></i>
-      <h1 class="modal__header-title">New progress tracker</h1>
-      <span class="modal__header-details">Track your progress towards a goal.</span>
+      <div v-if="!isEditMode">
+        <h1 class="modal__header-title">New progress tracker</h1>
+        <span class="modal__header-details">Track your progress towards a goal.</span>
+      </div>
+      <div v-if="isEditMode">
+        <h1 class="modal__header-title">{{tracker.label.value}}</h1>
+      </div>
     </div>
 
     <div class="modal__body">
@@ -13,39 +18,39 @@
       <div class="row">
         <div class="input-group">
           <label>Label</label>
-          <input type="text" placeholder="Ex: 'Net Worth'" v-model="trackerConfig.label">
+          <input type="text" placeholder="Ex: 'Net Worth'" v-model="tracker.label.value">
         </div>
 
         <div class="input-group">
-          <label>Number format</label>
-          <select v-model="trackerConfig.numberFormat">
-            <option value="number" selected>None</option>
+          <label>Data type</label>
+          <select v-model="tracker.numberFormat.value">
+            <option value="number" selected>Number</option>
             <option value="usd">Currency ($)</option>
             <option value="percentage">Percentage (%)</option>
           </select>
         </div>
       </div>
 
-<!--      <div class="input-group">
-        <label>Starting value <span>(optional)</span></label>
-        <input type="text" placeholder="Ex: '$80,000'" v-model="trackerConfig.startingValue">
-      </div>
+      <!--      <div class="input-group">
+              <label>Starting value <span>(optional)</span></label>
+              <input type="text" placeholder="Ex: '$80,000'" v-model="trackerConfig.startingValue">
+            </div>
 
-      <div class="input-group">
-        <label>Tracking mode</label>
-        <expandedSelect />
-      </div>-->
+            <div class="input-group">
+              <label>Tracking mode</label>
+              <expandedSelect />
+            </div>-->
 
     </div>
 
     <div class="modal__footer">
       <button class="btn" @click.prevent="modalStore.closeModal()">Cancel</button>
-      <button class="btn btn--primary" @click.prevent="addTracker">Next</button>
+      <button class="btn btn--primary" @click.prevent="addTracker">{{isEditMode ? 'Save' : 'Next'}}</button>
     </div>
   </div>
 
   <!-- Overlay -->
-  <div class="overlay" @click.prevent="modalStore.closeModal()" />
+  <div class="overlay" @click.prevent="modalStore.closeModal()"/>
 
 </template>
 
@@ -55,25 +60,25 @@ import ExpandedSelect from "../input/expandedSelect.vue";
 import {useModalStore} from "../../stores/modal";
 import {ref} from "vue";
 import {useAppDataStore} from "../../stores/appData";
+import {useTracker} from "../../composables/useTracker";
 
 const modalStore = useModalStore();
 const appDataStore = useAppDataStore();
 
 /**
- * Define the configuration for the new tracker
+ * Supports both creating a new collection and editing an existing one
  */
-const trackerConfig = ref({
-  label: null,
-  numberFormat: 'number',
-  startingValue: null,
-  trackingMode: null
+const props = defineProps({
+  tracker: Object
 });
+const tracker = props.tracker ? useTracker(props.tracker.serializeState()) : useTracker();
+const isEditMode = !!props.tracker;
 
 /**
  * Adds the tracker to the active collection and closes the modal
  */
 const addTracker = () => {
-  appDataStore.activeCollection.addTracker(trackerConfig.value);
+  appDataStore.activeCollection.addTracker(tracker);
   modalStore.closeModal();
 };
 
