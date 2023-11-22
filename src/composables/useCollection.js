@@ -22,7 +22,7 @@ export function useCollection(config = {
     id: null,
     label: 'My Collection',
     color: colorChoices[Math.floor(Math.random() * colorChoices.length)],
-    trackers: [useTracker()],
+    trackers: [],
     activeTrackerId: null,
 }) {
 

@@ -69,7 +69,7 @@ export const useAppDataStore = defineStore('appData', () => {
      * The currently selected tracker (active)
      */
     const activeTracker = computed(() => {
-        return activeCollection.value ? activeCollection.value.activeTracker : null;
+        return activeCollection.value ? activeCollection.value.activeTracker : false;
     });
 
     /**

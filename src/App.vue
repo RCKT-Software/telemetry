@@ -11,7 +11,7 @@
 
     <!-- Main Content -->
     <main id="main" :class="{'hide-navigation': !interfaceStore.navigationOpen}">
-      <div class="center-content">
+      <section v-if="appDataStore.activeTracker" id="tracker-view" class="center-content">
 
         <div class="title-bar">
           <div class="title-bar__left">
@@ -69,7 +69,8 @@
             <!--            <button class="tab tab&#45;&#45;active"><i class="fa-sharp fa-solid fa-list-timeline"></i> Analytics</button>-->
             <button class="tab"><i class="fa-sharp fa-regular fa-table-rows"></i> Data</button>
             <button class="tab"><i class="fa-sharp fa-solid fa-gear"></i> Settings</button>
-            <button class="tab" @click.prevent="modalStore.openModal('delete-tracker')"><i class="fa-sharp fa-solid fa-trash"></i> Delete
+            <button class="tab" @click.prevent="modalStore.openModal('delete-tracker')"><i
+                class="fa-sharp fa-solid fa-trash"></i> Delete
             </button>
             <!--            <button class="tab"><i class="fa-sharp fa-solid fa-chart-line"></i> Chart Settings</button>-->
           </div>
@@ -85,7 +86,14 @@
           </div>
         </div>
 
-      </div>
+      </section>
+      <section v-if="!appDataStore.activeTracker" id="empty-view" class="center-content" style="margin-top:20px;">
+        <div style="background-color: var(--lighter); width: 100%; border-radius: 5px; padding: 20px">
+          <p style="font-weight: bold">
+            This collection is empty.
+          </p>
+        </div>
+      </section>
     </main>
 
     <!-- New Progress Tracker Modal -->
