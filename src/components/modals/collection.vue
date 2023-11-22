@@ -12,7 +12,7 @@
 
       <div class="input-group">
         <label>Label</label>
-        <input type="text" placeholder="Ex: 'Personal Goals'" v-model="collectionConfig.label">
+        <input type="text" placeholder="Ex: 'Personal Goals'" v-model="collection.label.value">
       </div>
 
     </div>
@@ -33,22 +33,19 @@
 import {useModalStore} from "../../stores/modal";
 import {ref} from "vue";
 import {useAppDataStore} from "../../stores/appData";
+import {useCollection} from "../../composables/useCollection";
 
 const modalStore = useModalStore();
 const appDataStore = useAppDataStore();
 
-/**
- * Define the configuration for the new tracker
- */
-const collectionConfig = ref({
-  label: null
-});
+const collection = useCollection();
 
 /**
  * Adds the tracker to the active collection and closes the modal
+ * If the collection already exists, it will be updated
  */
 const addCollection = () => {
-  appDataStore.addCollection(collectionConfig.value);
+  appDataStore.addCollection(collection);
   modalStore.closeModal();
 };
 

@@ -3,11 +3,26 @@ import colorLib from '@kurkle/color';
 import {v4 as uuidv4} from 'uuid';
 import {useTracker} from "./useTracker";
 
+const colorChoices = [
+    '#26DCB7', // Existing color
+    '#FFB3BA', // Light Pink
+    '#FFDFBA', // Light Peach
+    '#FFFFBA', // Light Yellow
+    '#BAFFC9', // Light Mint
+    '#BAE1FF', // Light Sky Blue
+    '#BABDFF', // Light Periwinkle
+    '#DABAFF', // Light Lavender
+    '#FFBAFF', // Light Pink
+    '#FFBAD2', // Light Rose
+    '#B6FFB4', // Light Green
+    '#BFFCC6'  // Light Greenish Blue
+];
+
 export function useCollection(config = {
     id: null,
     label: 'My Collection',
-    color: '#26DCB7',
-    trackers: [],
+    color: colorChoices[Math.floor(Math.random() * colorChoices.length)],
+    trackers: [useTracker()],
     activeTrackerId: null,
 }) {
 
@@ -51,7 +66,7 @@ export function useCollection(config = {
     /**
      * The primary color of the collection
      */
-    const color = ref(config.color || '#26DCB7');
+    const color = ref(config.color || colorChoices[Math.floor(Math.random() * colorChoices.length)]);
 
     /**
      * The transparent version of the collection's primary color

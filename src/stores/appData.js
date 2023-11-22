@@ -104,10 +104,15 @@ export const useAppDataStore = defineStore('appData', () => {
      * @param collection
      */
     const addCollection = (collection) => {
-        const newCollection = useCollection(collection);
-        collections.value.push(newCollection);
-        activeId.value = newCollection.id;
+        const index = collections.value.findIndex(c => c.id === collection.id);
+        if (index !== -1) {
+            collections.value[index] = collection;
+        } else {
+            collections.value.push(collection);
+        }
+        activeId.value = collection.id;
     }
+
 
     return {collections, activeCollection, activeId, activeTracker, activeGoal, darkMode, getTrackerById, addCollection};
 })
