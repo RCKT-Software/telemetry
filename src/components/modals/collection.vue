@@ -38,7 +38,16 @@ import {useCollection} from "../../composables/useCollection";
 const modalStore = useModalStore();
 const appDataStore = useAppDataStore();
 
+const props = defineProps({
+  collection: Object
+});
+
+//const collection = props.collection ? useCollection(props.collection.serializeState()) : useCollection();
 const collection = useCollection();
+
+console.log(collection);
+
+
 
 /**
  * Adds the tracker to the active collection and closes the modal
