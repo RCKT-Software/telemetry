@@ -113,6 +113,27 @@ export const useAppDataStore = defineStore('appData', () => {
         activeId.value = collection.id;
     }
 
+    /**
+     * Deletes a collection
+     * TODO: This technically removes all trackers/goals, but it doesn't yet clear data from the SQLite instance
+     * @param collection
+     */
+    const deleteCollection = (collection) => {
+        const index = collections.value.findIndex(c => c.id === collection.id);
+        if (index > -1) {
+            collections.value.splice(index, 1);
+        }
+    }
 
-    return {collections, activeCollection, activeId, activeTracker, activeGoal, darkMode, getTrackerById, addCollection};
+    return {
+        collections,
+        activeCollection,
+        activeId,
+        activeTracker,
+        activeGoal,
+        darkMode,
+        getTrackerById,
+        addCollection,
+        deleteCollection
+    };
 })

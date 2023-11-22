@@ -1,17 +1,21 @@
 <template>
   <!-- Navigation Panel -->
-  <aside id="menu" :class="{'menu--active': interfaceStore.isResponsive ? interfaceStore.responsiveNavigationOpen : interfaceStore.navigationOpen}">
+  <aside id="menu"
+         :class="{'menu--active': interfaceStore.isResponsive ? interfaceStore.responsiveNavigationOpen : interfaceStore.navigationOpen}">
 
     <collectionSelector/>
 
     <!-- Collection Control Bar -->
     <div class="collection-control">
-      <i class="fa-sharp fa-regular fa-plus" title="New progress tracker"
-         @click.prevent="modalStore.openModal('progress-tracker')"></i>
-      <i class="fa-sharp fa-regular fa-cog" title="Edit collection" @click.prevent="modalStore.openModal('collection', {collection: appDataStore.activeCollection})"></i>
-      <i class="fa-sharp fa-regular fa-file-export" title="Export to CSV"></i>
-      <i class="fa-sharp fa-regular fa-trash" title="Delete tracker"
-         @click.prevent="modalStore.openModal('delete-tracker')"></i>
+      <i class="fa-sharp fa-regular fa-plus" title="New collection"
+         @click.prevent="modalStore.openModal('collection')"></i>
+      <i class="fa-sharp fa-regular fa-cog" title="Edit collection"
+         @click.prevent="modalStore.openModal('collection', {collection: appDataStore.activeCollection})"></i>
+      <!--      <i class="fa-sharp fa-regular fa-file-export" title="Export to CSV"></i>-->
+      <i class="fa-sharp fa-regular fa-trash" title="Delete collection"
+         @click.prevent="modalStore.openModal('delete-collection')"></i>
+      <!--      <i class="fa-sharp fa-regular fa-trash" title="Delete tracker"
+               @click.prevent="modalStore.openModal('delete-tracker')"></i>-->
     </div>
 
     <!-- Progress Trackers -->
@@ -135,7 +139,7 @@ const toggleDarkMode = async () => {
   transition: transform 0.1s ease-in-out;
   transform: translateX(-100%) translateZ(0);
 
-  &.menu--active{
+  &.menu--active {
     transition: transform 0.2s ease-in-out;
     transform: none;
   }
