@@ -33,20 +33,6 @@ if (window.electronAPI) {
         // Convert the raw collection data into proper collection objects
         if (!hydratedData.collections) hydratedData.collections = [];
         hydratedData.collections = hydratedData.collections.map(collectionData => {
-            // Convert each tracker within the collection into a tracker instance
-            if (!collectionData.trackers) collectionData.trackers = [];
-            collectionData.trackers = ref(collectionData.trackers.map(trackerData => {
-                // Convert each goal within the tracker into a goal instance
-                if (!trackerData.goals) trackerData.goals = [];
-                trackerData.goals = ref(trackerData.goals.map(goalData => {
-                    return useGoal({
-                        ...goalData,
-                        trackerId: trackerData.id
-                    });
-                }));
-                return useTracker(trackerData);
-            }));
-            // Convert the collection data into a collection instance
             return useCollection(collectionData);
         });
 

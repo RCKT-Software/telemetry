@@ -76,7 +76,9 @@ export function useCollection(config = {
     /**
      * The progress trackers that belong to this collection
      */
-    const trackers = ref(config.trackers || [useTracker()]);
+    const trackers = ref(Array.isArray(config.trackers) ? config.trackers.map(trackerData => {
+        return useTracker(trackerData);
+    }) : []);
 
     /**
      * The ID of the active tracker

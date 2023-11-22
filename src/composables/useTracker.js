@@ -81,7 +81,12 @@ export function useTracker(config = {
     /**
      * The goals that belong to the tracker
      */
-    const goals = ref(config.goals || []);
+    const goals = ref(Array.isArray(config.goals) ? config.goals.map(goalData => {
+        return useGoal({
+            ...goalData,
+            trackerId: id
+        });
+    }) : []);
 
     /**
      * Returns the next upcoming goal
