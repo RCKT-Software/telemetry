@@ -20,7 +20,8 @@ export function useGoal(config = {
         return {
             id: id,
             targetValue: targetValue.value,
-            deadline: deadline.value
+            deadline: deadline.value,
+            trackerId: trackerId,
         };
     };
 
@@ -30,11 +31,17 @@ export function useGoal(config = {
     const id = config.id || uuidv4();
 
     /**
+     * The tracker ID
+     * @type {null}
+     */
+    const trackerId = config.trackerId || null;
+
+    /**
      * A reference to the tracker that this goal belongs to, hydrated by the tracker
      * @type {null}
      */
     const parentTracker = computed(() => {
-        return useAppDataStore().getTrackerById(config.trackerId);
+        return useAppDataStore().getTrackerById(trackerId);
     });
 
     /**
@@ -94,6 +101,7 @@ export function useGoal(config = {
 
     return {
         id,
+        trackerId,
         targetValue,
         deadline,
         predicted,

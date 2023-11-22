@@ -104,15 +104,16 @@ export function useTracker(config = {
     });
 
     /**
-     * Accepts a goal configuration object and adds it to the tracker.
-     * @param config
+     * Accepts a goal and adds it to the tracker.
      */
-    const addGoal = (config) => {
-        goals.value.push(useGoal({
-            ...config,
-            trackerId: id
-        }));
-    };
+    const addGoal = (goal) => {
+        const index = goals.value.findIndex(g => g.id === goal.id);
+        if (index !== -1) {
+            goals.value[index] = goal;
+        } else {
+            goals.value.push(goal);
+        }
+    }
 
     /**
      * Accepts a data point and sends it to the main process to be persisted.

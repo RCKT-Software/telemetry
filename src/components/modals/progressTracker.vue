@@ -66,7 +66,7 @@ const modalStore = useModalStore();
 const appDataStore = useAppDataStore();
 
 /**
- * Supports both creating a new collection and editing an existing one
+ * Supports both creating a new tracker and editing an existing one
  */
 const props = defineProps({
   tracker: Object

@@ -1,23 +1,28 @@
 <template>
   <div class="goal-box" v-if="appDataStore.activeGoal">
     <span class="goal-box__label">Goal</span>
-    <span class="goal-box__edit">Edit</span>
-    <h1 class="goal-box__heading">{{ appDataStore.activeGoal.formattedTargetValue}}<br><span>by {{ appDataStore.activeGoal.formattedDeadline}}</span></h1>
+    <span class="goal-box__edit"
+          @click.prevent="modalStore.openModal('goal', {goal: appDataStore.activeGoal})">Edit</span>
+    <h1 class="goal-box__heading">
+      {{ appDataStore.activeGoal.formattedTargetValue }}<br><span>by {{ appDataStore.activeGoal.formattedDeadline }}</span>
+    </h1>
     <div class="goal-box__chart"></div>
     <div class="goal-box__stats">
       <div class="goal-box__stats-item">
         <span class="goal-box__stats-item-label">Daily avg.</span>
-        <span class="goal-box__stats-item-value value-tag value-tag--success"><i class="fa-sharp fa-solid fa-angle-up"></i> +0</span>
+        <span class="goal-box__stats-item-value value-tag value-tag--success"><i
+            class="fa-sharp fa-solid fa-angle-up"></i> +0</span>
       </div>
       <div class="goal-box__stats-item">
         <span class="goal-box__stats-item-label">Deadline</span>
-        <span class="goal-box__stats-item-value value-tag"><i class="fa-sharp fa-regular fa-calendar"></i> {{ appDataStore.activeGoal.formattedRelativeDeadline }}</span>
+        <span class="goal-box__stats-item-value value-tag"><i
+            class="fa-sharp fa-regular fa-calendar"></i> {{ appDataStore.activeGoal.formattedRelativeDeadline }}</span>
       </div>
     </div>
     <div class="divider"/>
     <div class="goal-box__prediction-item">
       <span class="goal-box__prediction-item-label">Predicted completion</span>
-      <h1 class="goal-box__prediction-item-value">{{ appDataStore.activeGoal.formattedPredicted}}</h1>
+      <h1 class="goal-box__prediction-item-value">{{ appDataStore.activeGoal.formattedPredicted }}</h1>
     </div>
   </div>
   <div class="goal-box" v-if="!appDataStore.activeGoal">
