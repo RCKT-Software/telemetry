@@ -1,52 +1,13 @@
 import {defineStore} from "pinia";
 import {computed, ref} from "vue";
 import {useCollection} from "../composables/useCollection";
-import {useTracker} from "../composables/useTracker";
-
-const sampleCollections = [
-    useCollection({
-        label: 'Rosemary\'s Bakery',
-        color: '#26DCB7',
-        trackers: [
-            useTracker({
-                label: 'First-time customers'
-            }),
-            useTracker({
-                label: 'Profit margin'
-            }),
-            useTracker({
-                label: 'Gross sales'
-            }),
-            useTracker({
-                label: 'Baking class attendees'
-            }),
-            useTracker({
-                label: 'Facebook followers'
-            })
-        ]
-    }),
-    useCollection({
-        label: 'Test Collection',
-        color: '#9660e8',
-        trackers: [
-            useTracker({
-                label: 'Example 1'
-            }),
-            useTracker({
-                label: 'Example 2'
-            })
-        ]
-    })
-];
 
 export const useAppDataStore = defineStore('appData', () => {
 
     /**
      * List of all collections
      */
-    const collections = ref([
-        useCollection()
-    ]);
+    const collections = ref([]);
 
     /**
      * The currently selected collection (active)'s index
@@ -84,7 +45,7 @@ export const useAppDataStore = defineStore('appData', () => {
                 return tracker;
             }
         }
-        return null;
+        return false;
     }
 
     /**
@@ -106,9 +67,9 @@ export const useAppDataStore = defineStore('appData', () => {
     const addCollection = (collection) => {
         const index = collections.value.findIndex(c => c.id === collection.id);
         if (index !== -1) {
-            collections.value[index] = collection;
+            collections.value.splice(index, 1, useCollection(collection));
         } else {
-            collections.value.push(collection);
+            collections.value.push(useCollection(collection));
         }
         activeId.value = collection.id;
     }

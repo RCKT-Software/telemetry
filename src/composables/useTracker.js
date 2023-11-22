@@ -81,12 +81,13 @@ export function useTracker(config = {
     /**
      * The goals that belong to the tracker
      */
-    const goals = ref(Array.isArray(config.goals) ? config.goals.map(goalData => {
-        return useGoal({
-            ...goalData,
-            trackerId: id
-        });
-    }) : []);
+    const goalStartingData = [];
+    if(Array.isArray(config.goals)) {
+        for (let goalData of config.goals) {
+            goalStartingData.push(useGoal(goalData));
+        }
+    }
+    const goals = ref(goalStartingData);
 
     /**
      * Returns the next upcoming goal
@@ -109,9 +110,9 @@ export function useTracker(config = {
     const addGoal = (goal) => {
         const index = goals.value.findIndex(g => g.id === goal.id);
         if (index !== -1) {
-            goals.value[index] = goal;
+            goals.value.splice(index, 1, useGoal(goal));
         } else {
-            goals.value.push(goal);
+            goals.value.push(useGoal(goal));
         }
     }
 

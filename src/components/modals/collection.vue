@@ -58,7 +58,7 @@ const isEditMode = !!props.collection;
  * If the collection already exists, it will be updated
  */
 const addCollection = () => {
-  appDataStore.addCollection(collection);
+  appDataStore.addCollection(collection.serializeState());
   modalStore.closeModal();
 };
 

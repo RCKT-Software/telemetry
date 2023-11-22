@@ -78,7 +78,7 @@ const isEditMode = !!props.tracker;
  * Adds the tracker to the active collection and closes the modal
  */
 const addTracker = () => {
-  appDataStore.activeCollection.addTracker(tracker);
+  appDataStore.activeCollection.addTracker(tracker.serializeState());
   modalStore.closeModal();
 };
 

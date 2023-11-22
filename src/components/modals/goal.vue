@@ -37,7 +37,6 @@
 <script setup>
 
 import {useModalStore} from "../../stores/modal";
-import {ref} from "vue";
 import {useAppDataStore} from "../../stores/appData";
 import {useGoal} from "../../composables/useGoal";
 
@@ -59,12 +58,8 @@ const isEditMode = !!props.goal;
  * Adds the goal to the active tracker and closes the modal
  */
 const addGoal = () => {
-  appDataStore.activeTracker.addGoal(goal);
+  appDataStore.activeTracker.addGoal(goal.serializeState());
   modalStore.closeModal();
 };
 
 </script>
-
-<style scoped lang="scss">
-
-</style>

@@ -34,14 +34,14 @@ export function useGoal(config = {
      * The tracker ID
      * @type {null}
      */
-    const trackerId = config.trackerId || null;
+    const trackerId = ref(config.trackerId || null);
 
     /**
      * A reference to the tracker that this goal belongs to, hydrated by the tracker
      * @type {null}
      */
     const parentTracker = computed(() => {
-        return useAppDataStore().getTrackerById(trackerId);
+        return useAppDataStore().getTrackerById(trackerId.value);
     });
 
     /**
@@ -58,9 +58,12 @@ export function useGoal(config = {
      * Placeholder for the predicted completion of the goal
      */
     const predicted = computed(() => {
-        if (parentTracker.value.regressionData.calculation.predictX(parseFloat(targetValue.value))) {
-            return new Date.create(parentTracker.value.regressionData.calculation.predictX(parseFloat(targetValue.value))[0]);
+        if(parentTracker.value) {
+            if (parentTracker.value.regressionData.calculation.predictX(parseFloat(targetValue.value))) {
+                return new Date.create(parentTracker.value.regressionData.calculation.predictX(parseFloat(targetValue.value))[0]);
+            }
         }
+        return false;
     });
 
     /**

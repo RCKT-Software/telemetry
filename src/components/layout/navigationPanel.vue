@@ -24,7 +24,7 @@
       <i class="fa-regular fa-chevron-up" v-if="!showTrackers"></i>
       <span>All progress trackers</span>
     </div>
-    <ul class="metric-nav" v-if="showTrackers">
+    <ul class="metric-nav" v-if="showTrackers && appDataStore.activeTracker">
       <li class="tracker-nav-item"
           :class="{'tracker-nav-item--active': tracker.id === appDataStore.activeTracker.id}"
           v-for="tracker in appDataStore.activeCollection.trackers"

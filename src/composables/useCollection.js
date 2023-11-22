@@ -1,4 +1,4 @@
-import {computed, ref} from "vue";
+import {computed, ref, watch} from "vue";
 import colorLib from '@kurkle/color';
 import {v4 as uuidv4} from 'uuid';
 import {useTracker} from "./useTracker";
@@ -76,15 +76,19 @@ export function useCollection(config = {
     /**
      * The progress trackers that belong to this collection
      */
-    const trackers = ref(Array.isArray(config.trackers) ? config.trackers.map(trackerData => {
-        return useTracker(trackerData);
-    }) : []);
+    const trackerStartingData = [];
+    if(config.trackers) {
+        for (let trackerData of config.trackers) {
+            trackerStartingData.push(useTracker(trackerData));
+        }
+    }
+    const trackers = ref(trackerStartingData);
 
     /**
      * The ID of the active tracker
      * @type {null}
      */
-    const activeTrackerId = ref(config.activeTrackerId);
+    const activeTrackerId = ref(config.activeTrackerId || null);
 
     /**
      * The currently selected tracker (active)
@@ -121,12 +125,13 @@ export function useCollection(config = {
 
     const addTracker = (tracker) => {
         const index = trackers.value.findIndex(t => t.id === tracker.id);
+        const newTracker = useTracker(tracker);
         if (index !== -1) {
-            trackers.value[index] = tracker;
+            trackers.value.splice(index, 1, newTracker);
         } else {
-            trackers.value.push(tracker);
+            trackers.value.push(newTracker);
         }
-        setActiveTracker(tracker);
+        setActiveTracker(newTracker);
     }
 
     /**
@@ -140,5 +145,18 @@ export function useCollection(config = {
         }
     }
 
-    return {id, label, abbreviation, color, transparentColor, trackers, activeTracker, goalCount, deleteTracker, setActiveTracker, addTracker, serializeState};
+    return {
+        id,
+        label,
+        abbreviation,
+        color,
+        transparentColor,
+        trackers,
+        activeTracker,
+        goalCount,
+        deleteTracker,
+        setActiveTracker,
+        addTracker,
+        serializeState
+    };
 }
