@@ -176,7 +176,12 @@ export function useTracker(config = {
             { name: 'polynomial (2)', calculation: polynomial2 },
             { name: 'polynomial (3)', calculation: polynomial3 }
         ];
-        results.sort((a, b) => b.calculation.r2 - a.calculation.r2);
+        results.sort((a, b) => {
+            if (a.calculation.r2 < 0 || isNaN(a.calculation.r2)) return 1;
+            if (b.calculation.r2 < 0 || isNaN(b.calculation.r2)) return -1;
+            return b.calculation.r2 - a.calculation.r2;
+        });
+        console.log(label.value, results);
         return results[0];
     });
 
