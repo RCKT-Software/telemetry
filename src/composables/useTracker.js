@@ -82,7 +82,7 @@ export function useTracker(config = {
      * The goals that belong to the tracker
      */
     const goalStartingData = [];
-    if(Array.isArray(config.goals)) {
+    if (Array.isArray(config.goals)) {
         for (let goalData of config.goals) {
             goalStartingData.push(useGoal({
                 ...goalData,
@@ -158,48 +158,60 @@ export function useTracker(config = {
     });
 
     /**
+     * The offset to apply to the time-series data to normalize it to a zero-basis.
+     */
+    const xOffset = computed(() => {
+        if (recentDataPoints.value.length === 0) {
+            return 0;
+        }
+        return moment(recentDataPoints.value[0].createdAt).valueOf();
+    });
+
+    /**
      * Get the regression data for the given data points.
      */
     const regressionData = computed(() => {
-        const data = recentDataPoints.value.map((point) => [moment(point.createdAt).valueOf(), point.value]);
+        console.log(label.value, "raw data", recentDataPoints.value);
+        const data = recentDataPoints.value.map((point) => [moment(point.createdAt - xOffset.value).valueOf(), point.value]);
+        console.log(label.value, "normalized data", data);
         const linear = regression.linear(data);
         const exponential = regression.exponential(data);
         const logarithmic = regression.logarithmic(data);
         const power = regression.power(data);
-        const polynomial2 = regression.polynomial(data, { order: 2 });
-        const polynomial3 = regression.polynomial(data, { order: 3 });
+        const polynomial1 = regression.polynomial(data, {order: 1});
+        const polynomial2 = regression.polynomial(data, {order: 2});
+        const polynomial3 = regression.polynomial(data, {order: 3});
         const results = [
-            { name: 'linear', calculation: linear },
-            { name: 'exponential', calculation: exponential },
-            { name: 'logarithmic', calculation: logarithmic },
-            { name: 'power', calculation: power },
-            { name: 'polynomial (2)', calculation: polynomial2 },
-            { name: 'polynomial (3)', calculation: polynomial3 }
+            {name: 'linear', calculation: linear},
+            {name: 'exponential', calculation: exponential},
+            {name: 'logarithmic', calculation: logarithmic},
+            {name: 'power', calculation: power},
+            {name: 'polynomial (1)', calculation: polynomial1},
+            {name: 'polynomial (2)', calculation: polynomial2},
         ];
         results.sort((a, b) => {
             if (a.calculation.r2 < 0 || isNaN(a.calculation.r2)) return 1;
             if (b.calculation.r2 < 0 || isNaN(b.calculation.r2)) return -1;
             return b.calculation.r2 - a.calculation.r2;
         });
-        console.log(label.value, results);
         return results[0];
     });
 
     const chartRegressionData = computed(() => {
-        let points = [regressionData.value.calculation.points[regressionData.value.calculation.points.length - 1]];
+        let points = [];
         if (regressionData.value.calculation.points.length > 1) {
-            const firstDataPoint = regressionData.value.calculation.points[0][0];
-            const lastDataPoint = regressionData.value.calculation.points[regressionData.value.calculation.points.length - 1][0];
-            const timeDifference = moment(lastDataPoint).diff(moment(firstDataPoint));
-            const interval = timeDifference / 10 * 2;
-            for (let i = 1; i <= 10; i++) {
-                let futureTime = moment(lastDataPoint).add(interval * i, 'milliseconds').valueOf();
+            const timeScale = (regressionData.value.calculation.points[regressionData.value.calculation.points.length - 1][0]);
+            const interval = timeScale / 10 * 2;
+            for (let i = 0; i <= 10; i++) {
+                let futureTime = moment(timeScale).add(interval * i, 'milliseconds').valueOf();
                 let predicted = regressionData.value.calculation.predict(futureTime);
                 if (predicted) {
+                    predicted[0] += xOffset.value;
                     points.push(predicted);
                 }
             }
         }
+        console.log(label.value, "output points", points);
         return points;
     });
 
