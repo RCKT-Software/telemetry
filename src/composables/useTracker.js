@@ -171,16 +171,13 @@ export function useTracker(config = {
      * Get the regression data for the given data points.
      */
     const regressionData = computed(() => {
-        console.log(label.value, "raw data", recentDataPoints.value);
         const data = recentDataPoints.value.map((point) => [moment(point.createdAt - xOffset.value).valueOf(), point.value]);
-        console.log(label.value, "normalized data", data);
         const linear = regression.linear(data);
         const exponential = regression.exponential(data);
         const logarithmic = regression.logarithmic(data);
         const power = regression.power(data);
         const polynomial1 = regression.polynomial(data, {order: 1});
         const polynomial2 = regression.polynomial(data, {order: 2});
-        const polynomial3 = regression.polynomial(data, {order: 3});
         const results = [
             {name: 'linear', calculation: linear},
             {name: 'exponential', calculation: exponential},
@@ -197,6 +194,10 @@ export function useTracker(config = {
         return results[0];
     });
 
+    /**
+     * Take the best regression method and predict the immediate future of this progress tracker.
+     * @type {ComputedRef<*[]>}
+     */
     const chartRegressionData = computed(() => {
         let points = [];
         if (regressionData.value.calculation.points.length > 1) {
@@ -211,7 +212,6 @@ export function useTracker(config = {
                 }
             }
         }
-        console.log(label.value, "output points", points);
         return points;
     });
 
