@@ -43,15 +43,15 @@
               <span>Data point</span>
             </button>
 
-            <select class="time-period">
+            <select class="time-period" disabled>
               <option value="0">24 hours</option>
               <option value="0">3 days</option>
               <option value="0">7 days</option>
-              <option value="0" selected>30 days</option>
+              <option value="0">30 days</option>
               <option value="0">60 days</option>
               <option value="0">90 days</option>
               <option value="0">2023</option>
-              <option value="0">All time</option>
+              <option value="0" selected>All time</option>
             </select>
 
           </div>

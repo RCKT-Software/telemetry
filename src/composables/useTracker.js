@@ -181,20 +181,20 @@ export function useTracker(config = {
     });
 
     const chartRegressionData = computed(() => {
-        //let points = regressionData.value.calculation.points;
         let points = [regressionData.value.calculation.points[regressionData.value.calculation.points.length - 1]];
-        if (activeGoal.value) {
-            for (let i = 1; i <= 7; i++) {
-                let predicted = regressionData.value.calculation.predict(new Date.create(`${i} days from now`).valueOf());
+        if (regressionData.value.calculation.points.length > 1) {
+            const firstDataPoint = regressionData.value.calculation.points[0][0];
+            const lastDataPoint = regressionData.value.calculation.points[regressionData.value.calculation.points.length - 1][0];
+            const timeDifference = moment(lastDataPoint).diff(moment(firstDataPoint));
+            const interval = timeDifference / 10 * 2;
+            for (let i = 1; i <= 10; i++) {
+                let futureTime = moment(lastDataPoint).add(interval * i, 'milliseconds').valueOf();
+                let predicted = regressionData.value.calculation.predict(futureTime);
                 if (predicted) {
                     points.push(predicted);
                 }
             }
         }
-        // TODO: Have each goal draw it's own point directly to the chart.
-        /*if(regressionData.value.calculation.predictX(parseFloat(activeGoal.value.targetValue))){
-            points.push([regressionData.value.calculation.predictX(parseFloat(activeGoal.value.targetValue))[0], parseFloat(activeGoal.value.targetValue)]);
-        }*/
         return points;
     });
 
