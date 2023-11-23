@@ -5,7 +5,7 @@
           @click.prevent="modalStore.openModal('goal', {goal: appDataStore.activeGoal})">Edit</span>
     <h1 class="goal-box__heading">
       {{ appDataStore.activeGoal.formattedTargetValue }}<br><span
-        v-if="appDataStore.activeGoal.deadline">by {{ appDataStore.activeGoal.formattedDeadline }}</span>
+        v-if="appDataStore.activeGoal.deadline">Deadline: {{ appDataStore.activeGoal.formattedDeadline }}</span>
     </h1>
     <div class="goal-box__chart"></div>
     <div class="goal-box__stats">
@@ -22,7 +22,7 @@
     </div>
     <div class="divider"/>
     <div class="goal-box__prediction-item">
-      <span class="goal-box__prediction-item-label">Predicted completion</span>
+      <span class="goal-box__prediction-item-label">Prediction...</span>
       <h1 class="goal-box__prediction-item-value">{{ appDataStore.activeGoal.formattedPredicted }}</h1>
     </div>
   </div>
@@ -51,9 +51,10 @@ const modalStore = useModalStore();
 
   .goal-box__label {
     font-weight: 600;
-    font-size: 12px;
+    font-size: 14px;
     display: block;
     margin-bottom: 5px;
+    color: var(--darker);
   }
 
   .goal-box__edit {
@@ -79,7 +80,7 @@ const modalStore = useModalStore();
 
     span {
       color: var(--dark);
-      font-size: 16px;
+      font-size: 14px;
     }
   }
 
@@ -109,7 +110,14 @@ const modalStore = useModalStore();
     gap: 4px;
     max-width: calc(50% - 4px);
 
-    &:last-child {
+    .goal-box__stats-item-label {
+      color: var(--darker);
+      display: block;
+      margin-bottom: 2px;
+      font-weight: 500;
+    }
+
+    &:nth-child(2) {
       text-align: right;
     }
 
@@ -131,8 +139,17 @@ const modalStore = useModalStore();
     flex-wrap: nowrap;
     gap: 4px;
 
-    .goal-box__stats-item-value {
+    .goal-box__prediction-item-label {
       font-weight: 600;
+      font-size: 14px;
+      display: block;
+      margin-bottom: 2px;
+      color: var(--darker);
+    }
+
+    .goal-box__prediction-item-value {
+      font-weight: 600;
+      color: var(--heading);
     }
   }
 }

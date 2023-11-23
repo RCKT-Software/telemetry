@@ -86,7 +86,7 @@ export function useGoal(config = {
      */
     const formattedDeadline = computed(() => {
         if (deadline.value) {
-            return new Date(deadline.value).short();
+            return new Date(deadline.value).medium();
         } else {
             return 'No deadline set';
         }
