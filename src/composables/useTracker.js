@@ -84,7 +84,10 @@ export function useTracker(config = {
     const goalStartingData = [];
     if(Array.isArray(config.goals)) {
         for (let goalData of config.goals) {
-            goalStartingData.push(useGoal(goalData));
+            goalStartingData.push(useGoal({
+                ...goalData,
+                trackerId: id
+            }));
         }
     }
     const goals = ref(goalStartingData);
