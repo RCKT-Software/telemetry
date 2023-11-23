@@ -6,7 +6,7 @@
 
 <script setup>
 
-import {nextTick, onBeforeUnmount, onMounted, watch} from "vue";
+import {computed, onBeforeUnmount, onMounted, watch} from "vue";
 import Chart from 'chart.js/auto'
 import 'chartjs-adapter-moment';
 import {useAppDataStore} from "../stores/appData";
@@ -24,6 +24,31 @@ const appDataStore = useAppDataStore();
 const getCSSVariable = (variableName) => {
   return getComputedStyle(document.getElementById('top-level')).getPropertyValue(variableName);
 }
+
+/**
+ * Determines the unit of time to use for the X axis, based on the data to show.
+ */
+const getUnitOfTime = computed(() => {
+  const firstDataPoint = appDataStore.activeTracker.chartData.labels[0];
+  if(!firstDataPoint){
+    return 'day';
+  }
+  const lastDataPoint = appDataStore.activeTracker.chartData.labels[appDataStore.activeTracker.chartData.labels.length - 1];
+  const timeDifference = lastDataPoint - firstDataPoint;
+  if(timeDifference < 1000 * 60){
+    return 'second'; // less than a minute
+  }else if(timeDifference < 1000 * 60 * 30){
+    return 'minute'; // less than 30 minutes
+  }else if(timeDifference < 1000 * 60 * 60 * 12){
+    return 'hour'; // less than 12 hours
+  }else if(timeDifference < 1000 * 60 * 60 * 24 * 30){
+    return 'day'; // less than 30 days
+  }else if(timeDifference < 1000 * 60 * 60 * 24 * 12){
+    return 'month'; // less than a year
+  }else{
+    return 'year'; // more than a year
+  }
+})
 
 /**
  * Creates the chart with the latest data.
@@ -46,7 +71,7 @@ const createChart = async () => {
             x: {
               type: 'time',
               time: {
-                unit: 'day'
+                unit: getUnitOfTime.value,
               },
               grid: {
                 color: getCSSVariable('--lighter')
