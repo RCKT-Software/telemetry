@@ -4,16 +4,17 @@
     <span class="goal-box__edit"
           @click.prevent="modalStore.openModal('goal', {goal: appDataStore.activeGoal})">Edit</span>
     <h1 class="goal-box__heading">
-      {{ appDataStore.activeGoal.formattedTargetValue }}<br><span>by {{ appDataStore.activeGoal.formattedDeadline }}</span>
+      {{ appDataStore.activeGoal.formattedTargetValue }}<br><span
+        v-if="appDataStore.activeGoal.deadline">by {{ appDataStore.activeGoal.formattedDeadline }}</span>
     </h1>
     <div class="goal-box__chart"></div>
     <div class="goal-box__stats">
       <div class="goal-box__stats-item">
-        <span class="goal-box__stats-item-label">Daily avg.</span>
+        <span class="goal-box__stats-item-label">Best Fit</span>
         <span class="goal-box__stats-item-value value-tag value-tag--success"><i
-            class="fa-sharp fa-solid fa-angle-up"></i> +0</span>
+            class="fa-sharp fa-solid fa-square-root-variable"></i> {{ appDataStore.activeTracker.regressionData.name }}</span>
       </div>
-      <div class="goal-box__stats-item">
+      <div class="goal-box__stats-item" v-if="appDataStore.activeGoal.deadline">
         <span class="goal-box__stats-item-label">Deadline</span>
         <span class="goal-box__stats-item-value value-tag"><i
             class="fa-sharp fa-regular fa-calendar"></i> {{ appDataStore.activeGoal.formattedRelativeDeadline }}</span>
@@ -106,6 +107,7 @@ const modalStore = useModalStore();
     flex-direction: column;
     flex-wrap: nowrap;
     gap: 4px;
+    max-width: calc(50% - 4px);
 
     &:last-child {
       text-align: right;
@@ -113,6 +115,10 @@ const modalStore = useModalStore();
 
     .goal-box__stats-item-value {
       font-weight: 600;
+      overflow-x: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      max-width: 100%;
     }
   }
 

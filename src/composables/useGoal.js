@@ -60,7 +60,7 @@ export function useGoal(config = {
     /**
      * The goal's deadline, represented as a Date object
      */
-    const deadline = ref(config.deadline || new Date.create('next Friday'));
+    const deadline = ref(config.deadline || false);
 
     /**
      * Placeholder for the predicted completion of the goal
@@ -85,14 +85,22 @@ export function useGoal(config = {
      * The formatted version of the deadline
      */
     const formattedDeadline = computed(() => {
-        return new Date(deadline.value).medium();
+        if (deadline.value) {
+            return new Date(deadline.value).short();
+        } else {
+            return 'No deadline set';
+        }
     });
 
     /**
      * The formatted version of the deadline (relative)
      */
     const formattedRelativeDeadline = computed(() => {
-        return new Date(deadline.value).relative();
+        if (deadline.value) {
+            return new Date(deadline.value).relative();
+        } else {
+            return 'No deadline set';
+        }
     });
 
     /**

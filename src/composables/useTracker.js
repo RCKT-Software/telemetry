@@ -180,16 +180,16 @@ export function useTracker(config = {
         const polynomial2 = regression.polynomial(data, {order: 2});
         const polynomial3 = regression.polynomial(data, {order: 3});
         const results = [
-            {name: 'linear', calculation: linear},
-            {name: 'exponential', calculation: exponential},
-            {name: 'logarithmic', calculation: logarithmic},
-            {name: 'power', calculation: power}
+            {name: 'Linear', calculation: linear},
+            {name: 'Exponential', calculation: exponential},
+            {name: 'Logarithmic', calculation: logarithmic},
+            {name: 'Power', calculation: power}
         ];
         // Only support polynomials with more than 10 data points
         if(data.length > 10){
-            results.push({name: 'polynomial (1)', calculation: polynomial1});
-            results.push({name: 'polynomial (2)', calculation: polynomial2});
-            results.push({name: 'polynomial (3)', calculation: polynomial3});
+            results.push({name: 'Polynomial (1)', calculation: polynomial1});
+            results.push({name: 'Polynomial (2)', calculation: polynomial2});
+            results.push({name: 'Polynomial (3)', calculation: polynomial3});
         }
         results.sort((a, b) => {
             if (a.calculation.r2 < 0 || isNaN(a.calculation.r2)) return 1;

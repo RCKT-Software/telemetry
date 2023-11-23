@@ -77,8 +77,6 @@
 
           <div style="background-color: var(--lighter); width: 100%; height: 800px; border-radius: 5px; padding: 20px">
             <p style="margin-bottom: 10px; display: block; font-weight: bold">
-              {{ appDataStore.activeTracker.regressionData.calculation.string }}</p>
-            <p style="margin-bottom: 10px; display: block; font-weight: bold">
               {{ Math.floor(appDataStore.activeTracker.regressionData.calculation.r2 * 100) }}% regression model fit
               using {{ appDataStore.activeTracker.regressionData.name }}.</p>
             <p v-for="dataPoint in appDataStore.activeTracker.recentDataPoints">{{ dataPoint.createdAt }} =>
