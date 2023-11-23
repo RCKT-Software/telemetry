@@ -8,6 +8,7 @@ Sugar.extend();
 
 export function useGoal(config = {
     id: null,
+    createdAt: null,
     trackerId: null,
     targetValue: 0,
     deadline: new Date()
@@ -22,6 +23,7 @@ export function useGoal(config = {
             targetValue: targetValue.value,
             deadline: deadline.value,
             trackerId: trackerId,
+            createdAt: createdAt.valueOf()
         };
     };
 
@@ -29,6 +31,12 @@ export function useGoal(config = {
      * The assigned ID of the goal
      */
     const id = config.id || uuidv4();
+
+    /**
+     * When was this goal created?
+     * @type {Date}
+     */
+    const createdAt = Date.create(config.createdAt) || Date.create();
 
     /**
      * The tracker ID
@@ -58,9 +66,9 @@ export function useGoal(config = {
      * Placeholder for the predicted completion of the goal
      */
     const predicted = computed(() => {
-        if(parentTracker.value) {
+        if (parentTracker.value) {
             if (parentTracker.value.regressionData.calculation.predictX(parseFloat(targetValue.value))) {
-                return new Date.create(parentTracker.value.regressionData.calculation.predictX(parseFloat(targetValue.value))[0]);
+                return new Date.create(parentTracker.value.regressionData.calculation.predictX(parseFloat(targetValue.value))[0] + parentTracker.value.xOffset);
             }
         }
         return false;
@@ -91,11 +99,11 @@ export function useGoal(config = {
      * The formatted version of the predicted completion of the goal
      */
     const formattedPredicted = computed(() => {
-        if (predicted.value) {
-            if(predicted.value.isFuture()) {
+        if (predicted.value && predicted.value.isAfter(createdAt)) {
+            if (predicted.value.isFuture()) {
                 return predicted.value.medium();
-            }else{
-                return 'Goal completed'
+            } else {
+                return 'Completed ' + predicted.value.short()
             }
         } else {
             return 'No prediction available';
@@ -104,6 +112,7 @@ export function useGoal(config = {
 
     return {
         id,
+        createdAt,
         trackerId,
         targetValue,
         deadline,

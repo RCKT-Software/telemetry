@@ -235,6 +235,7 @@ export function useTracker(config = {
         activeGoal,
         formattedCurrentValue,
         formattedLastUpdated,
+        xOffset,
         addGoal,
         captureDataPoint,
         updateDataPoints,
