@@ -235,7 +235,6 @@ const toggleDarkMode = async () => {
   padding-top: 12px;
   padding-left: 35px;
   cursor: pointer;
-  transition: color 0.05s ease;
   font-weight: 500;
 
   i {
@@ -254,7 +253,6 @@ const toggleDarkMode = async () => {
   align-items: center;
   justify-content: space-between;
   cursor: pointer;
-  transition: background-color 0.05s ease;
   scroll-snap-align: start;
 
   &:hover, &.tracker-nav-item--active {

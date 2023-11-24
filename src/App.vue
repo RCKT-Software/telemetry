@@ -68,7 +68,7 @@
           <div class="tabs">
             <!--            <button class="tab tab&#45;&#45;active"><i class="fa-sharp fa-solid fa-list-timeline"></i> Analytics</button>-->
             <button class="tab tab--active"><i class="fa-sharp fa-regular fa-table-rows"></i> Data</button>
-            <button class="tab"><i class="fa-sharp fa-solid fa-gear"></i> Settings</button>
+<!--            <button class="tab"><i class="fa-sharp fa-solid fa-gear"></i> Settings</button>-->
             <button class="tab" @click.prevent="modalStore.openModal('delete-tracker')"><i
                 class="fa-sharp fa-solid fa-trash"></i> Delete
             </button>
