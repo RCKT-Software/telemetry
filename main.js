@@ -3,7 +3,7 @@ const {app, BrowserWindow, ipcMain, globalShortcut} = require('electron');
 const si = require('systeminformation');
 const packageJSON = require('./package.json');
 
-const {initializeDatabase, captureDataPoint, getDataPoints} = require('./src/system/database');
+const {initializeDatabase, captureDataPoint, getDataPoints, deleteDataPoint} = require('./src/system/database');
 const {initializeAppData, storeAppData} = require('./src/system/configuration');
 
 // Handle creating/removing shortcuts on Windows when installing/uninstalling.
@@ -70,6 +70,11 @@ function createWindow(userData = {}) {
     // Handle capturing a data point
     ipcMain.handle('capture-data-point', async (event, data) => {
         captureDataPoint(data);
+    });
+
+    // Handle deleting a data point
+    ipcMain.handle('delete-data-point', async (event, data) => {
+        deleteDataPoint(data);
     });
 
     // Handle getting data points for a given tracker

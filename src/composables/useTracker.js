@@ -146,6 +146,17 @@ export function useTracker(config = {
     }
 
     /**
+     * Deletes a data point from the tracker, given a data point ID.
+     * @param id
+     */
+    const deleteDataPoint = async (id) => {
+        await window["electronAPI"].deleteDataPoint({
+            id
+        });
+        updateDataPoints();
+    }
+
+    /**
      * Fetches the latest data points for the tracker and updates the current value and last updated date.
      */
     const updateDataPoints = () => {
@@ -251,6 +262,7 @@ export function useTracker(config = {
         xOffset,
         addGoal,
         captureDataPoint,
+        deleteDataPoint,
         updateDataPoints,
         chartData,
         regressionData,

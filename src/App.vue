@@ -76,19 +76,7 @@
           </div>
 
           <!-- Recent Data Points -->
-          <label style="margin-left: 25px; margin-bottom: 20px;">Captured Data</label>
-          <table class="datapoints-table">
-            <tbody>
-            <tr v-for="dataPoint in appDataStore.activeTracker.recentDataPoints">
-              <td style="width: 300px">{{
-                  Date.create(dataPoint.createdAt).full()
-                }}
-              </td>
-              <td style="width: 100px">{{ formatValue(dataPoint.value, appDataStore.activeTracker.numberFormat) }}</td>
-              <td><i class="fa-sharp fa-regular fa-times datapoints-table__delete"></i></td>
-            </tr>
-            </tbody>
-          </table>
+          <dataTable />
 
         </div>
 
@@ -120,7 +108,7 @@ import {useAppDataStore} from "./stores/appData";
 import {useModalStore} from "./stores/modal";
 import ModalManager from "./components/layout/modalManager.vue";
 import {useInterfaceStore} from "./stores/interface";
-import {formatValue} from "./utility/helpers";
+import DataTable from "./components/dataTable.vue";
 
 const systemInformation = ref({
   version: null,
@@ -556,47 +544,6 @@ label {
   &:hover {
     border-bottom: 2px dotted var(--dark);
     cursor: pointer;
-  }
-}
-
-.datapoints-table {
-  background-color: var(--lighter);
-  border: 1px solid var(--light);
-  border-radius: 5px;
-  width: 775px;
-  margin-bottom: 40px;
-  padding: 0;
-
-  tr {
-    display: flex;
-    flex-direction: row;
-    flex-wrap: nowrap;
-    justify-content: space-between;
-    align-items: center;
-    padding: 0 10px 0 20px;
-    color: var(--darker);
-
-    &:first-child {
-      border-radius: 5px 5px 0 0;
-    }
-
-    &:last-child {
-      border-radius: 0 0 5px 5px;
-    }
-
-    &:hover {
-      background-color: var(--light);
-
-      .datapoints-table__delete {
-        color: var(--darker);
-      }
-    }
-
-    .datapoints-table__delete {
-      color: var(--medium);
-      padding: 10px;
-      cursor: pointer;
-    }
   }
 }
 

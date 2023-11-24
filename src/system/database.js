@@ -87,4 +87,23 @@ async function getDataPoints(trackerId, configuration) {
     }
 }
 
-module.exports = {initializeDatabase, captureDataPoint, getDataPoints};
+/**
+ * Deletes a single data point.
+ * @param data
+ * @returns {Promise<boolean>}
+ */
+async function deleteDataPoint(data) {
+    try {
+        await DataPoint.destroy({
+            where: {
+                id: data.id
+            }
+        });
+        return true;
+    } catch (error) {
+        console.error('Failed to delete data point:', error);
+        throw error;
+    }
+}
+
+module.exports = {initializeDatabase, captureDataPoint, getDataPoints, deleteDataPoint};

@@ -18,6 +18,7 @@ contextBridge.exposeInMainWorld('electronAPI', {
                 console.error("Error getting data points: ", err);
             });
     },
+    deleteDataPoint: (dataPointId) => ipcRenderer.invoke('delete-data-point', dataPointId),
     getChartData: (trackerId, configuration, callback) => {
         ipcRenderer.invoke('get-chart-data', trackerId, configuration)
             .then(dataPoints => {
