@@ -52,6 +52,15 @@ export function useTracker(config = {
     const recentDataPoints = ref([]);
 
     /**
+     * A reference to the current time, used to know how long ago we updated the last updated date
+     * This updates every 5 minutes, as updating it will cause the chart to re-render
+     */
+    const currentTime = ref(new Date());
+    setInterval(() => {
+        currentTime.value = new Date();
+    }, 1000 * 60 * 5);
+
+    /**
      * A placeholder for the date the current value was last updated
      */
     const lastUpdated = ref(Date.create('yesterday'));
@@ -60,7 +69,10 @@ export function useTracker(config = {
      * The relative formatted value for the last updated date
      */
     const formattedLastUpdated = computed(() => {
-        return lastUpdated.value.relative()
+        // Wrapped in a currentTime call, to ensure it updates every 5 minutes
+        if(currentTime.value > 0) {
+            return lastUpdated.value.relative();
+        }
     });
 
     /**

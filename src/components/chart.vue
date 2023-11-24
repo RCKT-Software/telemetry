@@ -6,7 +6,7 @@
 
 <script setup>
 
-import {computed, onBeforeUnmount, onMounted, watch} from "vue";
+import {onBeforeUnmount, onMounted, watch} from "vue";
 import Chart from 'chart.js/auto'
 import 'chartjs-adapter-moment';
 import {useAppDataStore} from "../stores/appData";
