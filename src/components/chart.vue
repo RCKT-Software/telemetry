@@ -27,6 +27,31 @@ const getCSSVariable = (variableName) => {
 }
 
 /**
+ * Determines the unit of time to use for the X axis, based on the data to show.
+ */
+const getUnitOfTime = computed(() => {
+  const firstDataPoint = appDataStore.activeTracker.chartData.labels[0];
+  if(!firstDataPoint){
+    return 'day';
+  }
+  const lastDataPoint = appDataStore.activeTracker.chartData.labels[appDataStore.activeTracker.chartData.labels.length - 1];
+  const timeDifference = lastDataPoint - firstDataPoint;
+  if(timeDifference < 1000 * 60){
+    return 'second'; // less than a minute
+  }else if(timeDifference < 1000 * 60 * 30){
+    return 'minute'; // less than 30 minutes
+  }else if(timeDifference < 1000 * 60 * 60 * 12){
+    return 'hour'; // less than 12 hours
+  }else if(timeDifference < 1000 * 60 * 60 * 24 * 30){
+    return 'day'; // less than 30 days
+  }else if(timeDifference < 1000 * 60 * 60 * 24 * 12){
+    return 'month'; // less than a year
+  }else{
+    return 'year'; // more than a year
+  }
+});
+
+/**
  * Determines the data to draw to the chart.
  */
 const chartDatasets = () => {
@@ -97,6 +122,9 @@ const createChart = async () => {
           scales: {
             x: {
               type: 'time',
+              time: {
+                unit: getUnitOfTime.value,
+              },
               grid: {
                 color: getCSSVariable('--lighter')
               }
