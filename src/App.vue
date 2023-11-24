@@ -75,13 +75,20 @@
             <!--            <button class="tab"><i class="fa-sharp fa-solid fa-chart-line"></i> Chart Settings</button>-->
           </div>
 
-          <div style="background-color: var(--lighter); width: 100%; height: 800px; border-radius: 5px; padding: 20px">
-            <p style="margin-bottom: 10px; display: block; font-weight: bold">
-              {{ Math.floor(appDataStore.activeTracker.regressionData.calculation.r2 * 100) }}% regression model fit
-              using {{ appDataStore.activeTracker.regressionData.name }}.</p>
-            <p v-for="dataPoint in appDataStore.activeTracker.recentDataPoints">{{ dataPoint.createdAt }} =>
-              {{ dataPoint.value }}</p>
-          </div>
+          <!-- Recent Data Points -->
+          <table class="datapoints-table">
+            <tbody>
+            <tr v-for="dataPoint in appDataStore.activeTracker.recentDataPoints">
+              <td>{{
+                  Date.create(dataPoint.createdAt).full()
+                }}
+              </td>
+              <td>{{ formatValue(dataPoint.value, appDataStore.activeTracker.numberFormat) }}</td>
+              <td><i class="fa-sharp fa-regular fa-times"></i></td>
+            </tr>
+            </tbody>
+          </table>
+
         </div>
 
       </section>
@@ -112,6 +119,7 @@ import {useAppDataStore} from "./stores/appData";
 import {useModalStore} from "./stores/modal";
 import ModalManager from "./components/layout/modalManager.vue";
 import {useInterfaceStore} from "./stores/interface";
+import {formatValue} from "./utility/helpers";
 
 const systemInformation = ref({
   version: null,
@@ -543,6 +551,41 @@ label {
   &:hover {
     border-bottom: 2px dotted var(--dark);
     cursor: pointer;
+  }
+}
+
+.datapoints-table{
+  background-color: var(--lighter);
+  border: 1px solid var(--light);
+  border-radius: 5px;
+  width: 775px;
+  margin-bottom: 40px;
+  padding: 0;
+
+  tr{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+    color: var(--darker);
+
+    &:first-child{
+      border-radius: 5px 5px 0 0;
+    }
+
+    &:last-child{
+      border-radius: 0 0 5px 5px;
+    }
+
+    &:hover{
+      background-color: var(--light);
+    }
+
+    i{
+      color: var(--dark);
+    }
   }
 }
 
