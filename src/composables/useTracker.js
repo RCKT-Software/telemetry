@@ -215,14 +215,13 @@ export function useTracker(config = {
 
     /**
      * Take the best regression method and predict the immediate future of this progress tracker.
-     * @type {ComputedRef<*[]>}
      */
     const chartRegressionData = computed(() => {
         let points = [];
         if (regressionData.value.calculation.points.length > 1) {
             const timeScale = (regressionData.value.calculation.points[regressionData.value.calculation.points.length - 1][0]);
-            const interval = timeScale / 10 * 2;
-            for (let i = 0; i <= 10; i++) {
+            const interval = timeScale / 20 * 2;
+            for (let i = 0; i <= 20; i++) {
                 let futureTime = moment(timeScale).add(interval * i, 'milliseconds').valueOf();
                 let predicted = regressionData.value.calculation.predict(futureTime);
                 if (predicted) {
