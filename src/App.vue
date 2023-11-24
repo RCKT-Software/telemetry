@@ -67,7 +67,7 @@
         <div class="tab-section">
           <div class="tabs">
             <!--            <button class="tab tab&#45;&#45;active"><i class="fa-sharp fa-solid fa-list-timeline"></i> Analytics</button>-->
-            <button class="tab"><i class="fa-sharp fa-regular fa-table-rows"></i> Data</button>
+            <button class="tab tab--active"><i class="fa-sharp fa-regular fa-table-rows"></i> Recent Data</button>
             <button class="tab"><i class="fa-sharp fa-solid fa-gear"></i> Settings</button>
             <button class="tab" @click.prevent="modalStore.openModal('delete-tracker')"><i
                 class="fa-sharp fa-solid fa-trash"></i> Delete
@@ -454,9 +454,7 @@ label {
   flex-direction: row;
   flex-wrap: nowrap;
   gap: 15px;
-  margin-bottom: 20px;
-  border-bottom: 1px solid var(--light);
-  padding-bottom: 10px;
+  margin-bottom: 30px;
   width: fit-content;
 }
 
@@ -476,7 +474,11 @@ label {
   font-weight: 500;
   font-size: 14px;
 
-  &.tab--active, &:hover {
+  &:hover {
+    background-color: var(--lighter);
+  }
+
+  &.tab--active {
     background-color: var(--lighter);
   }
 }
