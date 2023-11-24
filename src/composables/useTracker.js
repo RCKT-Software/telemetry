@@ -209,10 +209,10 @@ export function useTracker(config = {
         ];
         // Only support polynomials with more than 10 data points
         if (data.length > 10) {
-            if (polynomial2.r2 > 0.3) {
+            if (polynomial2.r2 > 0.5) {
                 results.push({name: 'Polynomial (2)', calculation: polynomial2});
             }
-            if (polynomial3.r2 > 0.3) {
+            if (polynomial3.r2 > 0.5) {
                 results.push({name: 'Polynomial (3)', calculation: polynomial3});
             }
         }
