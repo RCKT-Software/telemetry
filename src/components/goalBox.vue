@@ -11,18 +11,20 @@
     <div class="goal-box__stats">
       <div class="goal-box__stats-item">
         <span class="goal-box__stats-item-label">Best Fit</span>
-        <span class="goal-box__stats-item-value value-tag value-tag--success"><i
-            class="fa-sharp fa-solid fa-square-root-variable"></i> {{ appDataStore.activeTracker.regressionData.name }}</span>
+        <span class="goal-box__stats-item-value value-tag"><i
+            class="fa-sharp fa-regular fa-function"></i> {{ appDataStore.activeTracker.regressionData.name }}</span>
       </div>
       <div class="goal-box__stats-item" v-if="appDataStore.activeGoal.deadline">
-        <span class="goal-box__stats-item-label">Deadline</span>
+        <span class="goal-box__stats-item-label">R2</span>
         <span class="goal-box__stats-item-value value-tag"><i
-            class="fa-sharp fa-regular fa-calendar"></i> {{ appDataStore.activeGoal.formattedRelativeDeadline }}</span>
+            class="fa-sharp fa-regular fa-square-root-variable"></i> {{
+            Math.floor(appDataStore.activeTracker.regressionData.calculation.r2 * 100)
+          }}% </span>
       </div>
     </div>
     <div class="divider"/>
     <div class="goal-box__prediction-item">
-      <span class="goal-box__prediction-item-label">Prediction...</span>
+      <span class="goal-box__prediction-item-label value-tag value-tag--success">Prediction</span>
       <h1 class="goal-box__prediction-item-value">{{ appDataStore.activeGoal.formattedPredicted }}</h1>
     </div>
   </div>
@@ -48,6 +50,8 @@ const modalStore = useModalStore();
   width: 290px;
   padding: 20px 30px 20px 20px;
   position: relative;
+  height: 370px;
+  overflow-y: hidden;
 
   .goal-box__label {
     font-weight: 600;
@@ -141,10 +145,8 @@ const modalStore = useModalStore();
 
     .goal-box__prediction-item-label {
       font-weight: 600;
-      font-size: 14px;
       display: block;
       margin-bottom: 2px;
-      color: var(--darker);
     }
 
     .goal-box__prediction-item-value {
