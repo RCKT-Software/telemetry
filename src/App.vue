@@ -67,7 +67,7 @@
         <div class="tab-section">
           <div class="tabs">
             <!--            <button class="tab tab&#45;&#45;active"><i class="fa-sharp fa-solid fa-list-timeline"></i> Analytics</button>-->
-            <button class="tab tab--active"><i class="fa-sharp fa-regular fa-table-rows"></i> Recent Data</button>
+            <button class="tab tab--active"><i class="fa-sharp fa-regular fa-table-rows"></i> Data</button>
             <button class="tab"><i class="fa-sharp fa-solid fa-gear"></i> Settings</button>
             <button class="tab" @click.prevent="modalStore.openModal('delete-tracker')"><i
                 class="fa-sharp fa-solid fa-trash"></i> Delete
@@ -76,15 +76,16 @@
           </div>
 
           <!-- Recent Data Points -->
+          <label style="margin-left: 25px; margin-bottom: 20px;">Captured Data</label>
           <table class="datapoints-table">
             <tbody>
             <tr v-for="dataPoint in appDataStore.activeTracker.recentDataPoints">
-              <td>{{
+              <td style="width: 300px">{{
                   Date.create(dataPoint.createdAt).full()
                 }}
               </td>
-              <td>{{ formatValue(dataPoint.value, appDataStore.activeTracker.numberFormat) }}</td>
-              <td><i class="fa-sharp fa-regular fa-times"></i></td>
+              <td style="width: 100px">{{ formatValue(dataPoint.value, appDataStore.activeTracker.numberFormat) }}</td>
+              <td><i class="fa-sharp fa-regular fa-times datapoints-table__delete"></i></td>
             </tr>
             </tbody>
           </table>
@@ -440,7 +441,7 @@ label {
   gap: 0;
   justify-content: space-between;
   align-items: flex-start;
-  margin-bottom: 40px;
+  margin-bottom: 20px;
 }
 
 .divider {
@@ -455,7 +456,9 @@ label {
   flex-wrap: nowrap;
   gap: 15px;
   margin-bottom: 30px;
-  width: fit-content;
+  padding-bottom: 20px;
+  width: 100%;
+  border-bottom: 1px solid var(--light);
 }
 
 .tab {
@@ -556,7 +559,7 @@ label {
   }
 }
 
-.datapoints-table{
+.datapoints-table {
   background-color: var(--lighter);
   border: 1px solid var(--light);
   border-radius: 5px;
@@ -564,29 +567,35 @@ label {
   margin-bottom: 40px;
   padding: 0;
 
-  tr{
+  tr {
     display: flex;
     flex-direction: row;
     flex-wrap: nowrap;
     justify-content: space-between;
     align-items: center;
-    padding: 10px 20px;
+    padding: 0 10px 0 20px;
     color: var(--darker);
 
-    &:first-child{
+    &:first-child {
       border-radius: 5px 5px 0 0;
     }
 
-    &:last-child{
+    &:last-child {
       border-radius: 0 0 5px 5px;
     }
 
-    &:hover{
+    &:hover {
       background-color: var(--light);
+
+      .datapoints-table__delete {
+        color: var(--darker);
+      }
     }
 
-    i{
-      color: var(--dark);
+    .datapoints-table__delete {
+      color: var(--medium);
+      padding: 10px;
+      cursor: pointer;
     }
   }
 }
