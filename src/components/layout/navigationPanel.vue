@@ -7,8 +7,8 @@
 
     <!-- Collection Control Bar -->
     <div class="collection-control">
-      <i class="fa-sharp fa-regular fa-plus" title="New collection"
-         @click.prevent="modalStore.openModal('collection')"></i>
+      <i class="fa-sharp fa-regular fa-plus" title="New progress tracker"
+         @click.prevent="modalStore.openModal('progress-tracker')"></i>
       <i class="fa-sharp fa-regular fa-cog" title="Edit collection"
          @click.prevent="modalStore.openModal('collection', {collection: appDataStore.activeCollection})"></i>
       <!--      <i class="fa-sharp fa-regular fa-file-export" title="Export to CSV"></i>-->
@@ -19,12 +19,10 @@
     </div>
 
     <!-- Progress Trackers -->
-    <div class="metric-nav-toggle" @click.prevent="toggleTrackers">
-      <i class="fa-regular fa-chevron-down" v-if="showTrackers"></i>
-      <i class="fa-regular fa-chevron-up" v-if="!showTrackers"></i>
+    <div class="metric-nav-toggle" v-if="appDataStore.activeTracker">
       <span>All progress trackers</span>
     </div>
-    <ul class="metric-nav" v-if="showTrackers && appDataStore.activeTracker">
+    <ul class="metric-nav" v-if="appDataStore.activeTracker">
       <li class="tracker-nav-item"
           :class="{'tracker-nav-item--active': tracker.id === appDataStore.activeTracker.id}"
           v-for="tracker in appDataStore.activeCollection.trackers"
@@ -35,7 +33,7 @@
     </ul>
     <span class="tracker-add-button" title="Add a new progress tracker"
           @click.prevent="modalStore.openModal('progress-tracker')"><i
-        class="fa-sharp fa-regular fa-plus"></i> New</span>
+        class="fa-sharp fa-regular fa-plus"></i> New progress tracker</span>
 
     <!-- Middle Divider -->
     <div class="divider divider__middle"/>
@@ -92,12 +90,6 @@ const systemInformation = ref({
   version: null,
   uuid: null
 });
-
-const showTrackers = ref(true);
-
-const toggleTrackers = () => {
-  showTrackers.value = !showTrackers.value;
-};
 
 onMounted(async () => {
   systemInformation.value = await window["electronAPI"].getSystemInformation();
@@ -177,20 +169,13 @@ const toggleDarkMode = async () => {
 }
 
 .metric-nav-toggle {
-  cursor: pointer;
-  margin-top: 10px;
+  margin-top: 20px;
   padding: 10px;
-
-  i {
-    margin-right: 10px;
-    width: 15px;
-    padding-left: 25px;
-    color: var(--dark);
-  }
+  margin-left: 35px;
 
   span {
     font-size: 14px;
-    font-weight: 500;
+    font-weight: 600;
     color: var(--heading);
   }
 
@@ -229,13 +214,13 @@ const toggleDarkMode = async () => {
 }
 
 .tracker-add-button {
-  color: var(--dark);
+  color: var(--darker);
   font-size: 14px;
   display: block;
-  padding-top: 12px;
+  padding-top: 30px;
   padding-left: 35px;
   cursor: pointer;
-  font-weight: 500;
+  font-weight: 600;
 
   i {
     padding-right: 8px;
@@ -247,7 +232,8 @@ const toggleDarkMode = async () => {
 }
 
 .tracker-nav-item {
-  padding: 10px 15px;
+  margin-left: -10px;
+  padding: 10px 12px;
   border-radius: 8px;
   display: flex;
   align-items: center;
@@ -257,12 +243,16 @@ const toggleDarkMode = async () => {
 
   &:hover, &.tracker-nav-item--active {
     background-color: var(--light);
+
+    span.tracker-nav-item__label {
+      color: var(--heading);
+    }
   }
 
   span.tracker-nav-item__label {
     font-size: 14px;
     font-weight: 400;
-    color: var(--heading);
+    color: var(--darker);
   }
 
   span.tracker-nav-item__records {
