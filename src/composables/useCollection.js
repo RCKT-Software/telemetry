@@ -7,15 +7,15 @@ const colorChoices = [
     '#26DCB7', // Existing color
     '#FFB3BA', // Light Pink
     '#FFDFBA', // Light Peach
-    '#FFFFBA', // Light Yellow
+    '#dede7c', // Light Yellow
     '#BAFFC9', // Light Mint
-    '#BAE1FF', // Light Sky Blue
-    '#BABDFF', // Light Periwinkle
-    '#DABAFF', // Light Lavender
+    '#8ecaf8', // Light Sky Blue
+    '#8e91f1', // Light Periwinkle
+    '#c09bf1', // Light Lavender
     '#FFBAFF', // Light Pink
     '#FFBAD2', // Light Rose
-    '#B6FFB4', // Light Green
-    '#BFFCC6'  // Light Greenish Blue
+    '#a2de7a', // Light Green
+    '#7ce086'  // Light Greenish Blue
 ];
 
 export function useCollection(config = {
@@ -71,7 +71,7 @@ export function useCollection(config = {
     /**
      * The transparent version of the collection's primary color
      */
-    const transparentColor = computed(() => colorLib(color.value).alpha(0.4).rgbString());
+    const transparentColor = computed(() => colorLib(color.value).alpha(0.6).rgbString());
 
     /**
      * The progress trackers that belong to this collection
