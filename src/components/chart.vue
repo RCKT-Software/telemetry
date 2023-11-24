@@ -43,22 +43,24 @@ const chartDatasets = () => {
     }
   ];
   // Goals
-  for (const goal of appDataStore.activeTracker.goals) {
-    if(goal.predicted > appDataStore.activeTracker.chartRegressionData[appDataStore.activeTracker.chartRegressionData.length - 1][0]) {
-      continue;
+  if (appDataStore.activeTracker.chartRegressionData.length > 0) {
+    for (const goal of appDataStore.activeTracker.goals) {
+      if (goal.predicted > appDataStore.activeTracker.chartRegressionData[appDataStore.activeTracker.chartRegressionData.length - 1][0]) {
+        continue;
+      }
+      if (goal.predicted < appDataStore.activeTracker.chartData.labels[0]) {
+        continue;
+      }
+      datasets.push({
+        data: [[moment(goal.predicted).valueOf(), goal.targetValue]],
+        fill: false,
+        pointStyle: 'rectRounded',
+        pointBackgroundColor: getCSSVariable('--white'),
+        pointBorderColor: getCSSVariable('--black'),
+        pointBorderWidth: 2,
+        pointRadius: 8,
+      });
     }
-    if(goal.predicted < appDataStore.activeTracker.chartData.labels[0]) {
-      continue;
-    }
-    datasets.push({
-      data: [[moment(goal.predicted).valueOf(), goal.targetValue]],
-      fill: false,
-      pointStyle: 'rectRounded',
-      pointBackgroundColor: getCSSVariable('--white'),
-      pointBorderColor: getCSSVariable('--black'),
-      pointBorderWidth: 2,
-      pointRadius: 8,
-    });
   }
   // Regression Line
   datasets.push(
