@@ -6,10 +6,11 @@
 
 <script setup>
 
-import {onBeforeUnmount, onMounted, watch} from "vue";
+import {computed, onBeforeUnmount, onMounted, watch} from "vue";
 import Chart from 'chart.js/auto'
 import 'chartjs-adapter-moment';
 import {useAppDataStore} from "../stores/appData";
+import moment from "moment";
 
 /* Keep a record of the chart for mounting/unmounting */
 let chart;
@@ -24,6 +25,55 @@ const appDataStore = useAppDataStore();
 const getCSSVariable = (variableName) => {
   return getComputedStyle(document.getElementById('top-level')).getPropertyValue(variableName);
 }
+
+/**
+ * Determines the data to draw to the chart.
+ */
+const chartDatasets = () => {
+  // Base Data
+  const datasets = [
+    {
+      data: appDataStore.activeTracker.chartData.data,
+      fill: {
+        target: 'start',
+        above: appDataStore.activeCollection.transparentColor,
+      },
+      pointStyle: false,
+      borderColor: appDataStore.activeCollection.color,
+    }
+  ];
+  // Goals
+  for (const goal of appDataStore.activeTracker.goals) {
+    if(goal.predicted > appDataStore.activeTracker.chartRegressionData[appDataStore.activeTracker.chartRegressionData.length - 1][0]) {
+      continue;
+    }
+    if(goal.predicted < appDataStore.activeTracker.chartData.labels[0]) {
+      continue;
+    }
+    datasets.push({
+      data: [[moment(goal.predicted).valueOf(), goal.targetValue]],
+      fill: false,
+      pointStyle: 'rectRounded',
+      pointBackgroundColor: getCSSVariable('--white'),
+      pointBorderColor: getCSSVariable('--black'),
+      pointBorderWidth: 2,
+      pointRadius: 8,
+    });
+  }
+  // Regression Line
+  datasets.push(
+      {
+        data: appDataStore.activeTracker.chartRegressionData,
+        fill: false,
+        pointStyle: false,
+        borderColor: getCSSVariable('--dark'),
+        borderDash: [5, 5],
+        lineTension: 0,
+      }
+  )
+  return datasets;
+};
+
 
 /**
  * Creates the chart with the latest data.
@@ -65,7 +115,7 @@ const createChart = async () => {
               display: false
             },
             tooltip: {
-              enabled: true
+              enabled: false
             }
           },
           layout: {
@@ -78,25 +128,7 @@ const createChart = async () => {
         },
         data: {
           labels: appDataStore.activeTracker.chartData.labels,
-          datasets: [
-            {
-              data: appDataStore.activeTracker.chartData.data,
-              fill: {
-                target: 'start',
-                above: appDataStore.activeCollection.transparentColor,
-              },
-              pointStyle: false,
-              borderColor: appDataStore.activeCollection.color,
-            },
-            {
-              data: appDataStore.activeTracker.chartRegressionData,
-              fill: false,
-              pointStyle: false,
-              borderColor: getCSSVariable('--dark'),
-              borderDash: [5, 5],
-              lineTension: 0,
-            }
-          ]
+          datasets: chartDatasets()
         }
       }
   );

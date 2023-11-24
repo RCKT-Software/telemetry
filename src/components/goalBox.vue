@@ -1,13 +1,13 @@
 <template>
   <div class="goal-box" v-if="appDataStore.activeGoal">
-    <span class="goal-box__label">Goal</span>
+    <span class="goal-box__label"><i class="fa-regular fa-square-dashed" style="padding-right: 5px"></i> Goal</span>
     <span class="goal-box__edit"
           @click.prevent="modalStore.openModal('goal', {goal: appDataStore.activeGoal})">Edit</span>
     <h1 class="goal-box__heading">
       {{ appDataStore.activeGoal.formattedTargetValue }}<br><span
         v-if="appDataStore.activeGoal.deadline">Deadline: {{ appDataStore.activeGoal.formattedDeadline }}</span>
     </h1>
-    <div class="goal-box__chart"></div>
+    <div class="divider" style="margin-bottom: 20px"/>
     <div class="goal-box__stats">
       <div class="goal-box__stats-item">
         <span class="goal-box__stats-item-label">Best Fit</span>
@@ -86,15 +86,6 @@ const modalStore = useModalStore();
       color: var(--dark);
       font-size: 14px;
     }
-  }
-
-  .goal-box__chart {
-    width: 100%;
-    aspect-ratio: 2.3;
-    background-color: var(--light);
-    margin-bottom: 20px;
-    display: block;
-    border-radius: 5px;
   }
 
   .goal-box__stats {
