@@ -78,7 +78,7 @@ export function useCollection(config = {
      * The progress trackers that belong to this collection
      */
     const trackerStartingData = [];
-    if(config.trackers) {
+    if(config.trackers && Array.isArray(config.trackers)) {
         for (let trackerData of config.trackers) {
             trackerStartingData.push(useTracker(trackerData));
         }

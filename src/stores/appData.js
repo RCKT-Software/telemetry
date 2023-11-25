@@ -23,7 +23,7 @@ export const useAppDataStore = defineStore('appData', () => {
             activeId.value = collections.value[0].id;
             return collections.value[0];
         }
-        return collection || null;
+        return collection || false;
     });
 
     /**

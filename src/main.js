@@ -31,7 +31,7 @@ if (window.electronAPI) {
         const hydratedData = JSON.parse(data);
 
         // Convert the raw collection data into proper collection objects
-        if (!hydratedData.collections) hydratedData.collections = [];
+        if (!hydratedData.collections) hydratedData.collections = [useCollection()];
         hydratedData.collections = hydratedData.collections.map(collectionData => {
             return useCollection(collectionData);
         });
