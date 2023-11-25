@@ -81,12 +81,8 @@
         </div>
 
       </section>
-      <section v-if="!appDataStore.activeTracker" id="empty-view" class="center-content" style="margin-top:20px;">
-        <div style="background-color: var(--lighter); width: 100%; border-radius: 5px; padding: 20px">
-          <p style="font-weight: bold">
-            This collection is empty.
-          </p>
-        </div>
+      <section v-if="!appDataStore.activeTracker" id="empty-view" class="center-content">
+        <emptyCollection></emptyCollection>
       </section>
     </main>
 
@@ -109,6 +105,7 @@ import {useModalStore} from "./stores/modal";
 import ModalManager from "./components/layout/modalManager.vue";
 import {useInterfaceStore} from "./stores/interface";
 import DataTable from "./components/dataTable.vue";
+import EmptyCollection from "./components/layout/emptyCollection.vue";
 
 const systemInformation = ref({
   version: null,
