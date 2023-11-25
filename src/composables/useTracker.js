@@ -251,6 +251,13 @@ export function useTracker(config = {
     // Update the tracker's data points upon initialization
     updateDataPoints();
 
+    /**
+     * Deletes the tracker from the collection
+     */
+    const deleteGoal = () => {
+        goals.value = [];
+    }
+
     return {
         id,
         label,
@@ -271,6 +278,7 @@ export function useTracker(config = {
         chartData,
         regressionData,
         chartRegressionData,
+        deleteGoal,
         serializeState
     }
 }

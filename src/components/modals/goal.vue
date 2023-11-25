@@ -25,7 +25,7 @@
 
     <div class="modal__footer">
       <button class="btn" @click.prevent="modalStore.closeModal()">Cancel</button>
-      <button class="btn btn--primary" @click.prevent="addGoal">{{isEditMode ? 'Save' : 'Set goal'}}</button>
+      <button class="btn btn--primary" @click.prevent="saveGoal">{{ isEditMode ? 'Save' : 'Set goal' }}</button>
     </div>
   </div>
 
@@ -56,9 +56,14 @@ const isEditMode = !!props.goal;
 
 /**
  * Adds the goal to the active tracker and closes the modal
+ * If the value is empty, the goal is deleted
  */
-const addGoal = () => {
-  appDataStore.activeTracker.addGoal(goal.serializeState());
+const saveGoal = () => {
+  if (!goal.targetValue.value) {
+    appDataStore.activeTracker.deleteGoal();
+  } else {
+    appDataStore.activeTracker.addGoal(goal.serializeState());
+  }
   modalStore.closeModal();
 };
 
