@@ -86,6 +86,11 @@ export const useAppDataStore = defineStore('appData', () => {
         }
     }
 
+    /**
+     * A flag indicating whether the welcome screen should be shown when the user visits an empty collection
+     */
+    const showWelcome = ref(true);
+
     return {
         collections,
         activeCollection,
@@ -95,6 +100,7 @@ export const useAppDataStore = defineStore('appData', () => {
         darkMode,
         getTrackerById,
         addCollection,
-        deleteCollection
+        deleteCollection,
+        showWelcome
     };
 })

@@ -2,6 +2,7 @@ import {computed, ref, watch} from "vue";
 import colorLib from '@kurkle/color';
 import {v4 as uuidv4} from 'uuid';
 import {useTracker} from "./useTracker";
+import {useAppDataStore} from "../stores/appData";
 
 const colorChoices = [
     '#26DCB7', // Existing color
@@ -125,6 +126,7 @@ export function useCollection(config = {
 
     const addTracker = (tracker) => {
         const index = trackers.value.findIndex(t => t.id === tracker.id);
+        const appDataStore = useAppDataStore();
         const newTracker = useTracker(tracker);
         if (index !== -1) {
             trackers.value.splice(index, 1, newTracker);
@@ -132,6 +134,7 @@ export function useCollection(config = {
             trackers.value.push(newTracker);
         }
         setActiveTracker(newTracker);
+        appDataStore.showWelcome = false;
     }
 
     /**

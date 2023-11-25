@@ -13,7 +13,7 @@
          @click.prevent="modalStore.openModal('collection', {collection: appDataStore.activeCollection})"></i>
       <!--      <i class="fa-sharp fa-regular fa-file-export" title="Export to CSV"></i>-->
       <i class="fa-sharp fa-regular fa-trash" title="Delete collection"
-         @click.prevent="modalStore.openModal('delete-collection')"></i>
+         @click.prevent="modalStore.openModal('delete-collection')" v-if="appDataStore.collections.length > 1"></i>
       <!--      <i class="fa-sharp fa-regular fa-trash" title="Delete tracker"
                @click.prevent="modalStore.openModal('delete-tracker')"></i>-->
     </div>

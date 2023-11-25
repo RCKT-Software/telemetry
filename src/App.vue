@@ -82,7 +82,8 @@
 
       </section>
       <section v-if="!appDataStore.activeTracker" id="empty-view" class="center-content">
-        <emptyCollection></emptyCollection>
+        <welcome v-if="appDataStore.showWelcome" />
+        <emptyCollection v-if="!appDataStore.showWelcome" />
       </section>
     </main>
 
@@ -106,6 +107,7 @@ import ModalManager from "./components/layout/modalManager.vue";
 import {useInterfaceStore} from "./stores/interface";
 import DataTable from "./components/dataTable.vue";
 import EmptyCollection from "./components/layout/emptyCollection.vue";
+import Welcome from "./components/layout/welcome.vue";
 
 const systemInformation = ref({
   version: null,
