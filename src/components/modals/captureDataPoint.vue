@@ -3,13 +3,14 @@
   <!-- Modal Window-->
   <div class="modal">
     <div class="modal__header">
-      <h1 class="modal__header-title">Add Data for <strong>"{{ appDataStore.activeTracker.label }}"</strong></h1>
+      <h1 class="modal__header-title">{{ appDataStore.activeTracker.label }}</h1>
+      <span class="modal__header-details">Manually log a data point</span>
     </div>
 
     <div class="modal__body">
 
       <div class="input-group">
-        <label>Updated value</label>
+        <label>What's the current value?</label>
         <input type="text" :placeholder="'Ex: ' + appDataStore.activeTracker.formattedCurrentValue"
                v-model="captureConfig.datapoint">
       </div>

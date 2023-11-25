@@ -5,11 +5,11 @@
     <div class="modal__header">
       <i class="fa-sharp fa-solid fa-flag modal__header-icon"></i>
       <div v-if="!isEditMode">
-        <h1 class="modal__header-title">Set a goal for "<strong>{{ appDataStore.activeTracker.label }}</strong>"</h1>
-        <span class="modal__header-details">What do you want to accomplish?</span>
+        <h1 class="modal__header-title">{{ appDataStore.activeTracker.label }}</h1>
+        <span class="modal__header-details">Set a goal and predict when you'll reach it...</span>
       </div>
       <div v-if="isEditMode">
-        <h1 class="modal__header-title">Edit goal for "<strong>{{ appDataStore.activeTracker.label }}</strong>"</h1>
+        <h1 class="modal__header-title">Edit goal: {{ appDataStore.activeTracker.label }}</h1>
       </div>
     </div>
 

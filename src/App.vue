@@ -29,14 +29,14 @@
                 <i class="fa-sharp fa-regular fa-database"></i>
                 <span>{{ appDataStore.activeTracker.recentDataPoints.length }} data points</span>
               </div>
-              <div class="quick-stats__statistic">
+              <div class="quick-stats__statistic" v-if="appDataStore.activeTracker.recentDataPoints.length > 0">
                 <i class="fa-sharp fa-regular fa-clock-rotate-left"></i>
                 <span>Last updated {{ appDataStore.activeTracker.formattedLastUpdated }}</span>
               </div>
             </div>
 
           </div>
-          <div class="title-bar__right">
+          <div class="title-bar__right" v-if="appDataStore.activeTracker.recentDataPoints.length > 0">
 
             <button class="btn btn--primary" @click.prevent="modalStore.openModal('capture-data-point')">
               <i class="fa-sharp fa-regular fa-plus"></i>
@@ -59,7 +59,14 @@
 
         <!-- Chart & Next Goal -->
         <div class="chart-row">
-          <chart/>
+          <chart v-if="appDataStore.activeTracker.recentDataPoints.length > 0"/>
+          <div class="chart-placeholder" v-else>
+            <label>Let's bring in some data...</label>
+            <button class="btn btn--primary" @click.prevent="modalStore.openModal('capture-data-point')">
+              <i class="fa-sharp fa-regular fa-plus"></i>
+              <span>Data point</span>
+            </button>
+          </div>
           <goalBox/>
         </div>
 
@@ -68,7 +75,7 @@
           <div class="tabs">
             <!--            <button class="tab tab&#45;&#45;active"><i class="fa-sharp fa-solid fa-list-timeline"></i> Analytics</button>-->
             <button class="tab tab--active"><i class="fa-sharp fa-regular fa-table-rows"></i> Data</button>
-<!--            <button class="tab"><i class="fa-sharp fa-solid fa-gear"></i> Settings</button>-->
+            <!--            <button class="tab"><i class="fa-sharp fa-solid fa-gear"></i> Settings</button>-->
             <button class="tab" @click.prevent="modalStore.openModal('delete-tracker')"><i
                 class="fa-sharp fa-solid fa-trash"></i> Delete
             </button>
@@ -76,14 +83,14 @@
           </div>
 
           <!-- Recent Data Points -->
-          <dataTable />
+          <dataTable/>
 
         </div>
 
       </section>
       <section v-if="!appDataStore.activeTracker" id="empty-view" class="center-content">
-        <welcome v-if="appDataStore.showWelcome" />
-        <emptyCollection v-if="!appDataStore.showWelcome" />
+        <welcome v-if="appDataStore.showWelcome"/>
+        <emptyCollection v-if="!appDataStore.showWelcome"/>
       </section>
     </main>
 
@@ -544,6 +551,19 @@ label {
     border-bottom: 2px dotted var(--dark);
     cursor: pointer;
   }
+}
+
+div.chart-placeholder {
+  background-color: var(--lighter);
+  border: 1px solid var(--light);
+  width: 850px;
+  aspect-ratio: 2.07;
+  border-radius: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 20px;
 }
 
 </style>

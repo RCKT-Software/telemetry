@@ -166,6 +166,10 @@ export function useTracker(config = {
                 currentValue.value = lastDataPoint.value;
                 lastUpdated.value = lastDataPoint.createdAt;
                 recentDataPoints.value = dataPoints;
+            }else{
+                currentValue.value = null;
+                lastUpdated.value = Date.create();
+                recentDataPoints.value = [];
             }
         });
     }

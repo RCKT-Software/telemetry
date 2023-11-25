@@ -28,9 +28,13 @@
       <h1 class="goal-box__prediction-item-value">{{ appDataStore.activeGoal.formattedPredicted }}</h1>
     </div>
   </div>
-  <div class="goal-box" v-if="!appDataStore.activeGoal">
-    <span class="goal-box__edit" @click.prevent="modalStore.openModal('goal')">New Goal</span>
+  <div class="goal-box goal-box--empty"
+       :class="{'goal-box--has-data': appDataStore.activeTracker.recentDataPoints.length > 0}"
+       v-if="!appDataStore.activeGoal">
     <h1 class="goal-box__heading">No goal set</h1>
+    <button class="btn" @click.prevent="modalStore.openModal('goal')">
+      <span>Set a goal</span>
+    </button>
   </div>
 </template>
 
@@ -52,6 +56,25 @@ const modalStore = useModalStore();
   position: relative;
   height: 370px;
   overflow-y: hidden;
+
+  &.goal-box--has-data {
+    background-color: var(--lighter) !important;
+  }
+
+  &.goal-box--empty {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background-color: transparent;
+    border-radius: 5px;
+
+    .goal-box__heading {
+      font-size: 14px;
+      color: var(--darker);
+      margin-bottom: 30px;
+    }
+  }
 
   .goal-box__label {
     font-weight: 600;
