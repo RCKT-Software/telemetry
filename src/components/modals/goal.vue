@@ -17,7 +17,7 @@
 
       <div class="input-group">
         <label>Goal</label>
-        <input type="text" :placeholder="'Ex: ' + appDataStore.activeTracker.currentValue"
+        <input type="number" :placeholder="'Ex: ' + (appDataStore.activeTracker.currentValue ? appDataStore.activeTracker.currentValue : 0)"
                v-model="goal.targetValue.value">
       </div>
 

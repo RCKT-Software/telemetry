@@ -11,7 +11,7 @@
 
       <div class="input-group">
         <label>What's the current value?</label>
-        <input type="text" :placeholder="'Ex: ' + appDataStore.activeTracker.formattedCurrentValue"
+        <input type="number" :placeholder="'Ex: ' + appDataStore.activeTracker.formattedCurrentValue"
                v-model="captureConfig.datapoint">
       </div>
 

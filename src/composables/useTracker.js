@@ -162,6 +162,7 @@ export function useTracker(config = {
     const updateDataPoints = () => {
         window["electronAPI"].getDataPoints(id, {}, (dataPoints) => {
             if (dataPoints.length > 0) {
+                dataPoints.sort((a, b) => new Date(a.createdAt) - new Date(b.createdAt));
                 const lastDataPoint = dataPoints[dataPoints.length - 1];
                 currentValue.value = lastDataPoint.value;
                 lastUpdated.value = lastDataPoint.createdAt;

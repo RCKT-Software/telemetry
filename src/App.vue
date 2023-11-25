@@ -564,6 +564,7 @@ div.chart-placeholder {
   justify-content: center;
   flex-direction: column;
   gap: 20px;
+  margin-left: 30px;
 }
 
 </style>
