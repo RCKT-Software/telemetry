@@ -22,7 +22,7 @@ export function useGoal(config = {
             id: id,
             targetValue: targetValue.value,
             deadline: deadline.value,
-            trackerId: trackerId,
+            trackerId: trackerId.value,
             createdAt: createdAt.valueOf()
         };
     };
