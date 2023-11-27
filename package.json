@@ -3,7 +3,7 @@
   "author": "RCKT Software, LLC.",
   "description": "An open-source progress tracker that predicts when you'll reach your goals",
   "private": true,
-  "version": "1.3.118",
+  "version": "1.3.119",
   "main": "main.js",
   "scripts": {
     "start": "npm run build && npm run electron:start",
@@ -65,7 +65,8 @@
             "name": "Telemetry",
             "copyright": "Copyright © 2023 RCKT Software, LLC.",
             "iconUrl": "https://raw.githubusercontent.com/RCKT-Software/telemetry/main/public/icon.ico",
-            "setupIcon": "./src/assets/icon.ico"
+            "setupIcon": "./src/assets/icon.ico",
+            "signWithParams": "/tr http://timestamp.sectigo.com /td sha256 /fd sha256 /a"
           }
         }
       ]
