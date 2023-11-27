@@ -1,6 +1,6 @@
 <template>
   <div class="goal-box" v-if="appDataStore.activeGoal">
-    <span class="goal-box__label"><i class="fa-regular fa-square-dashed" style="padding-right: 5px"></i> Goal</span>
+    <span class="goal-box__label"><BoxSelect :size="16" /> Goal</span>
     <span class="goal-box__edit"
           @click.prevent="modalStore.openModal('goal', {goal: appDataStore.activeGoal})">Edit</span>
     <h1 class="goal-box__heading">
@@ -11,13 +11,11 @@
     <div class="goal-box__stats">
       <div class="goal-box__stats-item">
         <span class="goal-box__stats-item-label">Best Fit</span>
-        <span class="goal-box__stats-item-value value-tag"><i
-            class="fa-sharp fa-regular fa-function"></i> {{ appDataStore.activeTracker.regressionData.name }}</span>
+        <span class="goal-box__stats-item-value value-tag"><FunctionSquare :size="14" /> {{ appDataStore.activeTracker.regressionData.name }}</span>
       </div>
       <div class="goal-box__stats-item" v-if="appDataStore.activeGoal.deadline">
         <span class="goal-box__stats-item-label">R2</span>
-        <span class="goal-box__stats-item-value value-tag"><i
-            class="fa-sharp fa-regular fa-square-root-variable"></i> {{
+        <span class="goal-box__stats-item-value value-tag"><Calculator :size="14" /> {{
             Math.floor(appDataStore.activeTracker.regressionData.calculation.r2 * 100)
           }}% </span>
       </div>
@@ -42,6 +40,7 @@
 
 import {useAppDataStore} from "../stores/appData";
 import {useModalStore} from "../stores/modal";
+import {FunctionSquare, BoxSelect, Calculator} from "lucide-vue-next";
 
 const appDataStore = useAppDataStore();
 const modalStore = useModalStore();
@@ -82,6 +81,9 @@ const modalStore = useModalStore();
     display: block;
     margin-bottom: 5px;
     color: var(--darker);
+    display: flex;
+    align-items: center;
+    gap: 5px;
   }
 
   .goal-box__edit {

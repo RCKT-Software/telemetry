@@ -3,7 +3,7 @@
   <!-- Modal Window-->
   <div class="modal">
     <div class="modal__header">
-      <i class="fa-sharp fa-solid fa-flag modal__header-icon"></i>
+      <Flag :size="26" class="modal__header-icon" />
       <div v-if="!isEditMode">
         <h1 class="modal__header-title">{{ appDataStore.activeTracker.label }}</h1>
         <span class="modal__header-details">Set a goal and predict when you'll reach it...</span>
@@ -39,6 +39,7 @@
 import {useModalStore} from "../../stores/modal";
 import {useAppDataStore} from "../../stores/appData";
 import {useGoal} from "../../composables/useGoal";
+import {Flag} from "lucide-vue-next";
 
 const modalStore = useModalStore();
 const appDataStore = useAppDataStore();

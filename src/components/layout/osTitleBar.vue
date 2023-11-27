@@ -2,19 +2,19 @@
   <div class="titlebar-controls">
     <div class="titlebar-controls__left">
       <div class="titlebar-controls-menu" id="menu-toggle" @click.prevent="toggleNavigation">
-        <i class="fa-light fa-bars"></i>
+        <PanelLeftInactive :size="16" />
       </div>
       <h1>Telemetry</h1>
     </div>
     <div class="titlebar-controls__right">
       <div class="titlebar-controls-minimize" id="minimize-app" @click.prevent="minimizeApp">
-        <i class="fa-light fa-window-minimize"></i>
+        <Minus :size="16"  style="padding-top: 8px" />
       </div>
       <div class="titlebar-controls-maximize" id="maximize-app" @click.prevent="maximizeApp">
-        <i class="fa-light fa-square"></i>
+        <Maximize :size="16" />
       </div>
       <div class="titlebar-controls-close" id="close-app" @click.prevent="closeApp">
-        <i class="fa-light fa-xmark"></i>
+        <X :size="18" />
       </div>
     </div>
   </div>
@@ -23,6 +23,7 @@
 <script setup>
 
 import {useInterfaceStore} from "../../stores/interface";
+import {X, Maximize, Minus, PanelLeftInactive} from "lucide-vue-next";
 
 const minimizeApp = () => {
   window["electronAPI"].minimizeApp();

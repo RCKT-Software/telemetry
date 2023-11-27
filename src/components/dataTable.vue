@@ -8,7 +8,9 @@
         }}
       </td>
       <td style="width: 100px">{{ formatValue(dataPoint.value, appDataStore.activeTracker.numberFormat) }}</td>
-      <td><i class="fa-sharp fa-regular fa-times datapoints-table__delete" @click.prevent="appDataStore.activeTracker.deleteDataPoint(dataPoint.id)"></i></td>
+      <td>
+        <X :size="16" class="datapoints-table__delete" @click.prevent="appDataStore.activeTracker.deleteDataPoint(dataPoint.id)" />
+      </td>
     </tr>
     <tr v-if="sortedDataPoints.length < 1">
       <td style="padding: 20px; color:var(--dark)">
@@ -24,6 +26,7 @@
 import {formatValue} from "../utility/helpers";
 import {useAppDataStore} from "../stores/appData";
 import {computed} from "vue";
+import {X} from "lucide-vue-next";
 
 const appDataStore = useAppDataStore();
 

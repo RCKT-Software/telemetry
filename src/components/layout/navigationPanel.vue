@@ -7,15 +7,9 @@
 
     <!-- Collection Control Bar -->
     <div class="collection-control">
-      <i class="fa-sharp fa-regular fa-plus" title="New progress tracker"
-         @click.prevent="modalStore.openModal('progress-tracker')"></i>
-      <i class="fa-sharp fa-regular fa-cog" title="Edit collection"
-         @click.prevent="modalStore.openModal('collection', {collection: appDataStore.activeCollection})"></i>
-      <!--      <i class="fa-sharp fa-regular fa-file-export" title="Export to CSV"></i>-->
-      <i class="fa-sharp fa-regular fa-trash" title="Delete collection"
-         @click.prevent="modalStore.openModal('delete-collection')" v-if="appDataStore.collections.length > 1"></i>
-      <!--      <i class="fa-sharp fa-regular fa-trash" title="Delete tracker"
-               @click.prevent="modalStore.openModal('delete-tracker')"></i>-->
+      <Plus :size="16" @click.prevent="modalStore.openModal('progress-tracker')" />
+      <FolderCog :size="16" @click.prevent="modalStore.openModal('collection', {collection: appDataStore.activeCollection})" />
+      <FolderX :size="16" @click.prevent="modalStore.openModal('delete-collection')" v-if="appDataStore.collections.length > 1" />
     </div>
 
     <!-- Progress Trackers -->
@@ -32,8 +26,7 @@
       </li>
     </ul>
     <span class="tracker-add-button" title="Add a new progress tracker"
-          @click.prevent="modalStore.openModal('progress-tracker')"><i
-        class="fa-sharp fa-regular fa-plus"></i> New progress tracker</span>
+          @click.prevent="modalStore.openModal('progress-tracker')"><Plus :size="16" @click.prevent="modalStore.openModal('progress-tracker')" /> New progress tracker</span>
 
     <!-- Middle Divider -->
     <div class="divider divider__middle"/>
@@ -66,10 +59,8 @@
 
     <!-- Dark Mode Toggle -->
     <div class="dark-mode-toggle" @click.prevent="toggleDarkMode">
-      <i class="fa-sharp fa-solid fa-moon" title="Toggle dark mode"
-         v-if="appDataStore.darkMode"></i>
-      <i class="fa-sharp fa-regular fa-sun-bright" title="Toggle dark mode"
-         v-if="!appDataStore.darkMode"></i>
+      <Sun :size="16" v-if="!appDataStore.darkMode" />
+      <Moon :size="16" v-if="appDataStore.darkMode" />
     </div>
 
     <!-- Version Number -->
@@ -85,6 +76,7 @@ import {onMounted, ref} from "vue";
 import {useAppDataStore} from "../../stores/appData";
 import {useModalStore} from "../../stores/modal";
 import {useInterfaceStore} from "../../stores/interface";
+import {Plus, FolderCog, FolderX, Sun, Moon} from "lucide-vue-next";
 
 const systemInformation = ref({
   version: null,
@@ -216,13 +208,13 @@ const toggleDarkMode = async () => {
 .tracker-add-button {
   color: var(--darker);
   font-size: 14px;
-  display: block;
+  display: flex;
   padding-top: 30px;
   padding-left: 35px;
   cursor: pointer;
   font-weight: 600;
 
-  i {
+  svg {
     padding-right: 8px;
   }
 
@@ -274,9 +266,8 @@ const toggleDarkMode = async () => {
   flex-direction: row;
   flex-wrap: nowrap;
 
-  i {
+  svg {
     color: var(--darker);
-    font-size: 16px;
     cursor: pointer;
     transition: color 0.05s ease;
 
@@ -321,7 +312,7 @@ const toggleDarkMode = async () => {
   bottom: 20px;
   left: 25px;
 
-  i {
+  svg {
     font-size: 16px;
     color: var(--dark);
     cursor: pointer;
@@ -329,10 +320,12 @@ const toggleDarkMode = async () => {
 
   &:hover {
 
-    i {
+    svg {
       color: var(--darker);
     }
   }
 }
+
+
 
 </style>

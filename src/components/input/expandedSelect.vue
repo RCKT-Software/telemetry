@@ -3,7 +3,7 @@
   <ul class="expanded-select">
 
     <li class="expanded-select__item expanded-select__item--selected">
-      <i class="fa-sharp fa-regular fa-chart-line expanded-select__icon"></i>
+      <i class="expanded-select__icon"></i>
       <div class="expanded-select__content">
         <h1 class="expanded-select__title">Single Number</h1>
         <span class="expanded-select__description">Track a value over time.</span>
@@ -11,7 +11,7 @@
     </li>
 
     <li class="expanded-select__item">
-      <i class="fa-sharp fa-regular fa-tally expanded-select__icon"></i>
+      <i class="expanded-select__icon"></i>
       <div class="expanded-select__content">
         <h1 class="expanded-select__title">Running Total</h1>
         <span class="expanded-select__description">Add values together to get a total.</span>

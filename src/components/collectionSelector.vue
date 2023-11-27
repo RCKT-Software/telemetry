@@ -20,9 +20,6 @@
             <span>{{ collection.trackers.length }} trackers, {{ collection.goalCount }} goals</span>
           </div>
         </div>
-        <div class="collection-item__shortcut-indicator">
-          <i class="fa-sharp fa-regular fa-angle-down"></i>
-        </div>
       </div>
 
       <div class="collection-selector-popup__footer">
@@ -51,7 +48,7 @@
         </div>
       </div>
       <div class="collection-item__shortcut-indicator">
-        <i class="fa-sharp fa-regular fa-angle-down"></i>
+        <ChevronDown :size="16" />
       </div>
     </div>
   </div>
@@ -63,6 +60,7 @@
 import {nextTick, onMounted, ref} from "vue";
 import {useAppDataStore} from "../stores/appData";
 import {useModalStore} from "../stores/modal";
+import {ChevronDown} from "lucide-vue-next";
 
 const displayCollectionSelector = ref(false);
 

@@ -26,11 +26,11 @@
             </h1>
             <div class="quick-stats">
               <div class="quick-stats__statistic">
-                <i class="fa-sharp fa-regular fa-database"></i>
+                <Database :size="16"/>
                 <span>{{ appDataStore.activeTracker.recentDataPoints.length }} data points</span>
               </div>
               <div class="quick-stats__statistic" v-if="appDataStore.activeTracker.recentDataPoints.length > 0">
-                <i class="fa-sharp fa-regular fa-clock-rotate-left"></i>
+                <History :size="16" />
                 <span>Last updated {{ appDataStore.activeTracker.formattedLastUpdated }}</span>
               </div>
             </div>
@@ -39,7 +39,7 @@
           <div class="title-bar__right" v-if="appDataStore.activeTracker.recentDataPoints.length > 0">
 
             <button class="btn btn--primary" @click.prevent="modalStore.openModal('capture-data-point')">
-              <i class="fa-sharp fa-regular fa-plus"></i>
+              <Plus :size="16" />
               <span>Data point</span>
             </button>
 
@@ -63,7 +63,7 @@
           <div class="chart-placeholder" v-else>
             <label>Let's bring in some data...</label>
             <button class="btn btn--primary" @click.prevent="modalStore.openModal('capture-data-point')">
-              <i class="fa-sharp fa-regular fa-plus"></i>
+              <Plus :size="16" />
               <span>Data point</span>
             </button>
           </div>
@@ -73,13 +73,9 @@
         <!-- Tabbed Section -->
         <div class="tab-section">
           <div class="tabs">
-            <!--            <button class="tab tab&#45;&#45;active"><i class="fa-sharp fa-solid fa-list-timeline"></i> Analytics</button>-->
-            <button class="tab tab--active"><i class="fa-sharp fa-regular fa-table-rows"></i> Data</button>
-            <!--            <button class="tab"><i class="fa-sharp fa-solid fa-gear"></i> Settings</button>-->
-            <button class="tab" @click.prevent="modalStore.openModal('delete-tracker')"><i
-                class="fa-sharp fa-solid fa-trash"></i> Delete
+            <button class="tab tab--active"><Table2 :size="16" /> Data</button>
+            <button class="tab" @click.prevent="modalStore.openModal('delete-tracker')"><X :size="16" /> Delete
             </button>
-            <!--            <button class="tab"><i class="fa-sharp fa-solid fa-chart-line"></i> Chart Settings</button>-->
           </div>
 
           <!-- Recent Data Points -->
@@ -115,6 +111,8 @@ import {useInterfaceStore} from "./stores/interface";
 import DataTable from "./components/dataTable.vue";
 import EmptyCollection from "./components/layout/emptyCollection.vue";
 import Welcome from "./components/layout/welcome.vue";
+
+import {Database, History, Plus, Table2, X} from "lucide-vue-next";
 
 const systemInformation = ref({
   version: null,
@@ -276,11 +274,15 @@ h1 {
   flex-wrap: nowrap;
   gap: 15px;
   align-items: center;
+  justify-content: center;
 
   .quick-stats__statistic {
+    display: flex;
+    align-items: center;
+    gap: 5px;
 
-    i {
-      margin-right: 6px;
+    svg{
+      color: var(--dark);
     }
 
     span {
@@ -292,16 +294,17 @@ h1 {
 }
 
 .value-tag {
-  display: inline-block;
+  display: inline-flex;
   color: var(--darker);
   background-color: var(--light);
   border-radius: 3px;
   font-size: 12px;
-  padding: 2px 7px;
+  padding: 4px 7px;
   vertical-align: baseline;
   width: fit-content;
+  align-items: center;
 
-  i {
+  svg {
     margin-right: 3px;
   }
 
@@ -413,7 +416,7 @@ label {
     font-size: 12px;
   }
 
-  i {
+  svg {
     color: var(--dark);
     cursor: pointer;
     margin-left: 4px;
@@ -453,6 +456,7 @@ label {
   padding-bottom: 20px;
   width: 100%;
   border-bottom: 1px solid var(--light);
+  justify-content: space-between;
 }
 
 .tab {
@@ -500,14 +504,14 @@ label {
   min-width: 430px;
 
   .modal__header {
-    padding: 25px;
+    padding: 20px;
     border-bottom: 1px solid var(--light);
   }
 
   .modal__header-icon {
     color: var(--heading);
-    font-size: 26px;
-    margin-bottom: 30px;
+    font-size: 24px;
+    margin-bottom: 15px;
   }
 
   .modal__header-title {
@@ -523,7 +527,7 @@ label {
   }
 
   .modal__body {
-    padding: 25px;
+    padding: 20px;
     color: var(--heading);
   }
 }
@@ -565,6 +569,12 @@ div.chart-placeholder {
   flex-direction: column;
   gap: 20px;
   margin-left: 30px;
+}
+
+.lucide {
+  line-height: 1;
+  display: inline-block;
+  width: fit-content;
 }
 
 </style>

@@ -3,7 +3,7 @@
   <!-- Modal Window-->
   <div class="modal">
     <div class="modal__header">
-      <i class="fa-sharp fa-solid fa-chart-mixed modal__header-icon"></i>
+      <TrendingUp :size="26" class="modal__header-icon" />
       <div v-if="!isEditMode">
         <h1 class="modal__header-title">New progress tracker</h1>
         <span class="modal__header-details">Track your progress towards a goal.</span>
@@ -56,11 +56,10 @@
 
 <script setup>
 
-import ExpandedSelect from "../input/expandedSelect.vue";
 import {useModalStore} from "../../stores/modal";
-import {ref} from "vue";
 import {useAppDataStore} from "../../stores/appData";
 import {useTracker} from "../../composables/useTracker";
+import {TrendingUp} from "lucide-vue-next";
 
 const modalStore = useModalStore();
 const appDataStore = useAppDataStore();

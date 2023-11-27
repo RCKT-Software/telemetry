@@ -98,7 +98,7 @@ const chartDatasets = () => {
         pointStyle: 'rectRounded',
         pointBackgroundColor: getCSSVariable('--white'),
         pointBorderColor: getCSSVariable('--black'),
-        pointBorderWidth: 2,
+        pointBorderWidth: 1.5,
         pointRadius: 8,
       });
     }

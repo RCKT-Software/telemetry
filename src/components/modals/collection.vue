@@ -3,7 +3,7 @@
   <!-- Modal Window-->
   <div class="modal">
     <div class="modal__header">
-      <i class="fa-sharp fa-regular fa-folder modal__header-icon"></i>
+      <Folder :size="26" class="modal__header-icon" />
       <div v-if="!isEditMode">
         <h1 class="modal__header-title">New collection</h1>
         <span class="modal__header-details">Organize your trackers and goals.</span>
@@ -37,9 +37,9 @@
 <script setup>
 
 import {useModalStore} from "../../stores/modal";
-import {ref} from "vue";
 import {useAppDataStore} from "../../stores/appData";
 import {useCollection} from "../../composables/useCollection";
+import {Folder} from "lucide-vue-next";
 
 const modalStore = useModalStore();
 const appDataStore = useAppDataStore();
