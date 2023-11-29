@@ -5,7 +5,7 @@
   <img src="https://telemetry-website-af321b47c3b1.herokuapp.com/images/hero-screenshot.png">
 </picture>
 
-**Telemetry is an open-source progress tracker that predicts when you'll reach your goals.** Track what's important to you over time, and see how your progress compares to your goals.
+#### **Telemetry is an open-source progress tracker that predicts when you'll reach your goals.** Track what's important to you over time, and see how your progress compares to your goals.
 
 ---
 ## Top Features
