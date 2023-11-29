@@ -11,6 +11,8 @@ import Chart from 'chart.js/auto'
 import 'chartjs-adapter-moment';
 import {useAppDataStore} from "../stores/appData";
 import moment from "moment";
+import annotationPlugin from 'chartjs-plugin-annotation';
+Chart.register(annotationPlugin);
 
 /* Keep a record of the chart for mounting/unmounting */
 let chart;
@@ -50,6 +52,24 @@ const getUnitOfTime = computed(() => {
     return 'year'; // more than a year
   }
 });
+
+/**
+ * A vertical line representing today's date/time on the chart.
+ */
+const annotation = {
+  type: 'line',
+  borderColor: getCSSVariable('--darker'),
+  borderWidth: 2,
+  label: {
+    backgroundColor: getCSSVariable('--darker'),
+    font: [{size: 10, weight: '500'}, {family: 'Inter'}],
+    display: true,
+    content: Date.create().medium(),
+    position: 'start'
+  },
+  scaleID: 'x',
+  value: new Date()
+};
 
 /**
  * Set the options for how to display the user's data, allowing for points to be visible if only 1 data point.
@@ -109,6 +129,7 @@ const chartDatasets = () => {
         data: appDataStore.activeTracker.chartRegressionData,
         fill: false,
         pointStyle: false,
+        borderWidth: 2,
         borderColor: getCSSVariable('--dark'),
         borderDash: [5, 5],
         lineTension: 0,
@@ -162,6 +183,11 @@ const createChart = async () => {
             },
             tooltip: {
               enabled: false
+            },
+            annotation: {
+              annotations: {
+                annotation
+              }
             }
           },
           layout: {
