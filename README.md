@@ -2,9 +2,10 @@
 
 Telemetry is an open-source progress tracker that predicts when you'll reach your goals. Track what's important to you over time, and see how your progress compares to your goals.
 
-![Screenshot](https://telemetry-website-af321b47c3b1.herokuapp.com/images/hero-screenshot.png#gh-light-mode-only)
-
-![Screenshot](https://telemetry-website-af321b47c3b1.herokuapp.com/images/hero-screenshot-dark.png#gh-dark-mode-only)
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="https://telemetry-website-af321b47c3b1.herokuapp.com/images/hero-screenshot-dark.png">
+  <img src="https://telemetry-website-af321b47c3b1.herokuapp.com/images/hero-screenshot.png">
+</picture>
 
 ---
 ## Top Features
