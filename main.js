@@ -2,6 +2,7 @@ const path = require('path');
 const {app, BrowserWindow, ipcMain, globalShortcut} = require('electron');
 const si = require('systeminformation');
 const packageJSON = require('./package.json');
+const { updateElectronApp } = require('update-electron-app');
 
 const {initializeDatabase, captureDataPoint, getDataPoints, deleteDataPoint} = require('./src/system/database');
 const {initializeAppData, storeAppData} = require('./src/system/configuration');
@@ -142,3 +143,6 @@ app.on('window-all-closed', () => {
         app.quit();
     }
 });
+
+// Automatic updates
+updateElectronApp();
