@@ -17,6 +17,7 @@
     "electron:package": "electron-forge package"
   },
   "dependencies": {
+    "@electron-forge/maker-dmg": "^7.2.0",
     "@kurkle/color": "^0.3.2",
     "@vueuse/core": "^10.6.1",
     "cannon-es": "^0.19.0",
@@ -70,6 +71,14 @@
             "iconUrl": "https://raw.githubusercontent.com/RCKT-Software/telemetry/main/public/icon.ico",
             "setupIcon": "./src/assets/icon.ico",
             "signWithParams": "/tr http://timestamp.sectigo.com /td sha256 /fd sha256 /a"
+          }
+        },
+        {
+          "name": "@electron-forge/maker-dmg",
+          "config": {
+            "icon": "./src/assets/icon.icns",
+            "name": "Telemetry",
+            "copyright": "Copyright © 2023 RCKT Software, LLC."
           }
         }
       ]
