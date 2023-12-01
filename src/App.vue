@@ -323,7 +323,7 @@ h1 {
   width: 100%;
   height: 100%;
   z-index: 9000;
-  backdrop-filter: blur(8px) brightness(0.4) contrast(0.7);
+  background-color: rgba(0, 0, 0, 0.7);
 }
 
 .title-bar {
@@ -504,8 +504,7 @@ label {
   min-width: 430px;
 
   .modal__header {
-    padding: 20px;
-    border-bottom: 1px solid var(--light);
+    padding: 20px 20px 10px;
   }
 
   .modal__header-icon {
