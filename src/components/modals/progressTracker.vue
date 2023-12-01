@@ -18,7 +18,7 @@
       <div class="row">
         <div class="input-group">
           <label>Label</label>
-          <input type="text" placeholder="Ex: 'Net Worth'" v-model="tracker.label.value">
+          <input ref="startingInput" type="text" placeholder="Ex: 'Net Worth'" v-model="tracker.label.value">
         </div>
 
         <div class="input-group">
@@ -60,6 +60,8 @@ import {useModalStore} from "../../stores/modal";
 import {useAppDataStore} from "../../stores/appData";
 import {useTracker} from "../../composables/useTracker";
 import {TrendingUp} from "lucide-vue-next";
+import {onMounted, ref} from "vue";
+import {onKeyStroke} from "@vueuse/core";
 
 const modalStore = useModalStore();
 const appDataStore = useAppDataStore();
@@ -80,6 +82,21 @@ const addTracker = () => {
   appDataStore.activeCollection.addTracker(tracker.serializeState());
   modalStore.closeModal();
 };
+
+/**
+ * Listen for the enter key to add the tracker
+ */
+onKeyStroke('Enter', (e) => {
+  addTracker();
+});
+
+/**
+ * Focus the starting input when the modal is opened
+ */
+const startingInput = ref(null);
+onMounted(() => {
+  startingInput.value.focus();
+});
 
 </script>
 

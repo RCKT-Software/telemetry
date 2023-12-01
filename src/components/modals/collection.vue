@@ -18,7 +18,7 @@
 
       <div class="input-group">
         <label>Label</label>
-        <input type="text" placeholder="Ex: 'Personal Goals'" v-model="collection.label.value">
+        <input ref="startingInput" type="text" placeholder="Ex: 'Personal Goals'" v-model="collection.label.value">
       </div>
 
     </div>
@@ -40,6 +40,8 @@ import {useModalStore} from "../../stores/modal";
 import {useAppDataStore} from "../../stores/appData";
 import {useCollection} from "../../composables/useCollection";
 import {Folder} from "lucide-vue-next";
+import {onMounted, ref} from "vue";
+import {onKeyStroke} from "@vueuse/core";
 
 const modalStore = useModalStore();
 const appDataStore = useAppDataStore();
@@ -61,6 +63,21 @@ const addCollection = () => {
   appDataStore.addCollection(collection.serializeState());
   modalStore.closeModal();
 };
+
+/**
+ * Listen for the enter key to add the collection
+ */
+onKeyStroke('Enter', (e) => {
+  addCollection();
+});
+
+/**
+ * Focus the starting input when the modal is opened
+ */
+const startingInput = ref(null);
+onMounted(() => {
+  startingInput.value.focus();
+});
 
 </script>
 
