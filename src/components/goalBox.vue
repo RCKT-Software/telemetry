@@ -1,6 +1,6 @@
 <template>
   <div class="goal-box" v-if="appDataStore.activeGoal">
-    <span class="goal-box__label"><BoxSelect :size="16" /> Goal</span>
+    <span class="goal-box__label"><Flag :size="18" /> Goal</span>
     <span class="goal-box__edit"
           @click.prevent="modalStore.openModal('goal', {goal: appDataStore.activeGoal})">Edit</span>
     <h1 class="goal-box__heading">
@@ -40,7 +40,7 @@
 
 import {useAppDataStore} from "../stores/appData";
 import {useModalStore} from "../stores/modal";
-import {FunctionSquare, BoxSelect, Calculator} from "lucide-vue-next";
+import {FunctionSquare, Calculator, Flag} from "lucide-vue-next";
 
 const appDataStore = useAppDataStore();
 const modalStore = useModalStore();

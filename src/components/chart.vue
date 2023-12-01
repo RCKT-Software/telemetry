@@ -12,8 +12,13 @@ import 'chartjs-adapter-moment';
 import {useAppDataStore} from "../stores/appData";
 import moment from "moment";
 import annotationPlugin from 'chartjs-plugin-annotation';
+import flagIcon from '../assets/flag.svg';
+import flagIconDark from '../assets/flag-dark.svg';
 
 Chart.register(annotationPlugin);
+
+/* Get our goal (flag) icon ready */
+const flagPointStyle = new Image(20, 20);
 
 /* Keep a record of the chart for mounting/unmounting */
 let chart;
@@ -59,11 +64,13 @@ const getUnitOfTime = computed(() => {
  */
 const annotation = () => {
   return {
-    type: 'line',
-    borderColor: getCSSVariable('--dark'),
-    borderWidth: 1,
-    scaleID: 'x',
-    value: new Date()
+    type: 'box',
+    backgroundColor: getCSSVariable('--lighter'),
+    borderWidth: 0,
+    xMin: new Date(),
+    adjustScaleRange: false,
+    z: -1,
+    drawTime: 'beforeDatasetsDraw',
   }
 };
 
@@ -100,7 +107,7 @@ const chartDatasets = () => {
       datasets.push({
         data: [[moment(goal.predicted).valueOf(), goal.targetValue]],
         fill: false,
-        pointStyle: 'crossRot',
+        pointStyle: [flagPointStyle],
         pointBorderColor: getCSSVariable('--black'),
         pointBorderWidth: 2,
         pointRadius: 10,
@@ -144,7 +151,11 @@ const createChart = async () => {
   Chart.defaults.font.size = 11;
   Chart.defaults.color = getCSSVariable('--dark');
   Chart.defaults.borderColor = getCSSVariable('--lighter');
-
+  if (appDataStore.darkMode) {
+    flagPointStyle.src = flagIconDark;
+  }else{
+    flagPointStyle.src = flagIcon;
+  }
   chart = new Chart(
       document.getElementById('chart-canvas'),
       {
@@ -190,7 +201,7 @@ const createChart = async () => {
               right: 0,
             }
           },
-          aspectRatio: 2.07,
+          aspectRatio: 2,
         },
         data: {
           labels: appDataStore.activeTracker.chartData.labels,
