@@ -33,12 +33,11 @@
 
     <!-- Secondary Navigation Items -->
     <ul class="secondary-nav">
-      <!--      <li class="secondary-nav__item">
-              Trash
-            </li>-->
-      <!--      <li class="secondary-nav__item">
-              Support
-            </li>-->
+      <li class="secondary-nav__item">
+        <a href="#"
+           @click.prevent="openLink('https://docs.telemetry.software')"
+           target="_blank">Documentation</a>
+      </li>
       <li class="secondary-nav__item">
         <a href="#"
            @click.prevent="openLink('https://github.com/RCKT-Software/telemetry/issues')"
@@ -150,7 +149,7 @@ const toggleDarkMode = async () => {
 
     &.divider__middle {
       position: absolute;
-      bottom: 135px;
+      bottom: 160px;
     }
 
     &.divider__bottom {
