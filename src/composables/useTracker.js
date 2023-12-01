@@ -10,7 +10,7 @@ Sugar.extend();
 
 export function useTracker(config = {
     id: null,
-    label: 'My Progress Tracker',
+    label: '',
     startingValue: 0,
     numberFormat: 'number',
     trackingMode: 'value',
@@ -39,7 +39,7 @@ export function useTracker(config = {
     /**
      * The label (name) of the tracker
      */
-    const label = ref(config.label || 'My Tracker');
+    const label = ref(config.label || '');
 
     /**
      * The current value of the tracker

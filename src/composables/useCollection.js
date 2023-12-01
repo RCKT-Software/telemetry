@@ -21,7 +21,7 @@ const colorChoices = [
 
 export function useCollection(config = {
     id: null,
-    label: 'My Collection',
+    label: '',
     color: colorChoices[Math.floor(Math.random() * colorChoices.length)],
     trackers: [],
     activeTrackerId: null,
@@ -48,7 +48,7 @@ export function useCollection(config = {
     /**
      * The label (name) of the collection
      */
-    const label = ref(config.label || 'My Collection');
+    const label = ref(config.label || '');
 
     /**
      * The abbreviation of the collection's label
@@ -127,7 +127,10 @@ export function useCollection(config = {
     const addTracker = (tracker) => {
         const index = trackers.value.findIndex(t => t.id === tracker.id);
         const appDataStore = useAppDataStore();
-        const newTracker = useTracker(tracker);
+        const newTracker = useTracker({
+            ...tracker,
+            label: tracker.label ? tracker.label : 'My New Tracker'
+        });
         if (index !== -1) {
             trackers.value.splice(index, 1, newTracker);
         } else {

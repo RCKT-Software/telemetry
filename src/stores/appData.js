@@ -69,7 +69,10 @@ export const useAppDataStore = defineStore('appData', () => {
         if (index !== -1) {
             collections.value.splice(index, 1, useCollection(collection));
         } else {
-            collections.value.push(useCollection(collection));
+            collections.value.push(useCollection({
+                ...collection,
+                label: collection.label ? collection.label : 'My Collection'
+            }));
         }
         activeId.value = collection.id;
     }
