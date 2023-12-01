@@ -60,6 +60,12 @@
         "name": "Telemetry",
         "win32metadata": {
           "ProductName": "Telemetry"
+        },
+        "osxSign": {},
+        "osxNotarize": {
+          "tool": "notarytool",
+          "keychain": "my-keychain",
+          "keychainProfile": "my-keychain-profile"
         }
       },
       "makers": [
