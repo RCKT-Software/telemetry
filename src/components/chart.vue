@@ -12,6 +12,7 @@ import 'chartjs-adapter-moment';
 import {useAppDataStore} from "../stores/appData";
 import moment from "moment";
 import annotationPlugin from 'chartjs-plugin-annotation';
+
 Chart.register(annotationPlugin);
 
 /* Keep a record of the chart for mounting/unmounting */
@@ -91,19 +92,8 @@ const baseDataOptions = () => {
  * Determines the data to draw to the chart.
  */
 const chartDatasets = () => {
-  // Base Data
-  const datasets = [
-    {
-      data: appDataStore.activeTracker.chartData.data,
-      fill: {
-        target: 'start',
-        above: appDataStore.activeCollection.transparentColor,
-      },
-      borderColor: appDataStore.activeCollection.color,
-      ...baseDataOptions()
-    }
-  ];
-  // Goals
+  const datasets = [];
+  // Goals (appears on top of everything else)
   if (appDataStore.activeTracker.chartRegressionData.length > 0) {
     for (const goal of appDataStore.activeTracker.goals) {
       if (goal.predicted > appDataStore.activeTracker.chartRegressionData[appDataStore.activeTracker.chartRegressionData.length - 1][0]) {
@@ -123,6 +113,16 @@ const chartDatasets = () => {
       });
     }
   }
+  // User Data
+  datasets.push({
+    data: appDataStore.activeTracker.chartData.data,
+    fill: {
+      target: 'start',
+      above: appDataStore.activeCollection.transparentColor,
+    },
+    borderColor: appDataStore.activeCollection.color,
+    ...baseDataOptions()
+  });
   // Regression Line
   datasets.push(
       {
