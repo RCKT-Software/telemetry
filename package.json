@@ -3,7 +3,7 @@
   "author": "RCKT Software, LLC.",
   "description": "An open-source progress tracker that predicts when you'll reach your goals",
   "private": true,
-  "version": "1.3.134",
+  "version": "1.3.138",
   "main": "main.js",
   "repository": "github:RCKT-Software/telemetry",
   "scripts": {
