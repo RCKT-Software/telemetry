@@ -19,6 +19,11 @@ async function initializeAppData() {
         // If there's an error, handle it appropriately
         if (readError.code === 'ENOENT') {
             console.log('Data file does not exist, initializing with default data...');
+            jsonData = {
+                collections: [{
+                    label: "My Collection"
+                }]
+            };
         } else {
             console.error('Error reading or parsing the data file:', readError);
         }
@@ -31,7 +36,7 @@ async function initializeAppData() {
  * @param data
  * @returns {Promise<{success: boolean, message}|{success: boolean, message: string}>}
  */
-async function storeAppData(data){
+async function storeAppData(data) {
     return writeAppDataFile(dataFilePath, data);
 }
 
@@ -45,11 +50,11 @@ const writeAppDataFile = _.debounce(async (filePath, data) => {
     try {
         await fs.writeFile(dataFilePath, data);
         console.log('App data has been saved to', dataFilePath);
-        return { success: true, message: 'Data saved successfully.' };
+        return {success: true, message: 'Data saved successfully.'};
     } catch (err) {
         console.error('Failed to save data:', err.message);
-        return { success: false, message: err.message };
+        return {success: false, message: err.message};
     }
 }, 250);
 
-module.exports = { initializeAppData, storeAppData };
+module.exports = {initializeAppData, storeAppData};
