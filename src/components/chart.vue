@@ -57,19 +57,14 @@ const getUnitOfTime = computed(() => {
 /**
  * A vertical line representing today's date/time on the chart.
  */
-const annotation = {
-  type: 'line',
-  borderColor: getCSSVariable('--darker'),
-  borderWidth: 2,
-  label: {
-    backgroundColor: getCSSVariable('--darker'),
-    font: [{size: 10, weight: '500'}, {family: 'Inter'}],
-    display: true,
-    content: Date.create().medium(),
-    position: 'start'
-  },
-  scaleID: 'x',
-  value: new Date()
+const annotation = () => {
+  return {
+    type: 'line',
+    borderColor: getCSSVariable('--dark'),
+    borderWidth: 1,
+    scaleID: 'x',
+    value: new Date()
+  }
 };
 
 /**
@@ -105,11 +100,10 @@ const chartDatasets = () => {
       datasets.push({
         data: [[moment(goal.predicted).valueOf(), goal.targetValue]],
         fill: false,
-        pointStyle: 'rectRounded',
-        pointBackgroundColor: getCSSVariable('--white'),
+        pointStyle: 'crossRot',
         pointBorderColor: getCSSVariable('--black'),
-        pointBorderWidth: 1.5,
-        pointRadius: 8,
+        pointBorderWidth: 2,
+        pointRadius: 10,
       });
     }
   }

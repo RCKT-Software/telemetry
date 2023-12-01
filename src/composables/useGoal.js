@@ -104,11 +104,26 @@ export function useGoal(config = {
     });
 
     /**
+     * Determines whether a valid prediction is available for the goal
+     */
+    const isPredictionValid = computed(() => {
+        return !!(predicted?.value && predicted.value.isAfter(createdAt));
+
+    })
+
+    /**
+     * Determines whether the goal is completed or not
+     */
+    const isCompleted = computed(() => {
+        return !!(predicted.value && (!predicted.value.isFuture()));
+    });
+
+    /**
      * The formatted version of the predicted completion of the goal
      */
     const formattedPredicted = computed(() => {
-        if (predicted.value && predicted.value.isAfter(createdAt)) {
-            if (predicted.value.isFuture()) {
+        if (isPredictionValid.value) {
+            if (!isCompleted.value) {
                 return predicted.value.medium();
             } else {
                 return 'Completed ' + predicted.value.short()
@@ -129,6 +144,8 @@ export function useGoal(config = {
         formattedDeadline,
         formattedRelativeDeadline,
         formattedPredicted,
+        isPredictionValid,
+        isCompleted,
         serializeState
     }
 }
