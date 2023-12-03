@@ -114,22 +114,46 @@ import Welcome from "./components/layout/welcome.vue";
 
 import {Database, History, Plus, Table2, X} from "lucide-vue-next";
 
-const systemInformation = ref({
-  version: null,
-  uuid: null
-});
-;
-
-/**
- * Get system information when available
- */
-onMounted(async () => {
-  systemInformation.value = await window["electronAPI"].getSystemInformation();
-});
-
 const appDataStore = useAppDataStore();
 const modalStore = useModalStore();
 const interfaceStore = useInterfaceStore();
+
+const systemInformation = ref({
+  version: null,
+  uuid: null,
+  platform: null,
+});
+
+/**
+ * Get system information when available
+ * Send anonymous usage data once per minute
+ */
+onMounted(async () => {
+  systemInformation.value = await window["electronAPI"].getSystemInformation();
+  await sendAnonymousUsageData();
+  setInterval(async () => {
+    await sendAnonymousUsageData();
+  }, 1000 * 60);
+});
+
+/**
+ * Sends anonymous usage data to the server
+ * @returns {Promise<void>}
+ */
+const sendAnonymousUsageData = async () => {
+  await fetch('https://telemetry.software/api/usage', {
+    method: 'POST',
+    body: JSON.stringify({
+      deviceId: systemInformation.value.uuid,
+      platform: systemInformation.value.platform,
+      version: systemInformation.value.version,
+      numCollections: appDataStore.collections.length,
+      numTrackers: appDataStore.numTrackers,
+      numGoals: appDataStore.numGoals,
+      numDataPoints: appDataStore.numDataPoints,
+    })
+  });
+}
 
 const rootStyles = computed(() => {
   if (appDataStore.darkMode) {

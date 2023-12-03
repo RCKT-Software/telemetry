@@ -4,6 +4,8 @@ const si = require('systeminformation');
 const packageJSON = require('./package.json');
 const { updateElectronApp } = require('update-electron-app');
 
+const crypto = require('crypto');
+
 const {initializeDatabase, captureDataPoint, getDataPoints, deleteDataPoint} = require('./src/system/database');
 const {initializeAppData, storeAppData} = require('./src/system/configuration');
 
@@ -115,11 +117,15 @@ app.whenReady().then(async () => {
     }
 
     // Get system initialization information once the application is ready
+    // We hash the UUID to prevent tracking of individual users
     ipcMain.handle('application-ready', async () => {
         let uuid = null;
         await si.system().then(data => uuid = data.uuid);
+        const hash = crypto.createHash('sha256');
+        hash.update(uuid);
         return {
-            'uuid': uuid,
+            'uuid': hash.digest('hex'),
+            'platform': process.platform,
             'version': packageJSON.version,
         }
     });
