@@ -120,14 +120,12 @@ app.whenReady().then(async () => {
     // We hash the UUID to prevent tracking of individual users
     ipcMain.handle('application-ready', async () => {
         let uuid = null;
-        let platform = null;
         await si.system().then(data => uuid = data.uuid);
-        await si.osInfo().then(data => platform = data.platform);
         const hash = crypto.createHash('sha256');
         hash.update(uuid);
         return {
             'uuid': hash.digest('hex'),
-            'platform': platform,
+            'platform': process.platform,
             'version': packageJSON.version,
         }
     });
