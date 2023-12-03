@@ -90,6 +90,43 @@ export const useAppDataStore = defineStore('appData', () => {
     }
 
     /**
+     * The total number of trackers across all collections
+     */
+    const numTrackers = computed(() => {
+         let count = 0;
+            for (let collection of collections.value) {
+                count += collection.trackers.length;
+            }
+            return count;
+    });
+
+    /**
+     * The total number of goals across all trackers
+     */
+    const numGoals = computed(() => {
+        let count = 0;
+        for (let collection of collections.value) {
+            for (let tracker of collection.trackers) {
+                count += tracker.goals.length;
+            }
+        }
+        return count;
+    });
+
+    /**
+     * The total number of data points across all trackers
+     */
+    const numDataPoints = computed(() => {
+        let count = 0;
+        for (let collection of collections.value) {
+            for (let tracker of collection.trackers) {
+                count += tracker.recentDataPoints.length;
+            }
+        }
+        return count;
+    })
+
+    /**
      * A flag indicating whether the welcome screen should be shown when the user visits an empty collection
      */
     const showWelcome = ref(true);
@@ -104,6 +141,9 @@ export const useAppDataStore = defineStore('appData', () => {
         getTrackerById,
         addCollection,
         deleteCollection,
-        showWelcome
+        showWelcome,
+        numTrackers,
+        numGoals,
+        numDataPoints
     };
 })
