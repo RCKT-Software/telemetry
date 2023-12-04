@@ -235,11 +235,14 @@ export function useTracker(config = {
     const chartRegressionData = computed(() => {
         let points = [];
         if (regressionData.value.calculation.points.length > 1) {
-            const timeScale = (regressionData.value.calculation.points[regressionData.value.calculation.points.length - 1][0]);
-            const interval = timeScale / 20 * 2;
+            const firstTimestamp = xOffset.value;
+            const lastTimestamp = (regressionData.value.calculation.points[regressionData.value.calculation.points.length - 1][0]) + xOffset.value;
+            const currentTime = Date.now();
+            const timeScale = (currentTime - firstTimestamp) + (currentTime - lastTimestamp);
+            const interval = timeScale / 20;
             for (let i = 0; i <= 20; i++) {
-                let futureTime = moment(timeScale).add(interval * i, 'milliseconds').valueOf();
-                let predicted = regressionData.value.calculation.predict(futureTime);
+                let futureTime = moment(lastTimestamp).add(interval * i, 'milliseconds').valueOf();
+                let predicted = regressionData.value.calculation.predict(futureTime - xOffset.value);
                 if (predicted) {
                     predicted[0] += xOffset.value;
                     points.push(predicted);
