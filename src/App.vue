@@ -298,7 +298,7 @@ h1 {
   flex-wrap: nowrap;
   gap: 15px;
   align-items: center;
-  justify-content: center;
+  justify-content: start;
 
   .quick-stats__statistic {
     display: flex;
