@@ -212,7 +212,7 @@ export function useTracker(config = {
             {name: 'Logarithmic', calculation: logarithmic},
             {name: 'Power', calculation: power}
         ];
-        // Only support polynomials with more than 50 data points
+        // Only automatically select polynomials with more than 50 data points and > 50% r2 fit
         if (data.length > 50) {
             if (polynomial2.r2 > 0.5) {
                 results.push({name: 'Polynomial (2)', calculation: polynomial2});

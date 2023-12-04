@@ -8,22 +8,32 @@
         v-if="appDataStore.activeGoal.deadline">Deadline: {{ appDataStore.activeGoal.formattedDeadline }}</span>
     </h1>
     <div class="divider" style="margin-bottom: 20px"/>
+    <div class="goal-box__prediction-item">
+      <span class="goal-box__prediction-item-label value-tag value-tag--success">Predicted Completion</span>
+      <h1 class="goal-box__prediction-item-value">{{ appDataStore.activeGoal.formattedPredicted }}</h1>
+    </div>
+    <div class="divider" style="margin-bottom: 30px"/>
     <div class="goal-box__stats">
       <div class="goal-box__stats-item">
-        <span class="goal-box__stats-item-label">Best Fit</span>
-        <span class="goal-box__stats-item-value value-tag"><FunctionSquare :size="14" /> {{ appDataStore.activeTracker.regressionData.name }}</span>
+        <span class="goal-box__stats-item-label">Regression Mode</span>
+        <span class="goal-box__stats-item-value value-tag"><FunctionSquare :size="14" /> Auto ({{ appDataStore.activeTracker.regressionData.name }})</span>
       </div>
-      <div class="goal-box__stats-item" v-if="appDataStore.activeGoal.deadline">
-        <span class="goal-box__stats-item-label">R2</span>
+      <div class="goal-box__stats-item">
+        <span class="goal-box__stats-item-label">Accuracy</span>
         <span class="goal-box__stats-item-value value-tag"><Calculator :size="14" /> {{
-            Math.floor(appDataStore.activeTracker.regressionData.calculation.r2 * 100)
+            appDataStore.activeGoal.accuracy
           }}% </span>
       </div>
     </div>
-    <div class="divider"/>
-    <div class="goal-box__prediction-item">
-      <span class="goal-box__prediction-item-label value-tag value-tag--success">Prediction</span>
-      <h1 class="goal-box__prediction-item-value">{{ appDataStore.activeGoal.formattedPredicted }}</h1>
+    <div class="goal-box__stats">
+      <div class="goal-box__stats-item">
+        <span class="goal-box__stats-item-label">Expected</span>
+        <span class="goal-box__stats-item-value value-tag"><CalendarClock :size="14" /> {{appDataStore.activeGoal.predicted.relative()}}</span>
+      </div>
+      <div class="goal-box__stats-item">
+        <span class="goal-box__stats-item-label">Remaining</span>
+        <span class="goal-box__stats-item-value value-tag"><Diff :size="14" /> {{ appDataStore.activeGoal.formattedRemaining }} </span>
+      </div>
     </div>
   </div>
   <div class="goal-box goal-box--empty"
@@ -40,7 +50,7 @@
 
 import {useAppDataStore} from "../stores/appData";
 import {useModalStore} from "../stores/modal";
-import {FunctionSquare, Calculator, Flag} from "lucide-vue-next";
+import {FunctionSquare, Calculator, Flag, Diff, CalendarClock} from "lucide-vue-next";
 
 const appDataStore = useAppDataStore();
 const modalStore = useModalStore();
@@ -128,7 +138,6 @@ const modalStore = useModalStore();
     flex-direction: column;
     flex-wrap: nowrap;
     gap: 4px;
-    max-width: calc(50% - 4px);
 
     .goal-box__stats-item-label {
       color: var(--darker);
@@ -139,6 +148,7 @@ const modalStore = useModalStore();
 
     &:nth-child(2) {
       text-align: right;
+      align-items: flex-end;
     }
 
     .goal-box__stats-item-value {
@@ -158,15 +168,18 @@ const modalStore = useModalStore();
     flex-direction: column;
     flex-wrap: nowrap;
     gap: 4px;
+    margin-bottom: 20px;
 
     .goal-box__prediction-item-label {
       font-weight: 600;
       display: block;
-      margin-bottom: 2px;
+      margin-bottom: 5px;
+      margin-left: -5px;
     }
 
     .goal-box__prediction-item-value {
       font-weight: 600;
+      font-size: 22px;
       color: var(--heading);
     }
   }
