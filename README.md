@@ -15,14 +15,14 @@
 ### **Telemetry is an open-source progress tracker that predicts when you'll reach your goals.** Track what's important to you over time, and see how your progress compares to your goals.
 
 ---
-## Top Features
+## Features
 
-- 📈 Create **unlimited progress trackers** for anything you want to track.
-- 📁 Organize your trackers into **unlimited collections**, such as _"Personal"_ or _"Work"_.
-- 🏆 Set goals and then **automatically predict** when you'll reach them, in real-time.
-- 🪄 Predictions are based on linear, exponential, logarithmic, power and polynomial regression models.
-- 💾 All private data is stored on your computer. **We cannot access it**.
-- 🌗 Light and dark mode supported.
+- 📈 Unlimited Progress Trackers: Track anything, no limits.
+- 📁 Organize with Ease: Group trackers into custom collections like "Personal" or "Work."
+- 🏆 Smart Goal Setting: Real-time predictions on reaching milestones.
+- 🪄 Advanced Predictions: Utilize multiple regression models for precision.
+- 💾 Privacy First: Your data stays on your computer, inaccessible to us.
+- 🌓 Light/Dark Mode: Choose your preferred visual theme.
 
 ---
 
