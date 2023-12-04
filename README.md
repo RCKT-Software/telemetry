@@ -15,7 +15,7 @@
 ### **Telemetry is an open-source progress tracker that predicts when you'll reach your goals.** Track what's important to you over time, and see how your progress compares to your goals.
 
 ---
-## Features
+## 🚀 Features
 
 - 📈 **Unlimited Progress Trackers**: Track anything, no limits.
 - 📁 **Organize with Ease**: Group trackers into custom collections like "Personal" or "Work."
@@ -26,20 +26,20 @@
 
 ---
 
-## Installation
+## 📦 Installation
 
 ### Windows
 Download the latest version of Telemetry from the [releases](https://github.com/RCKT-Software/telemetry/releases) page or from the link on the [official website](https://telemetry.software). Run the .exe installer and follow the instructions. Telemetry will open automatically when installation is complete.
 
 ---
 
-## Documentation
+## 📖 Documentation
 
 Read our "Getting Started" guide to learn how to use Telemetry: [https://docs.telemetry.software](https://docs.telemetry.software). You can also find FAQs, our public roadmap, and more within the documentation.
 
 ---
 
-## License
+## 📄 License
 
 Copyright (c) 2023 RCKT Software, LLC.
 
