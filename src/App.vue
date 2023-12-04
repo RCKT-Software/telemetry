@@ -30,7 +30,7 @@
                 <span>{{ appDataStore.activeTracker.recentDataPoints.length }} data points</span>
               </div>
               <div class="quick-stats__statistic" v-if="appDataStore.activeTracker.recentDataPoints.length > 0">
-                <History :size="16" />
+                <History :size="16"/>
                 <span>Last updated {{ appDataStore.activeTracker.formattedLastUpdated }}</span>
               </div>
             </div>
@@ -38,13 +38,8 @@
           </div>
           <div class="title-bar__right" v-if="appDataStore.activeTracker.recentDataPoints.length > 0">
 
-            <button class="btn btn--primary" @click.prevent="modalStore.openModal('capture-data-point')">
-              <Plus :size="16" />
-              <span>Data point</span>
-            </button>
-
             <select class="time-period">
-              <option value="0" selected>All time</option>
+              <option value="0" selected>All Time</option>
             </select>
 
           </div>
@@ -56,8 +51,8 @@
           <div class="chart-placeholder" v-else>
             <label>Let's bring in some data...</label>
             <button class="btn btn--primary" @click.prevent="modalStore.openModal('capture-data-point')">
-              <Plus :size="16" />
-              <span>Data point</span>
+              <Plus :size="16"/>
+              <span>Log a data point</span>
             </button>
           </div>
           <goalBox/>
@@ -66,14 +61,33 @@
         <!-- Tabbed Section -->
         <div class="tab-section">
           <div class="tabs">
-            <button class="tab" :class="{'tab--active': activeTab === 'data'}" @click.prevent="setActiveTab('data')"><Table2 :size="16" /> Data</button>
-            <button class="tab" :class="{'tab--active': activeTab === 'settings'}" @click.prevent="setActiveTab('settings')"><Settings2 :size="16" /> Settings</button>
-            <button class="tab" @click.prevent="modalStore.openModal('delete-tracker')"><X :size="16" /> Delete
+            <button class="tab" :class="{'tab--active': activeTab === 'data'}" @click.prevent="setActiveTab('data')">
+              <Table2 :size="16"/>
+              Data
+            </button>
+            <button class="tab" :class="{'tab--active': activeTab === 'settings'}"
+                    @click.prevent="setActiveTab('settings')">
+              <Settings2 :size="16"/>
+              Settings
+            </button>
+            <button class="tab" @click.prevent="modalStore.openModal('delete-tracker')">
+              <X :size="16"/>
+              Delete
             </button>
           </div>
 
-          <!-- Recent Data Points -->
-          <dataTable v-if="activeTab === 'data'"/>
+          <!-- Data Tab -->
+          <section class="tab-content--data" v-if="activeTab === 'data'">
+            <dataTable/>
+            <section>
+              <label style="margin-bottom: 20px">Manage Data</label>
+              <button class="btn btn--primary" @click.prevent="modalStore.openModal('capture-data-point')">
+                <Plus :size="16"/>
+                <span>Log a data point</span>
+              </button>
+            </section>
+          </section>
+
 
         </div>
 
@@ -313,7 +327,7 @@ h1 {
     align-items: center;
     gap: 5px;
 
-    svg{
+    svg {
       color: var(--dark);
     }
 
@@ -364,7 +378,7 @@ h1 {
   flex-wrap: nowrap;
   align-items: flex-start;
   justify-content: space-between;
-  padding: 30px;
+  padding: 25px 30px;
 
   .title-bar__right {
     display: flex;
@@ -606,6 +620,17 @@ div.chart-placeholder {
   line-height: 1;
   display: inline-block;
   width: fit-content;
+}
+
+.tab-content--data {
+  display: grid;
+  grid-template-columns: 775px 1fr;
+  gap: 30px;
+
+  .btn {
+    width: 100%;
+    justify-content: center;
+  }
 }
 
 </style>

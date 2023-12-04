@@ -3,8 +3,8 @@
     <thead>
     <tr>
       <th style="width: 300px">Date / time</th>
-      <th style="width: 100px">Data point</th>
-      <th style="width: 100px">Delta</th>
+      <th style="width: 150px">{{ appDataStore.activeTracker.label }}</th>
+      <th style="width: 100px">Change</th>
       <th style="width: 30px"></th>
     </tr>
     </thead>
@@ -14,7 +14,7 @@
           Date.create(dataPoint.createdAt).full()
         }}
       </td>
-      <td style="width: 100px"><span class="value-tag"> {{ formatValue(dataPoint.value, appDataStore.activeTracker.numberFormat) }} </span></td>
+      <td style="width: 150px"><span class="value-tag"> {{ formatValue(dataPoint.value, appDataStore.activeTracker.numberFormat) }} </span></td>
       <td style="width: 100px"><span class="value-tag"><Diff :size="14" /> {{ formatValue(dataPoint.difference, appDataStore.activeTracker.numberFormat) }}</span></td>
       <td>
         <X :size="16" class="datapoints-table__delete" @click.prevent="appDataStore.activeTracker.deleteDataPoint(dataPoint.id)" />

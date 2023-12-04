@@ -26,7 +26,7 @@
       </li>
     </ul>
     <span class="tracker-add-button" title="Add a new progress tracker"
-          @click.prevent="modalStore.openModal('progress-tracker')"><Plus :size="16" @click.prevent="modalStore.openModal('progress-tracker')" /> New progress tracker</span>
+          @click.prevent="modalStore.openModal('progress-tracker')"><Plus :size="16" @click.prevent="modalStore.openModal('progress-tracker')" /> New tracker</span>
 
     <!-- Middle Divider -->
     <div class="divider divider__middle"/>
