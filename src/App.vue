@@ -43,14 +43,7 @@
               <span>Data point</span>
             </button>
 
-            <select class="time-period" disabled>
-              <option value="0">24 hours</option>
-              <option value="0">3 days</option>
-              <option value="0">7 days</option>
-              <option value="0">30 days</option>
-              <option value="0">60 days</option>
-              <option value="0">90 days</option>
-              <option value="0">2023</option>
+            <select class="time-period">
               <option value="0" selected>All time</option>
             </select>
 
@@ -452,7 +445,7 @@ label {
 }
 
 .time-period {
-  width: 230px;
+  width: 275px;
 }
 
 .chart-row {
