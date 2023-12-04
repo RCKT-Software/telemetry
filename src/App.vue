@@ -38,8 +38,8 @@
           </div>
           <div class="title-bar__right" v-if="appDataStore.activeTracker.recentDataPoints.length > 0">
 
-            <select class="time-period">
-              <option value="0" selected>All Time</option>
+            <select class="time-period" disabled>
+              <option value="0" selected>Automatic Timeframe</option>
             </select>
 
           </div>
@@ -89,10 +89,13 @@
             <div class="setting-item">
               <div class="setting-item__meta">
                 <label class="setting-item__label">Regression Mode</label>
-                <span class="setting-item__description">The model used to generate predictions. <a href="#" class="setting-item__support-link">Learn more</a></span>
+                <span class="setting-item__description">The model used to generate predictions. <a href="#"
+                                                                                                   class="setting-item__support-link"
+                                                                                                   @click.prevent="interfaceStore.openLink('https://docs.telemetry.software/Understanding+Regression+Modes')"
+                                                                                                   target="_blank">Learn more</a></span>
               </div>
               <div class="setting-item__control">
-                <select>
+                <select disabled>
                   <option value="0">Automatic</option>
                   <option value="1">Linear</option>
                   <option value="2">Exponential</option>
@@ -109,7 +112,7 @@
               </div>
               <div class="setting-item__control">
                 <button class="btn" @click.prevent="modalStore.openModal('delete-tracker')">
-                  <span>Delete "{{appDataStore.activeTracker.label}}"</span>
+                  <span>Delete "{{ appDataStore.activeTracker.label }}"</span>
                 </button>
               </div>
             </div>
@@ -660,7 +663,7 @@ div.chart-placeholder {
   }
 }
 
-.setting-item{
+.setting-item {
   display: flex;
   flex-direction: row;
   flex-wrap: nowrap;
@@ -669,11 +672,11 @@ div.chart-placeholder {
   padding: 30px 0;
   border-bottom: 1px solid var(--light);
 
-  &:first-child{
+  &:first-child {
     padding-top: 20px;
   }
 
-  .setting-item__meta{
+  .setting-item__meta {
     width: 400px;
   }
 
@@ -683,11 +686,11 @@ div.chart-placeholder {
     color: var(--heading);
   }
 
-  .setting-item__description{
+  .setting-item__description {
     color: var(--darker);
   }
 
-  .setting-item__support-link{
+  .setting-item__support-link {
     color: var(--heading);
     font-weight: 500;
     text-decoration: underline;

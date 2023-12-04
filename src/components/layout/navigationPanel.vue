@@ -35,17 +35,17 @@
     <ul class="secondary-nav">
       <li class="secondary-nav__item">
         <a href="#"
-           @click.prevent="openLink('https://docs.telemetry.software')"
+           @click.prevent="interfaceStore.openLink('https://docs.telemetry.software')"
            target="_blank">Documentation</a>
       </li>
       <li class="secondary-nav__item">
         <a href="#"
-           @click.prevent="openLink('https://github.com/RCKT-Software/telemetry/issues')"
+           @click.prevent="interfaceStore.openLink('https://github.com/RCKT-Software/telemetry/issues')"
            target="_blank">Feedback</a>
       </li>
       <li class="secondary-nav__item">
         <a href="#"
-           @click.prevent="openLink('https://github.com/RCKT-Software/telemetry')"
+           @click.prevent="interfaceStore.openLink('https://github.com/RCKT-Software/telemetry')"
            target="_blank">GitHub</a>
       </li>
       <!--      <li class="secondary-nav__item">
@@ -89,14 +89,6 @@ onMounted(async () => {
 const appDataStore = useAppDataStore();
 const modalStore = useModalStore();
 const interfaceStore = useInterfaceStore();
-
-/**
- * Open an external link in the default browser
- * @param url
- */
-const openLink = (url) => {
-  window.electronAPI.openLink(url);
-}
 
 /**
  * Allows the UI to toggle dark mode

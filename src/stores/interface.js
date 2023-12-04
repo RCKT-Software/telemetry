@@ -28,5 +28,13 @@ export const useInterfaceStore = defineStore('interface', () => {
         currentTime.value = new Date();
     }, 1000 * 60 * 5);
 
-    return {navigationOpen, responsiveNavigationOpen, isResponsive, currentTime}
+    /**
+     * Open an external link in the default browser
+     * @param url
+     */
+    const openLink = (url) => {
+        window.electronAPI.openLink(url);
+    }
+
+    return {navigationOpen, responsiveNavigationOpen, isResponsive, currentTime, openLink}
 });
