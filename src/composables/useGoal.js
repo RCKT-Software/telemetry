@@ -85,8 +85,8 @@ export function useGoal(config = {
 
     /**
      * The estimated accuracy of the prediction
-     * Decays or boosts the confidence based on the proximity to the goal
-     * Decays 20% per duration of the total dataset past the last point.
+     * Decays the confidence based on the proximity to the goal
+     * Decays 20% per duration of the total dataset past the last point, up to 50% of the r2
      * For example: 30 days of history would mean a prediction 30 days in the future is 20% less accurate
      */
     const accuracy = computed(() => {
@@ -95,31 +95,9 @@ export function useGoal(config = {
             const daysInDataset = parentTracker.value.regressionData.calculation.points[parentTracker.value.regressionData.calculation.points.length - 1][0] / 86400000;
             const dailyDecayRate = 20 / daysInDataset;
             const daysUntilPrediction = predicted.value ? predicted.value.daysFromNow() : 0;
-
-            // Calculate the distance to the goal as a percentage of the goal value
-            //const percentageToGoal = Math.abs((parseFloat(targetValue.value) - currentValue) / parseFloat(targetValue.value));
-
-            // Determine the near-term confidence boost based on the proximity to the goal
-            // If the goal is imminent (current value is very close to the goal), boost the confidence score
-            //const nearTermBoost = 0;
-            //const nearTermBoost = percentageToGoal < 0.01 ? (1 - percentageToGoal) * 40 : 0; // 40 is an arbitrary boost value
-
-            // Apply the decay penalty
             const timePenalty = daysUntilPrediction * dailyDecayRate;
-            let confidenceScore = baseConfidence - timePenalty;
-
-            console.log('/////////////////////////////////');
-            console.log('baseConfidence', baseConfidence);
-            console.log('daysUntilPrediction', daysUntilPrediction);
-            console.log('timePenalty', timePenalty);
-            //console.log('nearTermBoost', nearTermBoost);
-            //console.log('percentageToGoal', percentageToGoal);
-            console.log('confidenceScore', confidenceScore);
-            console.log('/////////////////////////////////');
-
-            // Add the near-term boost, ensuring the score does not exceed 99 (we can never be 100% confident)
+            let confidenceScore = baseConfidence - Math.min(timePenalty, baseConfidence / 2);
             confidenceScore = Math.floor(Math.min(confidenceScore, 99));
-
             return Math.max(0, confidenceScore);
         }
         return false;
