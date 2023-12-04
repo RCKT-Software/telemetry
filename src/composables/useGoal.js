@@ -3,6 +3,7 @@ import {v4 as uuidv4} from 'uuid';
 import Sugar from 'sugar';
 import {formatValue} from "../utility/helpers";
 import {useAppDataStore} from "../stores/appData";
+import {useInterfaceStore} from "../stores/interface";
 
 Sugar.extend();
 
@@ -143,7 +144,11 @@ export function useGoal(config = {
      */
     const formattedRelativeDeadline = computed(() => {
         if (deadline.value) {
-            return new Date(deadline.value).relative();
+            // Wrapped in a currentTime call, to ensure it updates occasionally
+            const { currentTime } = useInterfaceStore();
+            if(currentTime > 0) {
+                return new Date(deadline.value).relative();
+            }
         } else {
             return 'No deadline set';
         }
@@ -180,7 +185,11 @@ export function useGoal(config = {
      */
     const formattedRelativePredicted = computed(() => {
         if (isPredictionValid.value) {
-            return predicted.value.relative();
+            // Wrapped in a currentTime call, to ensure it updates occasionally
+            const { currentTime } = useInterfaceStore();
+            if(currentTime > 0) {
+                return predicted.value.relative();
+            }
         } else {
             return 'N/A';
         }
