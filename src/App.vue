@@ -66,13 +66,14 @@
         <!-- Tabbed Section -->
         <div class="tab-section">
           <div class="tabs">
-            <button class="tab tab--active"><Table2 :size="16" /> Data</button>
+            <button class="tab" :class="{'tab--active': activeTab === 'data'}" @click.prevent="setActiveTab('data')"><Table2 :size="16" /> Data</button>
+            <button class="tab" :class="{'tab--active': activeTab === 'settings'}" @click.prevent="setActiveTab('settings')"><Settings2 :size="16" /> Settings</button>
             <button class="tab" @click.prevent="modalStore.openModal('delete-tracker')"><X :size="16" /> Delete
             </button>
           </div>
 
           <!-- Recent Data Points -->
-          <dataTable/>
+          <dataTable v-if="activeTab === 'data'"/>
 
         </div>
 
@@ -105,7 +106,7 @@ import DataTable from "./components/dataTable.vue";
 import EmptyCollection from "./components/layout/emptyCollection.vue";
 import Welcome from "./components/layout/welcome.vue";
 
-import {Database, History, Plus, Table2, X} from "lucide-vue-next";
+import {Database, History, Plus, Table2, Settings2, X} from "lucide-vue-next";
 
 const appDataStore = useAppDataStore();
 const modalStore = useModalStore();
@@ -116,6 +117,20 @@ const systemInformation = ref({
   uuid: null,
   platform: null,
 });
+
+/**
+ * The active tab to display below the chart
+ * @type {Ref<UnwrapRef<string>>}
+ */
+const activeTab = ref('data');
+
+/**
+ * Swap active tabs
+ * @param tab
+ */
+const setActiveTab = (tab) => {
+  activeTab.value = tab;
+}
 
 /**
  * Get system information when available
@@ -469,11 +484,9 @@ label {
   flex-direction: row;
   flex-wrap: nowrap;
   gap: 15px;
-  margin-bottom: 30px;
-  padding-bottom: 20px;
+  margin-bottom: 25px;
   width: 100%;
-  border-bottom: 1px solid var(--light);
-  justify-content: space-between;
+  justify-content: flex-start;
 }
 
 .tab {
@@ -560,7 +573,9 @@ label {
 }
 
 .tab-section {
-  padding: 0 30px;
+  border-top: 1px solid var(--medium);
+  display: block;
+  padding: 30px 30px 0;
 }
 
 .tracker-title {

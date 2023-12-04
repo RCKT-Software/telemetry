@@ -1,13 +1,21 @@
 <template>
-  <label class="datapoints-table__title">Captured Data</label>
   <table class="datapoints-table">
+    <thead>
+    <tr>
+      <th style="width: 300px">Date / time</th>
+      <th style="width: 100px">Data point</th>
+      <th style="width: 100px">Delta</th>
+      <th style="width: 30px"></th>
+    </tr>
+    </thead>
     <tbody>
     <tr v-for="dataPoint in sortedDataPoints">
       <td style="width: 300px">{{
           Date.create(dataPoint.createdAt).full()
         }}
       </td>
-      <td style="width: 100px">{{ formatValue(dataPoint.value, appDataStore.activeTracker.numberFormat) }}</td>
+      <td style="width: 100px"><span class="value-tag"> {{ formatValue(dataPoint.value, appDataStore.activeTracker.numberFormat) }} </span></td>
+      <td style="width: 100px"><span class="value-tag"><Diff :size="14" /> {{ formatValue(dataPoint.difference, appDataStore.activeTracker.numberFormat) }}</span></td>
       <td>
         <X :size="16" class="datapoints-table__delete" @click.prevent="appDataStore.activeTracker.deleteDataPoint(dataPoint.id)" />
       </td>
@@ -26,7 +34,7 @@
 import {formatValue} from "../utility/helpers";
 import {useAppDataStore} from "../stores/appData";
 import {computed} from "vue";
-import {X} from "lucide-vue-next";
+import {Diff, X} from "lucide-vue-next";
 
 const appDataStore = useAppDataStore();
 
@@ -34,9 +42,19 @@ const appDataStore = useAppDataStore();
  * Sort the data points by date/time.
  */
 const sortedDataPoints = computed(() => {
-  return [...appDataStore.activeTracker.recentDataPoints].sort((a, b) => {
+  let dataPoints = [...appDataStore.activeTracker.recentDataPoints];
+  dataPoints.sort((a, b) => {
     return Date.create(b.createdAt).getTime() - Date.create(a.createdAt).getTime();
   });
+  for (let i = 0; i < dataPoints.length; i++) {
+    if(dataPoints[i + 1]) {
+      console.log(dataPoints[i].value, dataPoints[i + 1].value);
+      dataPoints[i].difference = dataPoints[i].value - dataPoints[i + 1].value;
+    }else{
+      dataPoints[i].difference = 0;
+    }
+  }
+  return dataPoints;
 });
 
 </script>
@@ -51,27 +69,30 @@ const sortedDataPoints = computed(() => {
   margin-bottom: 40px;
   padding: 0;
 
+  thead{
+    border-bottom: 1px solid var(--medium);
+    display: block;
+  }
+
+  th{
+    text-align: left;
+    padding: 10px 0;
+    font-weight: 600;
+  }
+
   tr {
     display: flex;
     flex-direction: row;
     flex-wrap: nowrap;
     justify-content: space-between;
     align-items: center;
-    padding: 0 10px 0 20px;
+    padding: 3px 5px 3px 20px;
     color: var(--darker);
-
-    &:first-child {
-      border-radius: 5px 5px 0 0;
-      color: var(--heading);
-      font-weight: 600;
-
-      td:nth-child(2){
-        font-size: 14px;
-      }
-    }
+    border-bottom: 1px solid var(--medium);
 
     &:last-child {
       border-radius: 0 0 5px 5px;
+      border-bottom: none;
     }
 
     &:hover {
@@ -93,7 +114,7 @@ const sortedDataPoints = computed(() => {
 .datapoints-table__title {
   margin-left: 25px;
   margin-bottom: 20px;
-  color: var(--darker);
+  color: var(--heading);
 }
 
 </style>
