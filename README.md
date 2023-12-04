@@ -17,12 +17,12 @@
 ---
 ## Features
 
-- 📈 Unlimited Progress Trackers: Track anything, no limits.
-- 📁 Organize with Ease: Group trackers into custom collections like "Personal" or "Work."
-- 🏆 Smart Goal Setting: Real-time predictions on reaching milestones.
-- 🪄 Advanced Predictions: Utilize multiple regression models for precision.
-- 💾 Privacy First: Your data stays on your computer, inaccessible to us.
-- 🌓 Light/Dark Mode: Choose your preferred visual theme.
+- 📈 **Unlimited Progress Trackers**: Track anything, no limits.
+- 📁 **Organize with Ease**: Group trackers into custom collections like "Personal" or "Work."
+- 🏆 **Smart Goal Setting**: Real-time predictions on reaching milestones.
+- 🪄 **Advanced Predictions**: Utilize multiple regression models for precision.
+- 💾 **Privacy First**: Your data stays on your computer, inaccessible to us.
+- 🌓 **Light/Dark Mode**: Choose your preferred visual theme.
 
 ---
 
