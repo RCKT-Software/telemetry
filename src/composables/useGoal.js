@@ -104,12 +104,22 @@ export function useGoal(config = {
     });
 
     /**
+     * The formatted version of the accuracy score
+     */
+    const formattedAccuracy = computed(() => {
+        return isNaN(accuracy.value) ? 'N/A' : accuracy.value + '%';
+    });
+
+    /**
      * The formatted version of the target value
      */
     const formattedTargetValue = computed(() => {
         return formatValue(targetValue.value, parentTracker.value.numberFormat);
     });
 
+    /**
+     * The formatted version of the remaining value
+     */
     const formattedRemaining = computed(() => {
         return formatValue(remaining.value, parentTracker.value.numberFormat);
     });
@@ -156,13 +166,20 @@ export function useGoal(config = {
      */
     const formattedPredicted = computed(() => {
         if (isPredictionValid.value) {
-            if (!isCompleted.value) {
-                return predicted.value.medium();
-            } else {
-                return 'Completed ' + predicted.value.short()
-            }
+            return predicted.value.medium();
         } else {
             return 'No prediction available';
+        }
+    })
+
+    /**
+     * The formatted version of the predicted completion of the goal (relative)
+     */
+    const formattedRelativePredicted = computed(() => {
+        if (isPredictionValid.value) {
+            return predicted.value.relative();
+        } else {
+            return 'N/A';
         }
     })
 
@@ -174,11 +191,13 @@ export function useGoal(config = {
         deadline,
         predicted,
         accuracy,
+        formattedAccuracy,
         formattedTargetValue,
         formattedRemaining,
         formattedDeadline,
         formattedRelativeDeadline,
         formattedPredicted,
+        formattedRelativePredicted,
         isPredictionValid,
         isCompleted,
         serializeState

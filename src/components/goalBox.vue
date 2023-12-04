@@ -20,18 +20,16 @@
       </div>
       <div class="goal-box__stats-item">
         <span class="goal-box__stats-item-label">Accuracy</span>
-        <span class="goal-box__stats-item-value value-tag"><Calculator :size="14" /> {{
-            appDataStore.activeGoal.accuracy
-          }}% </span>
+        <span class="goal-box__stats-item-value value-tag"><Calculator :size="14" /> {{ appDataStore.activeGoal.formattedAccuracy }} </span>
       </div>
     </div>
     <div class="goal-box__stats">
       <div class="goal-box__stats-item">
-        <span class="goal-box__stats-item-label">Expected</span>
-        <span class="goal-box__stats-item-value value-tag"><CalendarClock :size="14" /> {{appDataStore.activeGoal.predicted.relative()}}</span>
+        <span class="goal-box__stats-item-label">Prediction</span>
+        <span class="goal-box__stats-item-value value-tag"><CalendarClock :size="14" /> {{ appDataStore.activeGoal.formattedRelativePredicted }}</span>
       </div>
       <div class="goal-box__stats-item">
-        <span class="goal-box__stats-item-label">Remaining</span>
+        <span class="goal-box__stats-item-label">Delta</span>
         <span class="goal-box__stats-item-value value-tag"><Diff :size="14" /> {{ appDataStore.activeGoal.formattedRemaining }} </span>
       </div>
     </div>
