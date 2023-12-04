@@ -5,6 +5,8 @@
   <img src="https://telemetry.software/images/hero-screenshot.png">
 </picture>
 
+---
+
 ![GitHub package.json dynamic](https://img.shields.io/github/package-json/version/RCKT-Software/telemetry?label=latest%20commit)
 ![GitHub Release Date - Published_At](https://img.shields.io/github/release-date/RCKT-Software/telemetry)
 ![Static Badge](https://img.shields.io/badge/open%20documentation-8A2BE2?link=https%3A%2F%2Fdocs.telemetry.software)
