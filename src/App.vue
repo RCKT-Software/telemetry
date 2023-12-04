@@ -70,10 +70,6 @@
               <Settings2 :size="16"/>
               Settings
             </button>
-            <button class="tab" @click.prevent="modalStore.openModal('delete-tracker')">
-              <X :size="16"/>
-              Delete
-            </button>
           </div>
 
           <!-- Data Tab -->
@@ -86,6 +82,37 @@
                 <span>Log a data point</span>
               </button>
             </section>
+          </section>
+
+          <!-- Settings Tab -->
+          <section class="tab-content--settings" v-if="activeTab === 'settings'">
+            <div class="setting-item">
+              <div class="setting-item__meta">
+                <label class="setting-item__label">Regression Mode</label>
+                <span class="setting-item__description">The model used to generate predictions. <a href="#" class="setting-item__support-link">Learn more</a></span>
+              </div>
+              <div class="setting-item__control">
+                <select>
+                  <option value="0">Automatic</option>
+                  <option value="1">Linear</option>
+                  <option value="2">Exponential</option>
+                  <option value="3">Logarithmic</option>
+                  <option value="4">Power</option>
+                  <option value="5">Polynomial</option>
+                </select>
+              </div>
+            </div>
+            <div class="setting-item">
+              <div class="setting-item__meta">
+                <label class="setting-item__label">Delete tracker</label>
+                <span class="setting-item__description">Danger! This action is irreversible.</span>
+              </div>
+              <div class="setting-item__control">
+                <button class="btn" @click.prevent="modalStore.openModal('delete-tracker')">
+                  <span>Delete "{{appDataStore.activeTracker.label}}"</span>
+                </button>
+              </div>
+            </div>
           </section>
 
 
@@ -630,6 +657,40 @@ div.chart-placeholder {
   .btn {
     width: 100%;
     justify-content: center;
+  }
+}
+
+.setting-item{
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  align-items: start;
+  gap: 60px;
+  padding: 30px 0;
+  border-bottom: 1px solid var(--light);
+
+  &:first-child{
+    padding-top: 20px;
+  }
+
+  .setting-item__meta{
+    width: 400px;
+  }
+
+  .setting-item__label {
+    font-weight: 600;
+    margin-bottom: 6px;
+    color: var(--heading);
+  }
+
+  .setting-item__description{
+    color: var(--darker);
+  }
+
+  .setting-item__support-link{
+    color: var(--heading);
+    font-weight: 500;
+    text-decoration: underline;
   }
 }
 
