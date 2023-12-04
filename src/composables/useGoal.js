@@ -107,6 +107,9 @@ export function useGoal(config = {
      * The formatted version of the accuracy score
      */
     const formattedAccuracy = computed(() => {
+        if(!accuracy.value) {
+            return 'N/A';
+        }
         return isNaN(accuracy.value) ? 'N/A' : accuracy.value + '%';
     });
 
