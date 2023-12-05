@@ -19,5 +19,22 @@ export const useInterfaceStore = defineStore('interface', () => {
      */
     const isResponsive = useMediaQuery('(max-width: 1480px)');
 
-    return {navigationOpen, responsiveNavigationOpen, isResponsive}
+    /**
+     * A reference to the current time, used to update date/time relative values occasionally
+     * Updates every 5 minutes
+     */
+    const currentTime = ref(new Date());
+    setInterval(() => {
+        currentTime.value = new Date();
+    }, 1000 * 60 * 5);
+
+    /**
+     * Open an external link in the default browser
+     * @param url
+     */
+    const openLink = (url) => {
+        window.electronAPI.openLink(url);
+    }
+
+    return {navigationOpen, responsiveNavigationOpen, isResponsive, currentTime, openLink}
 });

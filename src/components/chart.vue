@@ -105,7 +105,7 @@ const chartDatasets = () => {
         continue;
       }
       datasets.push({
-        data: [[moment(goal.predicted).valueOf(), goal.targetValue]],
+        data: [[goal.completedDate ? moment(goal.completedDate).valueOf() : moment(goal.predicted).valueOf(), goal.targetValue]],
         fill: false,
         pointStyle: [flagPointStyle],
         pointBorderColor: getCSSVariable('--black'),
@@ -121,6 +121,7 @@ const chartDatasets = () => {
       target: 'start',
       above: appDataStore.activeCollection.transparentColor,
     },
+    stepped: appDataStore.activeTracker.steppedChart,
     borderColor: appDataStore.activeCollection.color,
     ...baseDataOptions()
   });

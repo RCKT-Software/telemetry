@@ -5,6 +5,7 @@ import {useGoal} from "./useGoal";
 import {formatValue} from "../utility/helpers";
 import regression from '../utility/regression';
 import moment from "moment";
+import {useInterfaceStore} from "../stores/interface";
 
 Sugar.extend();
 
@@ -14,7 +15,9 @@ export function useTracker(config = {
     startingValue: 0,
     numberFormat: 'number',
     trackingMode: 'value',
+    regressionMode: 'Automatic',
     goals: [],
+    steppedChart: false,
 }) {
 
     /**
@@ -26,7 +29,9 @@ export function useTracker(config = {
             label: label.value,
             startingValue: startingValue.value,
             numberFormat: numberFormat.value,
+            steppedChart: steppedChart.value,
             trackingMode: trackingMode.value,
+            regressionMode: regressionMode.value,
             goals: goals.value.map(goal => goal.serializeState()),
         };
     };
@@ -52,15 +57,6 @@ export function useTracker(config = {
     const recentDataPoints = ref([]);
 
     /**
-     * A reference to the current time, used to know how long ago we updated the last updated date
-     * This updates every 5 minutes, as updating it will cause the chart to re-render
-     */
-    const currentTime = ref(new Date());
-    setInterval(() => {
-        currentTime.value = new Date();
-    }, 1000 * 60 * 5);
-
-    /**
      * A placeholder for the date the current value was last updated
      */
     const lastUpdated = ref(Date.create('yesterday'));
@@ -69,8 +65,9 @@ export function useTracker(config = {
      * The relative formatted value for the last updated date
      */
     const formattedLastUpdated = computed(() => {
-        // Wrapped in a currentTime call, to ensure it updates every 5 minutes
-        if(currentTime.value > 0) {
+        // Wrapped in a currentTime call, to ensure it updates occasionally
+        const { currentTime } = useInterfaceStore();
+        if(currentTime > 0) {
             return lastUpdated.value.relative();
         }
     });
@@ -86,9 +83,19 @@ export function useTracker(config = {
     const numberFormat = ref(config.numberFormat || 'number');
 
     /**
+     * Does the chart display as a stepped chart? By default, it's smooth instead.
+     */
+    const steppedChart = ref(config.steppedChart || false);
+
+    /**
      * The tracking mode of the tracker (either 'value' or 'aggregate')
      */
     const trackingMode = ref(config.trackingMode || 'value');
+
+    /**
+     * The type of regression to use for the tracker (either 'auto', 'linear', 'exponential', 'logarithmic', 'power', 'polynomial2', 'polynomial3')
+     */
+    const regressionMode = ref(config.regressionMode || 'Automatic');
 
     /**
      * The goals that belong to the tracker
@@ -192,40 +199,45 @@ export function useTracker(config = {
         if (recentDataPoints.value.length === 0) {
             return 0;
         }
-        return moment(recentDataPoints.value[0].createdAt).valueOf();
+        return moment(recentDataPoints.value[0].createdAt).valueOf() - 1;
     });
 
     /**
      * Get the regression data for the given data points.
+     * If auto-selecting, we'll try to find the best fit.
+     * If manually selecting, we'll use the selected method.
      */
     const regressionData = computed(() => {
         const data = recentDataPoints.value.map((point) => [moment(point.createdAt - xOffset.value).valueOf(), point.value]);
-        const linear = regression.linear(data);
-        const exponential = regression.exponential(data);
-        const logarithmic = regression.logarithmic(data);
-        const power = regression.power(data);
-        const polynomial2 = regression.polynomial(data, {order: 2});
-        const polynomial3 = regression.polynomial(data, {order: 3});
-        const results = [
-            {name: 'Linear', calculation: linear},
-            {name: 'Exponential', calculation: exponential},
-            {name: 'Logarithmic', calculation: logarithmic},
-            {name: 'Power', calculation: power}
-        ];
-        // Only support polynomials with more than 50 data points
-        if (data.length > 50) {
-            if (polynomial2.r2 > 0.5) {
-                results.push({name: 'Polynomial (2)', calculation: polynomial2});
+        let results = [];
+        if (regressionMode.value === 'Automatic') {
+            const linear = regression.linear(data);
+            const exponential = regression.exponential(data);
+            const logarithmic = regression.logarithmic(data);
+            const power = regression.power(data);
+            const polynomial = regression.polynomial(data, {order: 2});
+            results = [
+                {name: 'Linear', calculation: linear},
+                {name: 'Exponential', calculation: exponential},
+                {name: 'Logarithmic', calculation: logarithmic},
+                {name: 'Power', calculation: power}
+            ];
+            // Only automatically select polynomials with more than 50 data points and > 50% r2 fit
+            if (data.length > 50) {
+                if (polynomial.r2 > 0.5) {
+                    results.push({name: 'Polynomial', calculation: polynomial});
+                }
             }
-            if (polynomial3.r2 > 0.5) {
-                results.push({name: 'Polynomial (3)', calculation: polynomial3});
-            }
+            results.sort((a, b) => {
+                if (a.calculation.r2 < 0 || isNaN(a.calculation.r2)) return 1;
+                if (b.calculation.r2 < 0 || isNaN(b.calculation.r2)) return -1;
+                return b.calculation.r2 - a.calculation.r2;
+            });
+        } else {
+            const specificRegression = regression[regressionMode.value.toLowerCase()](data);
+            results.push({name: regressionMode.value, calculation: specificRegression});
         }
-        results.sort((a, b) => {
-            if (a.calculation.r2 < 0 || isNaN(a.calculation.r2)) return 1;
-            if (b.calculation.r2 < 0 || isNaN(b.calculation.r2)) return -1;
-            return b.calculation.r2 - a.calculation.r2;
-        });
+        console.log(results[0]);
         return results[0];
     });
 
@@ -235,11 +247,14 @@ export function useTracker(config = {
     const chartRegressionData = computed(() => {
         let points = [];
         if (regressionData.value.calculation.points.length > 1) {
-            const timeScale = (regressionData.value.calculation.points[regressionData.value.calculation.points.length - 1][0]);
-            const interval = timeScale / 20 * 2;
+            const firstTimestamp = xOffset.value;
+            const lastTimestamp = (regressionData.value.calculation.points[regressionData.value.calculation.points.length - 1][0]) + xOffset.value;
+            const currentTime = Date.now();
+            const timeScale = (currentTime - firstTimestamp) + (currentTime - lastTimestamp);
+            const interval = timeScale / 20;
             for (let i = 0; i <= 20; i++) {
-                let futureTime = moment(timeScale).add(interval * i, 'milliseconds').valueOf();
-                let predicted = regressionData.value.calculation.predict(futureTime);
+                let futureTime = moment(lastTimestamp).add(interval * i, 'milliseconds').valueOf();
+                let predicted = regressionData.value.calculation.predict(futureTime - xOffset.value);
                 if (predicted) {
                     predicted[0] += xOffset.value;
                     points.push(predicted);
@@ -267,6 +282,8 @@ export function useTracker(config = {
         lastUpdated,
         startingValue,
         numberFormat,
+        regressionMode,
+        steppedChart,
         goals,
         activeGoal,
         formattedCurrentValue,

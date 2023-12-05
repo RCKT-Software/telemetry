@@ -1,6 +1,6 @@
 <template>
   <div class="goal-box" v-if="appDataStore.activeGoal">
-    <span class="goal-box__label"><Flag :size="18" /> Goal</span>
+    <span class="goal-box__label"><Flag :size="18"/> Goal</span>
     <span class="goal-box__edit"
           @click.prevent="modalStore.openModal('goal', {goal: appDataStore.activeGoal})">Edit</span>
     <h1 class="goal-box__heading">
@@ -8,23 +8,44 @@
         v-if="appDataStore.activeGoal.deadline">Deadline: {{ appDataStore.activeGoal.formattedDeadline }}</span>
     </h1>
     <div class="divider" style="margin-bottom: 20px"/>
-    <div class="goal-box__stats">
-      <div class="goal-box__stats-item">
-        <span class="goal-box__stats-item-label">Best Fit</span>
-        <span class="goal-box__stats-item-value value-tag"><FunctionSquare :size="14" /> {{ appDataStore.activeTracker.regressionData.name }}</span>
+    <section v-if="appDataStore.activeGoal.isCompleted === false">
+      <div class="goal-box__prediction-item">
+        <span class="goal-box__prediction-item-label value-tag value-tag--success">Predicted Completion</span>
+        <h1 class="goal-box__prediction-item-value">{{ appDataStore.activeGoal.formattedPredicted }}</h1>
       </div>
-      <div class="goal-box__stats-item" v-if="appDataStore.activeGoal.deadline">
-        <span class="goal-box__stats-item-label">R2</span>
-        <span class="goal-box__stats-item-value value-tag"><Calculator :size="14" /> {{
-            Math.floor(appDataStore.activeTracker.regressionData.calculation.r2 * 100)
-          }}% </span>
+      <div class="divider" style="margin-bottom: 30px"/>
+      <div class="goal-box__stats">
+        <div class="goal-box__stats-item">
+          <span class="goal-box__stats-item-label">Regression Mode</span>
+          <span class="goal-box__stats-item-value value-tag"
+                v-if="appDataStore.activeTracker.regressionMode === 'Automatic'"><FunctionSquare
+              :size="14"/> Auto ({{ appDataStore.activeTracker.regressionData.name }})</span>
+          <span class="goal-box__stats-item-value value-tag" v-else><FunctionSquare
+              :size="14"/> {{ appDataStore.activeTracker.regressionMode }}</span>
+        </div>
+        <div class="goal-box__stats-item">
+          <span class="goal-box__stats-item-label">Accuracy</span>
+          <span class="goal-box__stats-item-value value-tag"><Calculator
+              :size="14"/> {{ appDataStore.activeGoal.formattedAccuracy }} </span>
+        </div>
       </div>
-    </div>
-    <div class="divider"/>
-    <div class="goal-box__prediction-item">
-      <span class="goal-box__prediction-item-label value-tag value-tag--success">Prediction</span>
-      <h1 class="goal-box__prediction-item-value">{{ appDataStore.activeGoal.formattedPredicted }}</h1>
-    </div>
+      <div class="goal-box__stats">
+        <div class="goal-box__stats-item">
+          <span class="goal-box__stats-item-label">Prediction</span>
+          <span class="goal-box__stats-item-value value-tag"><CalendarClock
+              :size="14"/> {{ appDataStore.activeGoal.formattedRelativePredicted }}</span>
+        </div>
+        <div class="goal-box__stats-item">
+          <span class="goal-box__stats-item-label">Delta</span>
+          <span class="goal-box__stats-item-value value-tag"><Diff
+              :size="14"/> {{ appDataStore.activeGoal.formattedRemaining }} </span>
+        </div>
+      </div>
+    </section>
+    <section class="goal-box--complete" v-if="appDataStore.activeGoal.isCompleted">
+      <Trophy :absoluteStrokeWidth="true" class="trophy-icon" :size="60"/>
+      <h2 class="goal-box__completed">Completed on<br>{{ appDataStore.activeGoal.formattedCompletedDate }}</h2>
+    </section>
   </div>
   <div class="goal-box goal-box--empty"
        :class="{'goal-box--has-data': appDataStore.activeTracker.recentDataPoints.length > 0}"
@@ -40,7 +61,7 @@
 
 import {useAppDataStore} from "../stores/appData";
 import {useModalStore} from "../stores/modal";
-import {FunctionSquare, Calculator, Flag} from "lucide-vue-next";
+import {FunctionSquare, Calculator, Flag, Diff, CalendarClock, Trophy} from "lucide-vue-next";
 
 const appDataStore = useAppDataStore();
 const modalStore = useModalStore();
@@ -128,7 +149,6 @@ const modalStore = useModalStore();
     flex-direction: column;
     flex-wrap: nowrap;
     gap: 4px;
-    max-width: calc(50% - 4px);
 
     .goal-box__stats-item-label {
       color: var(--darker);
@@ -139,6 +159,7 @@ const modalStore = useModalStore();
 
     &:nth-child(2) {
       text-align: right;
+      align-items: flex-end;
     }
 
     .goal-box__stats-item-value {
@@ -158,17 +179,37 @@ const modalStore = useModalStore();
     flex-direction: column;
     flex-wrap: nowrap;
     gap: 4px;
+    margin-bottom: 20px;
 
     .goal-box__prediction-item-label {
       font-weight: 600;
       display: block;
-      margin-bottom: 2px;
+      margin-bottom: 5px;
+      margin-left: -5px;
     }
 
     .goal-box__prediction-item-value {
       font-weight: 600;
+      font-size: 22px;
       color: var(--heading);
     }
   }
+}
+
+.trophy-icon {
+  color: var(--success);
+  background-color: var(--success-light);
+  padding: 30px;
+  border-radius: 50%;
+}
+
+.goal-box--complete{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex-wrap: nowrap;
+  gap: 30px;
+  margin-top: 50px;
+  text-align: center;
 }
 </style>

@@ -30,7 +30,7 @@
                 <span>{{ appDataStore.activeTracker.recentDataPoints.length }} data points</span>
               </div>
               <div class="quick-stats__statistic" v-if="appDataStore.activeTracker.recentDataPoints.length > 0">
-                <History :size="16" />
+                <History :size="16"/>
                 <span>Last updated {{ appDataStore.activeTracker.formattedLastUpdated }}</span>
               </div>
             </div>
@@ -38,20 +38,8 @@
           </div>
           <div class="title-bar__right" v-if="appDataStore.activeTracker.recentDataPoints.length > 0">
 
-            <button class="btn btn--primary" @click.prevent="modalStore.openModal('capture-data-point')">
-              <Plus :size="16" />
-              <span>Data point</span>
-            </button>
-
             <select class="time-period" disabled>
-              <option value="0">24 hours</option>
-              <option value="0">3 days</option>
-              <option value="0">7 days</option>
-              <option value="0">30 days</option>
-              <option value="0">60 days</option>
-              <option value="0">90 days</option>
-              <option value="0">2023</option>
-              <option value="0" selected>All time</option>
+              <option value="0" selected>Automatic Timeframe</option>
             </select>
 
           </div>
@@ -63,8 +51,8 @@
           <div class="chart-placeholder" v-else>
             <label>Let's bring in some data...</label>
             <button class="btn btn--primary" @click.prevent="modalStore.openModal('capture-data-point')">
-              <Plus :size="16" />
-              <span>Data point</span>
+              <Plus :size="16"/>
+              <span>Log a data point</span>
             </button>
           </div>
           <goalBox/>
@@ -73,13 +61,34 @@
         <!-- Tabbed Section -->
         <div class="tab-section">
           <div class="tabs">
-            <button class="tab tab--active"><Table2 :size="16" /> Data</button>
-            <button class="tab" @click.prevent="modalStore.openModal('delete-tracker')"><X :size="16" /> Delete
+            <button class="tab" :class="{'tab--active': activeTab === 'data'}" @click.prevent="setActiveTab('data')">
+              <Table2 :size="16"/>
+              Data
+            </button>
+            <button class="tab" :class="{'tab--active': activeTab === 'settings'}"
+                    @click.prevent="setActiveTab('settings')">
+              <Settings2 :size="16"/>
+              Settings
             </button>
           </div>
 
-          <!-- Recent Data Points -->
-          <dataTable/>
+          <!-- Data Tab -->
+          <section class="tab-content--data" v-if="activeTab === 'data'">
+            <dataTable/>
+            <section>
+              <label style="margin-bottom: 20px">Manage Data</label>
+              <button class="btn btn--primary" @click.prevent="modalStore.openModal('capture-data-point')">
+                <Plus :size="16"/>
+                <span>Log a data point</span>
+              </button>
+            </section>
+          </section>
+
+          <!-- Settings Tab -->
+          <section class="tab-content--settings" v-if="activeTab === 'settings'">
+            <trackerSettings />
+          </section>
+
 
         </div>
 
@@ -111,8 +120,8 @@ import {useInterfaceStore} from "./stores/interface";
 import DataTable from "./components/dataTable.vue";
 import EmptyCollection from "./components/layout/emptyCollection.vue";
 import Welcome from "./components/layout/welcome.vue";
-
-import {Database, History, Plus, Table2, X} from "lucide-vue-next";
+import {Database, History, Plus, Table2, Settings2} from "lucide-vue-next";
+import TrackerSettings from "./components/layout/trackerSettings.vue";
 
 const appDataStore = useAppDataStore();
 const modalStore = useModalStore();
@@ -123,6 +132,20 @@ const systemInformation = ref({
   uuid: null,
   platform: null,
 });
+
+/**
+ * The active tab to display below the chart
+ * @type {Ref<UnwrapRef<string>>}
+ */
+const activeTab = ref('data');
+
+/**
+ * Swap active tabs
+ * @param tab
+ */
+const setActiveTab = (tab) => {
+  activeTab.value = tab;
+}
 
 /**
  * Get system information when available
@@ -298,14 +321,14 @@ h1 {
   flex-wrap: nowrap;
   gap: 15px;
   align-items: center;
-  justify-content: center;
+  justify-content: start;
 
   .quick-stats__statistic {
     display: flex;
     align-items: center;
     gap: 5px;
 
-    svg{
+    svg {
       color: var(--dark);
     }
 
@@ -356,7 +379,7 @@ h1 {
   flex-wrap: nowrap;
   align-items: flex-start;
   justify-content: space-between;
-  padding: 30px;
+  padding: 25px 30px;
 
   .title-bar__right {
     display: flex;
@@ -452,7 +475,7 @@ label {
 }
 
 .time-period {
-  width: 230px;
+  width: 275px;
 }
 
 .chart-row {
@@ -476,11 +499,9 @@ label {
   flex-direction: row;
   flex-wrap: nowrap;
   gap: 15px;
-  margin-bottom: 30px;
-  padding-bottom: 20px;
+  margin-bottom: 25px;
   width: 100%;
-  border-bottom: 1px solid var(--light);
-  justify-content: space-between;
+  justify-content: flex-start;
 }
 
 .tab {
@@ -567,7 +588,9 @@ label {
 }
 
 .tab-section {
-  padding: 0 30px;
+  border-top: 1px solid var(--medium);
+  display: block;
+  padding: 30px 30px 0;
 }
 
 .tracker-title {
@@ -598,6 +621,51 @@ div.chart-placeholder {
   line-height: 1;
   display: inline-block;
   width: fit-content;
+}
+
+.tab-content--data {
+  display: grid;
+  grid-template-columns: 775px 1fr;
+  gap: 30px;
+
+  .btn {
+    width: 100%;
+    justify-content: center;
+  }
+}
+
+.setting-item {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  align-items: start;
+  gap: 60px;
+  padding: 30px 0;
+  border-bottom: 1px solid var(--light);
+
+  &:first-child {
+    padding-top: 20px;
+  }
+
+  .setting-item__meta {
+    width: 400px;
+  }
+
+  .setting-item__label {
+    font-weight: 600;
+    margin-bottom: 6px;
+    color: var(--heading);
+  }
+
+  .setting-item__description {
+    color: var(--darker);
+  }
+
+  .setting-item__support-link {
+    color: var(--heading);
+    font-weight: 500;
+    text-decoration: underline;
+  }
 }
 
 </style>

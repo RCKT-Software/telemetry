@@ -1,5 +1,5 @@
 const path = require('path');
-const {app, BrowserWindow, ipcMain, globalShortcut} = require('electron');
+const {app, BrowserWindow, ipcMain, globalShortcut, screen} = require('electron');
 const si = require('systeminformation');
 const packageJSON = require('./package.json');
 const { updateElectronApp } = require('update-electron-app');
@@ -18,12 +18,13 @@ if (require('electron-squirrel-startup')) {
 const isDev = process.env.IS_DEV === 'true';
 
 function createWindow(userData = {}) {
+    const { height } = screen.getPrimaryDisplay().size;
     const mainWindow = new BrowserWindow({
         show: false,
         minWidth: 1160,
         width: 1520,
         minHeight: 800,
-        height: 860,
+        height: height * 0.9,
         center: true,
         resizable: true,
         maximizable: true,

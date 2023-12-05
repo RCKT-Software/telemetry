@@ -12,7 +12,7 @@ function formatValue(value, numberFormat) {
             return new Intl.NumberFormat('en-US', {
                 style: 'currency',
                 currency: 'USD',
-                maximumFractionDigits: 2,
+                maximumFractionDigits: Math.floor(value) === value ? 0 : 2,
             }).format(value);
         case 'percentage':
             return new Intl.NumberFormat('en-US', {
