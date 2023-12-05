@@ -43,8 +43,8 @@
       </div>
     </section>
     <section class="goal-box--complete" v-if="appDataStore.activeGoal.isCompleted">
-      <Trophy :absoluteStrokeWidth="true" class="trophy-icon" :size="70"/>
-      <h2 class="goal-box__completed">Completed<br>{{ appDataStore.activeGoal.formattedPredicted }}</h2>
+      <Trophy :absoluteStrokeWidth="true" class="trophy-icon" :size="60"/>
+      <h2 class="goal-box__completed">Completed on<br>{{ appDataStore.activeGoal.formattedPredicted }}</h2>
     </section>
   </div>
   <div class="goal-box goal-box--empty"
@@ -199,7 +199,7 @@ const modalStore = useModalStore();
 .trophy-icon {
   color: var(--success);
   background-color: var(--success-light);
-  padding: 20px;
+  padding: 30px;
   border-radius: 50%;
 }
 
