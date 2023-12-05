@@ -88,11 +88,22 @@
           <section class="tab-content--settings" v-if="activeTab === 'settings'">
             <div class="setting-item">
               <div class="setting-item__meta">
+                <label class="setting-item__label">Data Type</label>
+                <span class="setting-item__description">How the data points are formatted.</span>
+              </div>
+              <div class="setting-item__control">
+                <select v-model="appDataStore.activeTracker.numberFormat">
+                  <option value="number" selected>Number</option>
+                  <option value="usd">Currency ($)</option>
+                  <option value="percentage">Percentage (%)</option>
+                </select>
+              </div>
+            </div>
+            <div class="setting-item">
+              <div class="setting-item__meta">
                 <label class="setting-item__label">Regression Mode</label>
-                <span class="setting-item__description">The model used to generate predictions. <a href="#"
-                                                                                                   class="setting-item__support-link"
-                                                                                                   @click.prevent="interfaceStore.openLink('https://docs.telemetry.software/Understanding+Regression+Modes')"
-                                                                                                   target="_blank">Learn more</a></span>
+                <span class="setting-item__description">The model used to generate predictions.
+                  <a href="#" class="setting-item__support-link" @click.prevent="interfaceStore.openLink('https://docs.telemetry.software/Understanding+Regression+Modes')" target="_blank">Learn more</a></span>
               </div>
               <div class="setting-item__control">
                 <select disabled>
