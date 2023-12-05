@@ -15,7 +15,10 @@
         }}
       </td>
       <td style="width: 150px"><span class="value-tag"> {{ formatValue(dataPoint.value, appDataStore.activeTracker.numberFormat) }} </span></td>
-      <td style="width: 100px"><span class="value-tag"><Diff :size="14" /> {{ formatValue(dataPoint.difference, appDataStore.activeTracker.numberFormat) }}</span></td>
+      <td style="width: 100px"><span class="value-tag">
+        <ChevronUp :size="14" v-if="dataPoint.difference > 0" style="padding-right: 5px" />
+        <ChevronDown :size="14" v-if="dataPoint.difference < 0" style="padding-right: 5px" />
+         {{ formatValue(dataPoint.difference, appDataStore.activeTracker.numberFormat) }}</span></td>
       <td>
         <X :size="16" class="datapoints-table__delete" @click.prevent="appDataStore.activeTracker.deleteDataPoint(dataPoint.id)" />
       </td>
@@ -34,7 +37,7 @@
 import {formatValue} from "../utility/helpers";
 import {useAppDataStore} from "../stores/appData";
 import {computed} from "vue";
-import {Diff, X} from "lucide-vue-next";
+import {ChevronUp, ChevronDown, Minus, X} from "lucide-vue-next";
 
 const appDataStore = useAppDataStore();
 
