@@ -199,7 +199,7 @@ export function useTracker(config = {
         if (recentDataPoints.value.length === 0) {
             return 0;
         }
-        return moment(recentDataPoints.value[0].createdAt).valueOf();
+        return moment(recentDataPoints.value[0].createdAt).valueOf() - 1;
     });
 
     /**
@@ -237,6 +237,7 @@ export function useTracker(config = {
             const specificRegression = regression[regressionMode.value.toLowerCase()](data);
             results.push({name: regressionMode.value, calculation: specificRegression});
         }
+        console.log(results[0]);
         return results[0];
     });
 
