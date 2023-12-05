@@ -121,6 +121,7 @@ const chartDatasets = () => {
       target: 'start',
       above: appDataStore.activeCollection.transparentColor,
     },
+    stepped: appDataStore.activeTracker.steppedChart,
     borderColor: appDataStore.activeCollection.color,
     ...baseDataOptions()
   });

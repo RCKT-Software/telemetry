@@ -16,6 +16,7 @@ export function useTracker(config = {
     numberFormat: 'number',
     trackingMode: 'value',
     goals: [],
+    steppedChart: false,
 }) {
 
     /**
@@ -27,6 +28,7 @@ export function useTracker(config = {
             label: label.value,
             startingValue: startingValue.value,
             numberFormat: numberFormat.value,
+            steppedChart: steppedChart.value,
             trackingMode: trackingMode.value,
             goals: goals.value.map(goal => goal.serializeState()),
         };
@@ -77,6 +79,11 @@ export function useTracker(config = {
      * The formatting schema to apply to values when displayed
      */
     const numberFormat = ref(config.numberFormat || 'number');
+
+    /**
+     * Does the chart display as a stepped chart? By default, it's smooth instead.
+     */
+    const steppedChart = ref(config.steppedChart || false);
 
     /**
      * The tracking mode of the tracker (either 'value' or 'aggregate')
@@ -263,6 +270,7 @@ export function useTracker(config = {
         lastUpdated,
         startingValue,
         numberFormat,
+        steppedChart,
         goals,
         activeGoal,
         formattedCurrentValue,

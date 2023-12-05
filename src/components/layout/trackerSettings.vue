@@ -2,7 +2,7 @@
   <div class="settings-list">
     <div class="setting-item">
       <div class="setting-item__meta">
-        <label class="setting-item__label">Data Type</label>
+        <label class="setting-item__label">Formatting</label>
         <span class="setting-item__description">How the data points are formatted.</span>
       </div>
       <div class="setting-item__control">
@@ -10,6 +10,18 @@
           <option value="number" selected>Number</option>
           <option value="usd">Currency ($)</option>
           <option value="percentage">Percentage (%)</option>
+        </select>
+      </div>
+    </div>
+    <div class="setting-item">
+      <div class="setting-item__meta">
+        <label class="setting-item__label">Interpolation</label>
+        <span class="setting-item__description">The "smoothness" between points</span>
+      </div>
+      <div class="setting-item__control">
+        <select v-model="appDataStore.activeTracker.steppedChart">
+          <option :value="false" selected>Smooth (default)</option>
+          <option :value="true">Stepped</option>
         </select>
       </div>
     </div>
