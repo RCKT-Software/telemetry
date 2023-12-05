@@ -44,7 +44,7 @@
     </section>
     <section class="goal-box--complete" v-if="appDataStore.activeGoal.isCompleted">
       <Trophy :absoluteStrokeWidth="true" class="trophy-icon" :size="60"/>
-      <h2 class="goal-box__completed">Completed on<br>{{ appDataStore.activeGoal.formattedPredicted }}</h2>
+      <h2 class="goal-box__completed">Completed on<br>{{ appDataStore.activeGoal.formattedCompletedDate }}</h2>
     </section>
   </div>
   <div class="goal-box goal-box--empty"

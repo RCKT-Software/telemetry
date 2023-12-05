@@ -164,10 +164,35 @@ export function useGoal(config = {
 
     /**
      * Determines whether the goal is completed or not
-     * TODO: Validate this against the real data. Currently, it's just checking if the predicted date is in the past
+     * TODO: Should handle direction of goal, as this assumes goal is an increasing value
      */
     const isCompleted = computed(() => {
         return !!(predicted.value && (!predicted.value.isFuture()) && isPredictionValid.value && parentTracker.value?.currentValue >= targetValue.value);
+    });
+
+    /**
+     * Trys to determine the date the goal was completed
+     */
+    const completedDate = computed(() => {
+        for (let i = 1; i < parentTracker.value?.recentDataPoints.length; i++) {
+            const prev = parentTracker.value?.recentDataPoints[i - 1];
+            const curr = parentTracker.value?.recentDataPoints[i];
+            if ((prev.value <= targetValue.value && targetValue.value <= curr.value)
+                || (prev.value >= targetValue.value && targetValue.value >= curr.value)) {
+                const proportion = (targetValue.value - prev.value) / (curr.value - prev.value);
+                const prevTimestamp = new Date(prev.createdAt).getTime();
+                const currTimestamp = new Date(curr.createdAt).getTime();
+                return new Date(prevTimestamp + proportion * (currTimestamp - prevTimestamp));
+            }
+        }
+        return false;
+    });
+
+    /**
+     * The formatted version of the completed date
+     */
+    const formattedCompletedDate = computed(() => {
+       return completedDate.value ? completedDate.value.medium() : 'N/A';
     });
 
     /**
@@ -204,6 +229,7 @@ export function useGoal(config = {
         deadline,
         predicted,
         accuracy,
+        completedDate,
         formattedAccuracy,
         formattedTargetValue,
         formattedRemaining,
@@ -211,6 +237,7 @@ export function useGoal(config = {
         formattedRelativeDeadline,
         formattedPredicted,
         formattedRelativePredicted,
+        formattedCompletedDate,
         isPredictionValid,
         isCompleted,
         serializeState
