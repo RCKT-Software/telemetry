@@ -32,13 +32,13 @@
                   <a href="#" class="setting-item__support-link" @click.prevent="interfaceStore.openLink('https://docs.telemetry.software/Understanding+Regression+Modes')" target="_blank">Learn more</a></span>
       </div>
       <div class="setting-item__control">
-        <select disabled>
-          <option value="0">Automatic</option>
-          <option value="1">Linear</option>
-          <option value="2">Exponential</option>
-          <option value="3">Logarithmic</option>
-          <option value="4">Power</option>
-          <option value="5">Polynomial</option>
+        <select v-model="appDataStore.activeTracker.regressionMode">
+          <option value="Automatic">Automatic</option>
+          <option value="Linear">Linear</option>
+          <option value="Exponential">Exponential</option>
+          <option value="Logarithmic">Logarithmic</option>
+          <option value="Power">Power</option>
+          <option value="Polynomial">Polynomial</option>
         </select>
       </div>
     </div>

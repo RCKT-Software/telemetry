@@ -16,7 +16,8 @@
     <div class="goal-box__stats">
       <div class="goal-box__stats-item">
         <span class="goal-box__stats-item-label">Regression Mode</span>
-        <span class="goal-box__stats-item-value value-tag"><FunctionSquare :size="14" /> Auto ({{ appDataStore.activeTracker.regressionData.name }})</span>
+        <span class="goal-box__stats-item-value value-tag" v-if="appDataStore.activeTracker.regressionMode === 'Automatic'"><FunctionSquare :size="14" /> Auto ({{ appDataStore.activeTracker.regressionData.name }})</span>
+        <span class="goal-box__stats-item-value value-tag" v-else><FunctionSquare :size="14" /> {{ appDataStore.activeTracker.regressionMode }}</span>
       </div>
       <div class="goal-box__stats-item">
         <span class="goal-box__stats-item-label">Accuracy</span>
