@@ -164,9 +164,10 @@ export function useGoal(config = {
 
     /**
      * Determines whether the goal is completed or not
+     * TODO: Validate this against the real data. Currently, it's just checking if the predicted date is in the past
      */
     const isCompleted = computed(() => {
-        return !!(predicted.value && (!predicted.value.isFuture()));
+        return !!(predicted.value && (!predicted.value.isFuture()) && isPredictionValid.value && parentTracker.value?.currentValue >= targetValue.value);
     });
 
     /**

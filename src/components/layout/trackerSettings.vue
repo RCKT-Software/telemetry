@@ -16,7 +16,7 @@
     <div class="setting-item">
       <div class="setting-item__meta">
         <label class="setting-item__label">Interpolation</label>
-        <span class="setting-item__description">The "smoothness" between points</span>
+        <span class="setting-item__description">The "smoothness" between points.</span>
       </div>
       <div class="setting-item__control">
         <select v-model="appDataStore.activeTracker.steppedChart">
