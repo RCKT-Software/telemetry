@@ -237,7 +237,6 @@ export function useTracker(config = {
             const specificRegression = regression[regressionMode.value.toLowerCase()](data);
             results.push({name: regressionMode.value, calculation: specificRegression});
         }
-        console.log(results[0]);
         return results[0];
     });
 

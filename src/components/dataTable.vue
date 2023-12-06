@@ -51,7 +51,6 @@ const sortedDataPoints = computed(() => {
   });
   for (let i = 0; i < dataPoints.length; i++) {
     if(dataPoints[i + 1]) {
-      console.log(dataPoints[i].value, dataPoints[i + 1].value);
       dataPoints[i].difference = dataPoints[i].value - dataPoints[i + 1].value;
     }else{
       dataPoints[i].difference = 0;
