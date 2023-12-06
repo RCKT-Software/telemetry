@@ -1,5 +1,3 @@
-require('dotenv').config()
-
 module.exports = {
     packagerConfig: {
         appCopyright: "Copyright © 2023 RCKT Software, LLC.",
@@ -11,9 +9,7 @@ module.exports = {
         osxSign: {},
         osxNotarize: {
             tool: 'notarytool',
-            appleId: process.env.APPLE_ID,
-            appleIdPassword: process.env.APPLE_PASSWORD,
-            teamId: process.env.APPLE_TEAM_ID
+            keychainProfile: 'telemetry'
         }
     },
     makers: [

@@ -13,8 +13,16 @@
     "build": "vite build",
     "preview": "vite preview",
     "electron:dev": "cross-env IS_DEV=true electron-forge start",
-    "electron:build": "npm run build && electron-forge make",
+    "electron:build": "npm run build && cross-env DEBUG=*electron* electron-forge make",
+    "electron:build-mac-arm": "npm run build && cross-env DEBUG=*electron* electron-forge make --arch=x64 --platform=darwin",
+    "electron:build-mac": "npm run build && cross-env DEBUG=*electron* electron-forge make --arch=universal --platform=darwin",
     "electron:package": "electron-forge package"
+  },
+  "build": {
+    "electronVersion": "19.1.9"
+  },
+  "resolutions": {
+    "@electron/universal": "^2.0.1"
   },
   "dependencies": {
     "@kurkle/color": "^0.3.2",
@@ -40,17 +48,18 @@
     "vue": "^3.3.7"
   },
   "devDependencies": {
-    "dotenv": "^16.3.1",
-    "@electron-forge/maker-dmg": "^7.2.0",
+    "@electron/universal": "^2.0.1",
     "@electron-forge/cli": "^6.0.0-beta.64",
     "@electron-forge/maker-deb": "^6.0.0-beta.64",
+    "@electron-forge/maker-dmg": "^7.2.0",
     "@electron-forge/maker-rpm": "^6.0.0-beta.64",
     "@electron-forge/maker-squirrel": "^6.0.0-beta.64",
     "@electron-forge/maker-zip": "^6.0.0-beta.64",
     "@vitejs/plugin-vue": "^2.3.3",
     "concurrently": "^7.2.2",
     "cross-env": "^7.0.3",
-    "electron": "^19.0.8",
+    "dotenv": "^16.3.1",
+    "electron": "19.1.9",
     "vite": "^2.9.9"
   }
 }
