@@ -1,3 +1,5 @@
+require('dotenv').config()
+
 module.exports = {
     packagerConfig: {
         appCopyright: "Copyright © 2023 RCKT Software, LLC.",
