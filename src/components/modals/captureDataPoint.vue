@@ -11,8 +11,10 @@
 
       <div class="input-group">
         <label>What's the current value?</label>
-        <input type="number" :placeholder="'Ex: ' + appDataStore.activeTracker.formattedCurrentValue"
-               v-model="captureConfig.datapoint">
+        <input type="text"
+               :placeholder="'Ex: ' + appDataStore.activeTracker.formattedCurrentValue"
+               :value="formattedValue"
+               @blur="handleInput">
       </div>
 
     </div>
@@ -31,8 +33,9 @@
 <script setup>
 
 import {useModalStore} from "../../stores/modal";
-import {ref} from "vue";
+import {computed, ref} from "vue";
 import {useAppDataStore} from "../../stores/appData";
+import {formatValue} from "../../utility/helpers";
 
 const modalStore = useModalStore();
 const appDataStore = useAppDataStore();
@@ -42,6 +45,38 @@ const appDataStore = useAppDataStore();
  */
 const captureConfig = ref({
   datapoint: null,
+});
+
+/**
+ * Handles setting the input value when it changes
+ * @param event
+ */
+const handleInput = (event) => {
+  setDataPointValue(event.target.value);
+};
+
+/**
+ *  Sets the value of the data point
+ * @param value
+ */
+const setDataPointValue = (value) => {
+  captureConfig.value.datapoint = cleanValue(value);
+};
+
+/**
+ * Cleans the value of the input field
+ * @param value
+ * @returns {number}
+ */
+const cleanValue = (value) => {
+  return isNaN(parseFloat(value.replace(/[^0-9.]+/g, ''))) ? 0 : parseFloat(value.replace(/[^0-9.]+/g, ''));
+}
+
+/**
+ * Formats the value to be displayed in the input field
+ */
+const formattedValue = computed(() => {
+  return captureConfig.value.datapoint ? formatValue(captureConfig.value.datapoint, appDataStore.activeTracker.numberFormat) : null;
 });
 
 /**
