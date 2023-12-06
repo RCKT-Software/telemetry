@@ -28,8 +28,13 @@
 
 ## 📦 Installation
 
+Download the latest version of Telemetry from the [releases](https://github.com/RCKT-Software/telemetry/releases) page or from the link on the [official website](https://telemetry.software).
+
 ### Windows
-Download the latest version of Telemetry from the [releases](https://github.com/RCKT-Software/telemetry/releases) page or from the link on the [official website](https://telemetry.software). Run the .exe installer and follow the instructions. Telemetry will open automatically when installation is complete.
+Run the `.exe` installer and follow the instructions. You may have to select "Run anyway" if prompted with a Microsoft Defender warning. Telemetry will open automatically when installation is complete.
+
+### macOS
+Run the `.dmg` file and drag Telemetry to your Apps folder. When done you can unmount the `.dmg` and open Telemetry from your search bar or Applications folder.
 
 ---
 
