@@ -19,12 +19,13 @@ const isDev = process.env.IS_DEV === 'true';
 
 function createWindow(userData = {}) {
     const { height } = screen.getPrimaryDisplay().size;
+    const windowHeight = Math.round(Math.max(height * 0.85, 860));
     const mainWindow = new BrowserWindow({
         show: false,
         minWidth: 1160,
         width: 1520,
         minHeight: 800,
-        height: height * 0.9,
+        height: windowHeight,
         center: true,
         resizable: true,
         maximizable: true,

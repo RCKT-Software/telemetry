@@ -5,7 +5,7 @@ VERSION=$(node -p "require('./package.json').version")
 
 # Build for ARM architecture
 echo "Building for ARM..."
-npm run build && electron-forge make
+npm run build && electron-forge make --platform=darwin
 ARM_ZIP="out/make/zip/darwin/arm64/Telemetry-darwin-arm64-${VERSION}.zip"
 ARM_DMG="out/make/Telemetry.dmg"
 
@@ -34,3 +34,5 @@ if [ -f "${X64_DMG}" ]; then
     mv "${X64_DMG}" "out/make/Telemetry-mac-x64-${VERSION}.dmg"
     echo "Renamed DMG for x64."
 fi
+
+rm -rf out/make/zip
