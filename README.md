@@ -33,7 +33,7 @@ Download the latest version of Telemetry from the [releases](https://github.com/
 Run the `.exe` installer and follow the instructions. You may have to select "Run anyway" if prompted with a Microsoft Defender warning. Telemetry will open automatically when installation is complete.
 
 ### macOS
-Make sure you download the correct `.dmg` file for your CPU architecture (either `Telemetry.dmg` for Apple Silicon, or `Telemetry_x64.dmg` for Intel chipsets. Run the `.dmg` file and drag Telemetry to your Apps folder. When done you can unmount the `.dmg` and open Telemetry from your search bar or Applications folder.
+Make sure you download the correct `.dmg` file for your CPU architecture (either `arm` for Apple Silicon, or `x64` for Intel chipsets. Run the `.dmg` file and drag Telemetry to your Apps folder. When done you can unmount the `.dmg` and open Telemetry from your search bar or Applications folder.
 
 ---
 
