@@ -30,7 +30,12 @@ module.exports = {
                 name: "Telemetry",
                 copyright: "Copyright © 2023 RCKT Software, LLC."
             }
-        }
-
+        },
+        {
+            "name": "@electron-forge/maker-zip",
+            "platforms": [
+                "darwin"
+            ]
+        },
     ],
 };
