@@ -108,7 +108,6 @@ const chartDatasets = () => {
     }
   }
   // User Data
-  console.log("data is", appDataStore.activeTracker.chartData.data);
   datasets.push({
     data: appDataStore.activeTracker.chartData.data.length === 1 ? [
       {

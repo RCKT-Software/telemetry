@@ -58,7 +58,6 @@ async function initializeDatabase() {
 async function captureDataPoint(data) {
     try {
         const dataPoint = await DataPoint.create(data);
-        console.log('Data point captured:', JSON.stringify(dataPoint));
     } catch (error) {
         console.error('Failed to capture data point:', error);
         throw error;
