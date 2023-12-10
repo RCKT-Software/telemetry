@@ -7,8 +7,8 @@
 
 ---
 
-![GitHub package.json dynamic](https://img.shields.io/github/package-json/version/RCKT-Software/telemetry?label=latest%20commit)
-![GitHub Release Date - Published_At](https://img.shields.io/github/release-date/RCKT-Software/telemetry)
+![GitHub package.json dynamic](https://img.shields.io/github/package-json/version/RCKT-Software/telemetry?label=current%20version)
+![GitHub Release Date - Published_At](https://img.shields.io/github/release-date/RCKT-Software/telemetry?label=latest%20release)
 
 
 ### **Telemetry is an open-source progress tracker that predicts when you'll reach your goals.** Track what's important to you over time, and see how your progress compares to your goals.
