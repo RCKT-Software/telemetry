@@ -79,7 +79,11 @@
               <label style="margin-bottom: 20px">Manage Data</label>
               <button class="btn btn--primary" @click.prevent="modalStore.openModal('capture-data-point')">
                 <Plus :size="16"/>
-                <span>Log a data point</span>
+                <span>Update current value</span>
+              </button>
+              <button class="btn" style="margin-top: 10px" @click.prevent="appDataStore.activeTracker.importCSV">
+                <FileInput :size="16"/>
+                <span>Import a CSV file</span>
               </button>
             </section>
           </section>
@@ -120,7 +124,7 @@ import {useInterfaceStore} from "./stores/interface";
 import DataTable from "./components/dataTable.vue";
 import EmptyCollection from "./components/layout/emptyCollection.vue";
 import Welcome from "./components/layout/welcome.vue";
-import {Database, History, Plus, Table2, Settings2} from "lucide-vue-next";
+import {Database, History, Plus, Table2, Settings2, FileInput} from "lucide-vue-next";
 import TrackerSettings from "./components/layout/trackerSettings.vue";
 
 const appDataStore = useAppDataStore();

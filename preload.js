@@ -27,5 +27,6 @@ contextBridge.exposeInMainWorld('electronAPI', {
             .catch(err => {
                 console.error("Error getting chart data: ", err);
             });
-    }
+    },
+    importCSV: (trackerId) => ipcRenderer.invoke('import-csv', trackerId),
 });

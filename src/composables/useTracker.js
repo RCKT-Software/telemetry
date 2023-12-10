@@ -163,6 +163,10 @@ export function useTracker(config = {
         updateDataPoints();
     }
 
+    const importCSV = async() =>{
+        await window["electronAPI"].importCSV(id);
+    }
+
     /**
      * Fetches the latest data points for the tracker and updates the current value and last updated date.
      */
@@ -298,6 +302,7 @@ export function useTracker(config = {
         regressionData,
         chartRegressionData,
         deleteGoal,
-        serializeState
+        serializeState,
+        importCSV
     }
 }

@@ -6,7 +6,7 @@ const { updateElectronApp } = require('update-electron-app');
 
 const crypto = require('crypto');
 
-const {initializeDatabase, captureDataPoint, getDataPoints, deleteDataPoint} = require('./src/system/database');
+const {initializeDatabase, captureDataPoint, getDataPoints, deleteDataPoint, initCSVImport} = require('./src/system/database');
 const {initializeAppData, storeAppData} = require('./src/system/configuration');
 
 // Handle creating/removing shortcuts on Windows when installing/uninstalling.
@@ -80,6 +80,11 @@ function createWindow(userData = {}) {
     // Handle deleting a data point
     ipcMain.handle('delete-data-point', async (event, data) => {
         deleteDataPoint(data);
+    });
+
+    // Handle the user request to import a CSV file
+    ipcMain.handle('import-csv', async (event, data) => {
+        initCSVImport(data);
     });
 
     // Handle getting data points for a given tracker
