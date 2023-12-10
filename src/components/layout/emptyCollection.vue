@@ -2,7 +2,7 @@
   <div class="empty-message">
     <emptyTumbleweed />
     <h1>This collection is empty</h1>
-    <p>This is no mirage, just a place for progress...</p>
+    <p>Let's start by keeping track of something important...</p>
     <button class="btn btn--primary" @click.prevent="modalStore.openModal('progress-tracker')">Create a new progress tracker</button>
   </div>
 </template>

@@ -49,11 +49,17 @@
         <div class="chart-row">
           <chart v-if="appDataStore.activeTracker.recentDataPoints.length > 0"/>
           <div class="chart-placeholder" v-else>
-            <label>Let's bring in some data...</label>
-            <button class="btn btn--primary" @click.prevent="modalStore.openModal('capture-data-point')">
-              <Plus :size="16"/>
-              <span>Log a data point</span>
-            </button>
+            <label>This chart will be shown once you have some data to look at...</label>
+            <div style="display: flex; flex-direction: row; flex-wrap: nowrap; gap: 20px">
+              <button class="btn btn--primary" @click.prevent="modalStore.openModal('capture-data-point')">
+                <Plus :size="16"/>
+                <span>Update current value</span>
+              </button>
+              <button class="btn" @click.prevent="appDataStore.activeTracker.importCSV">
+                <FileInput :size="16"/>
+                <span>Import CSV file</span>
+              </button>
+            </div>
           </div>
           <goalBox/>
         </div>
@@ -75,7 +81,7 @@
           <!-- Data Tab -->
           <section class="tab-content--data" v-if="activeTab === 'data'">
             <dataTable/>
-            <section>
+            <section style="margin-top:-35px">
               <label style="margin-bottom: 20px">Manage Data</label>
               <button class="btn btn--primary" @click.prevent="modalStore.openModal('capture-data-point')">
                 <Plus :size="16"/>
@@ -83,7 +89,7 @@
               </button>
               <button class="btn" style="margin-top: 10px" @click.prevent="appDataStore.activeTracker.importCSV">
                 <FileInput :size="16"/>
-                <span>Import a CSV file</span>
+                <span>Import CSV file</span>
               </button>
             </section>
           </section>
@@ -395,7 +401,7 @@ h1 {
 }
 
 .btn {
-  padding: 10px 15px;
+  padding: 12px 18px;
   gap: 10px;
   display: flex;
   flex-direction: row;
@@ -608,8 +614,7 @@ label {
 }
 
 div.chart-placeholder {
-  background-color: var(--lighter);
-  border: 1px solid var(--light);
+  border: 1px solid var(--medium);
   width: 850px;
   aspect-ratio: 2.07;
   border-radius: 5px;

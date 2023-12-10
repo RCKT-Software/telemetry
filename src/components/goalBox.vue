@@ -10,7 +10,7 @@
     <div class="divider" style="margin-bottom: 20px"/>
     <section v-if="appDataStore.activeGoal.isCompleted === false">
       <div class="goal-box__prediction-item">
-        <span class="goal-box__prediction-item-label value-tag value-tag--success">Predicted Completion</span>
+        <span class="goal-box__prediction-item-label value-tag value-tag--success">Prediction</span>
         <h1 class="goal-box__prediction-item-value">{{ appDataStore.activeGoal.formattedPredicted }}</h1>
       </div>
       <div class="divider" style="margin-bottom: 30px"/>
