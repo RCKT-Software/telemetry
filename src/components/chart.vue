@@ -38,11 +38,11 @@ const getCSSVariable = (variableName) => {
  * Determines the unit of time to use for the X axis, based on the data to show.
  */
 const getUnitOfTime = computed(() => {
-  const firstDataPoint = appDataStore.activeTracker.chartData.labels[0];
-  if (!firstDataPoint) {
+  const firstDataPoint = appDataStore.activeTracker.recentDataPoints[0].createdAt;
+  if (!firstDataPoint || appDataStore.activeTracker.recentDataPoints.length === 1) {
     return 'day';
   }
-  const lastDataPoint = appDataStore.activeTracker.chartData.labels[appDataStore.activeTracker.chartData.labels.length - 1];
+  const lastDataPoint = appDataStore.activeTracker.recentDataPoints[appDataStore.activeTracker.recentDataPoints.length - 1].createdAt;
   const timeDifference = lastDataPoint - firstDataPoint;
   if (timeDifference < 1000 * 60) {
     return 'second'; // less than a minute
@@ -78,15 +78,8 @@ const annotation = () => {
  * Set the options for how to display the user's data, allowing for points to be visible if only 1 data point.
  */
 const baseDataOptions = () => {
-  if (appDataStore.activeTracker.chartData.data.length > 1) {
-    return {
-      pointStyle: false
-    }
-  }
   return {
-    pointStyle: 'circle',
-    pointBackgroundColor: appDataStore.activeCollection.color,
-    pointRadius: 6,
+    pointStyle: false
   }
 };
 
@@ -101,7 +94,7 @@ const chartDatasets = () => {
       if (goal.predicted > appDataStore.activeTracker.chartRegressionData[appDataStore.activeTracker.chartRegressionData.length - 1][0]) {
         continue;
       }
-      if (goal.predicted < appDataStore.activeTracker.chartData.labels[0]) {
+      if (goal.predicted < appDataStore.activeTracker.recentDataPoints[0].createdAt) {
         continue;
       }
       datasets.push({
@@ -115,8 +108,15 @@ const chartDatasets = () => {
     }
   }
   // User Data
+  console.log("data is", appDataStore.activeTracker.chartData.data);
   datasets.push({
-    data: appDataStore.activeTracker.chartData.data,
+    data: appDataStore.activeTracker.chartData.data.length === 1 ? [
+      {
+        x: moment(appDataStore.activeTracker.chartData.data[0].x).subtract(7, 'days').toDate(),
+        y: appDataStore.activeTracker.chartData.data[0].y,
+      },
+      appDataStore.activeTracker.chartData.data[0]
+    ] : appDataStore.activeTracker.chartData.data,
     fill: {
       target: 'start',
       above: appDataStore.activeCollection.transparentColor,
@@ -154,7 +154,7 @@ const createChart = async () => {
   Chart.defaults.borderColor = getCSSVariable('--lighter');
   if (appDataStore.darkMode) {
     flagPointStyle.src = flagIconDark;
-  }else{
+  } else {
     flagPointStyle.src = flagIcon;
   }
   chart = new Chart(
@@ -167,6 +167,7 @@ const createChart = async () => {
               type: 'time',
               time: {
                 unit: getUnitOfTime.value,
+                stepSize: 1,
               },
               grid: {
                 color: getCSSVariable('--lighter')
@@ -205,7 +206,6 @@ const createChart = async () => {
           aspectRatio: 2,
         },
         data: {
-          labels: appDataStore.activeTracker.chartData.labels,
           datasets: chartDatasets()
         }
       }

@@ -187,8 +187,10 @@ export function useTracker(config = {
      */
     const chartData = computed(() => {
         return {
-            labels: recentDataPoints.value.map(point => point.createdAt),
-            data: recentDataPoints.value.map(point => point.value),
+            data: recentDataPoints.value.map((point) => ({
+                x: point.createdAt,
+                y: point.value
+            })),
         }
     });
 
