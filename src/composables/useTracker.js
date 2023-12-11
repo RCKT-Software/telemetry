@@ -278,6 +278,7 @@ export function useTracker(config = {
             filePath,
             trackerId: id
         });
+        console.log('updating chart');
         updateDataPoints();
     }
 

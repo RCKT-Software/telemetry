@@ -64,6 +64,18 @@ async function captureDataPoint(data) {
 }
 
 /**
+ * Captures data points in bulk.
+ */
+async function captureBulkDataPoints(data) {
+    try {
+        return DataPoint.bulkCreate(data);
+    } catch (error) {
+        console.error('Failed to capture bulk data points:', error);
+        throw error;
+    }
+}
+
+/**
  * Retrieves all data points for a given tracker and configuration.
  * @param trackerId
  * @param configuration
@@ -77,7 +89,7 @@ async function getDataPoints(trackerId, configuration) {
             order: [
                 ['createdAt', 'DESC']
             ],
-            limit: 500
+            limit: 10000
         });
         return dataPoints.map(record => record.dataValues);
     } catch (error) {
@@ -105,4 +117,4 @@ async function deleteDataPoint(data) {
     }
 }
 
-module.exports = {initializeDatabase, captureDataPoint, getDataPoints, deleteDataPoint};
+module.exports = {initializeDatabase, captureDataPoint, captureBulkDataPoints, getDataPoints, deleteDataPoint};

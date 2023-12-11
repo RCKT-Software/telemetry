@@ -90,7 +90,7 @@ function createWindow(userData = {}) {
 
     // Handle the user request to import a CSV file to a specific tracker
     ipcMain.handle('import-csv-to-tracker', async (event, data) => {
-        importCSVToTracker(data);
+        return await importCSVToTracker(data);
     });
 
     // Handle getting data points for a given tracker

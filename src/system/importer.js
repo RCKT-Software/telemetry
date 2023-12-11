@@ -3,7 +3,7 @@ const path = require('path');
 const fs = require('fs');
 const csv = require('csv-parser');
 const Sugar = require('sugar');
-const {captureDataPoint} = require('./database');
+const {captureBulkDataPoints} = require('./database');
 
 Sugar.extend();
 
@@ -87,28 +87,37 @@ async function validateCSVFile(filePath) {
  */
 const importCSVToTracker = (data) => {
     return new Promise((resolve, reject) => {
-        const results = [];
+        const records = [];
         fs.createReadStream(data.filePath)
             .pipe(csv({
                 headers: ['date', 'value'],
             }))
             .on('data', (record) => {
-                results.push(captureDataPoint({
+                records.push({
                     trackerId: data.trackerId,
                     value: parseFloat(record['value'].replace(/[\$, ]/g, '')),
                     createdAt: new Date(record['date'].toString().trim()),
-                }));
+                });
             })
             .on('end', async () => {
                 try {
-                    await Promise.all(results);
-                    resolve();
+                    await importBatches(records); // Process records in batches
+                    resolve(); // Resolve after all batches are imported
                 } catch (e) {
                     reject(e);
                 }
             })
             .on('error', (err) => reject(err));
     });
-}
+};
+
+const importBatches = async (records) => {
+    const batchSize = 1000;
+    for (let i = 0; i < records.length; i += batchSize) {
+        const batch = records.slice(i, i + batchSize);
+        await captureBulkDataPoints(batch);
+        console.log(`Imported ${batch.length} records`);
+    }
+};
 
 module.exports = {openCSVFileDialog, importCSVToTracker};
