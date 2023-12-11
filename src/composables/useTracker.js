@@ -163,10 +163,6 @@ export function useTracker(config = {
         updateDataPoints();
     }
 
-    const importCSV = async() =>{
-        await window["electronAPI"].importCSV(id);
-    }
-
     /**
      * Fetches the latest data points for the tracker and updates the current value and last updated date.
      */
@@ -271,6 +267,19 @@ export function useTracker(config = {
 
     // Update the tracker's data points upon initialization
     updateDataPoints();
+
+    /**
+     * Takes an input CSV file path (already validated) and imports it into this tracker.
+     * @param filePath
+     * @returns {Promise<void>}
+     */
+    const importCSV = async (filePath) => {
+        await window["electronAPI"].importCSVToTracker({
+            filePath,
+            trackerId: id
+        });
+        updateDataPoints();
+    }
 
     /**
      * Deletes the tracker from the collection

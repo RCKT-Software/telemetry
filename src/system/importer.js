@@ -10,7 +10,7 @@ Sugar.extend();
  * Open a dialog to select a CSV file, and return data about that file to the user to confirm.
  */
 async function openCSVFileDialog(data) {
-    dialog.showOpenDialog({
+    return dialog.showOpenDialog({
         properties: ['openFile'],
         filters: [
             {name: 'CSV', extensions: ['csv']}
@@ -20,9 +20,7 @@ async function openCSVFileDialog(data) {
         const filePath = result.filePaths[0];
         const fileExtension = path.extname(filePath).toLowerCase();
         if (fileExtension === '.csv') {
-            const output = await validateCSVFile(filePath);
-            console.log(output);
-            return output;
+            return await validateCSVFile(filePath);
         } else {
             console.log('Selected file is not a CSV file.');
             return false;
@@ -82,4 +80,12 @@ async function validateCSVFile(filePath) {
     });
 }
 
-module.exports = {openCSVFileDialog};
+/**
+ * Import the CSV file to the tracker provided by the user.
+ * @param data
+ */
+const importCSVToTracker = (data) => {
+    console.log(data);
+}
+
+module.exports = {openCSVFileDialog, importCSVToTracker};

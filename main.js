@@ -8,7 +8,7 @@ const crypto = require('crypto');
 
 const {initializeDatabase, captureDataPoint, getDataPoints, deleteDataPoint} = require('./src/system/database');
 const {initializeAppData, storeAppData} = require('./src/system/configuration');
-const {openCSVFileDialog} = require('./src/system/importer');
+const {openCSVFileDialog, importCSVToTracker} = require('./src/system/importer');
 
 // Handle creating/removing shortcuts on Windows when installing/uninstalling.
 if (require('electron-squirrel-startup')) {
@@ -84,8 +84,13 @@ function createWindow(userData = {}) {
     });
 
     // Handle the user request to import a CSV file
-    ipcMain.handle('import-csv', async (event, data) => {
-        openCSVFileDialog(data);
+    ipcMain.handle('get-csv-data', async (event) => {
+        return await openCSVFileDialog();
+    });
+
+    // Handle the user request to import a CSV file to a specific tracker
+    ipcMain.handle('import-csv-to-tracker', async (event, data) => {
+        importCSVToTracker(data);
     });
 
     // Handle getting data points for a given tracker

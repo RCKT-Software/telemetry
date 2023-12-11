@@ -13,6 +13,7 @@ import goal from "../modals/goal.vue";
 import captureDataPoint from "../modals/captureDataPoint.vue";
 import collection from "../modals/collection.vue";
 import deleteCollectionConfirmation from "../modals/deleteCollectionConfirmation.vue";
+import importCSVConfirmation from "../modals/importCSVConfirmation.vue";
 
 const modalStore = useModalStore();
 
@@ -25,7 +26,8 @@ const modals = {
   'delete-collection': deleteCollectionConfirmation,
   'goal': goal,
   'capture-data-point': captureDataPoint,
-  'collection': collection
+  'collection': collection,
+  'import-csv': importCSVConfirmation
 };
 
 </script>

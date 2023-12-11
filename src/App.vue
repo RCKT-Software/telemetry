@@ -55,7 +55,7 @@
                 <Plus :size="16"/>
                 <span>Update current value</span>
               </button>
-              <button class="btn" @click.prevent="appDataStore.activeTracker.importCSV">
+              <button class="btn" @click.prevent="getCSVData">
                 <FileInput :size="16"/>
                 <span>Import CSV file</span>
               </button>
@@ -87,7 +87,7 @@
                 <Plus :size="16"/>
                 <span>Update current value</span>
               </button>
-              <button class="btn" style="margin-top: 10px" @click.prevent="appDataStore.activeTracker.importCSV">
+              <button class="btn" style="margin-top: 10px" @click.prevent="getCSVData">
                 <FileInput :size="16"/>
                 <span>Import CSV file</span>
               </button>
@@ -96,7 +96,7 @@
 
           <!-- Settings Tab -->
           <section class="tab-content--settings" v-if="activeTab === 'settings'">
-            <trackerSettings />
+            <trackerSettings/>
           </section>
 
 
@@ -185,6 +185,12 @@ const sendAnonymousUsageData = async () => {
       numGoals: appDataStore.numGoals,
       numDataPoints: appDataStore.numDataPoints,
     })
+  });
+}
+
+const getCSVData = () => {
+  window["electronAPI"].getCSVData((csvData) => {
+    modalStore.openModal('import-csv', {csvData});
   });
 }
 
