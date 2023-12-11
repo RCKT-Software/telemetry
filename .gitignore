@@ -20,3 +20,5 @@ app
 /.idea
 .idea
 .iml
+/example-datasets
+/example-datasets/*

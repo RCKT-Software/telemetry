@@ -89,7 +89,7 @@ async function getDataPoints(trackerId, configuration) {
             order: [
                 ['createdAt', 'DESC']
             ],
-            limit: 10000
+            limit: 1000
         });
         return dataPoints.map(record => record.dataValues);
     } catch (error) {
