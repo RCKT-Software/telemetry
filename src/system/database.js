@@ -53,11 +53,10 @@ async function initializeDatabase() {
 
 /**
  * Captures a single data point.
- * @returns {Promise<void>}
  */
 async function captureDataPoint(data) {
     try {
-        const dataPoint = await DataPoint.create(data);
+        return DataPoint.create(data);
     } catch (error) {
         console.error('Failed to capture data point:', error);
         throw error;

@@ -3,6 +3,7 @@ const path = require('path');
 const fs = require('fs');
 const csv = require('csv-parser');
 const Sugar = require('sugar');
+const {captureDataPoint} = require('./database');
 
 Sugar.extend();
 
@@ -85,7 +86,29 @@ async function validateCSVFile(filePath) {
  * @param data
  */
 const importCSVToTracker = (data) => {
-    console.log(data);
+    return new Promise((resolve, reject) => {
+        const results = [];
+        fs.createReadStream(data.filePath)
+            .pipe(csv({
+                headers: ['date', 'value'],
+            }))
+            .on('data', (record) => {
+                results.push(captureDataPoint({
+                    trackerId: data.trackerId,
+                    value: parseFloat(record['value'].replace(/[\$, ]/g, '')),
+                    createdAt: new Date(record['date'].toString().trim()),
+                }));
+            })
+            .on('end', async () => {
+                try {
+                    await Promise.all(results);
+                    resolve();
+                } catch (e) {
+                    reject(e);
+                }
+            })
+            .on('error', (err) => reject(err));
+    });
 }
 
 module.exports = {openCSVFileDialog, importCSVToTracker};

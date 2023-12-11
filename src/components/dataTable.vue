@@ -49,6 +49,7 @@ const sortedDataPoints = computed(() => {
   dataPoints.sort((a, b) => {
     return Date.create(b.createdAt).getTime() - Date.create(a.createdAt).getTime();
   });
+  dataPoints = dataPoints.slice(0, 50);
   for (let i = 0; i < dataPoints.length; i++) {
     if(dataPoints[i + 1]) {
       dataPoints[i].difference = dataPoints[i].value - dataPoints[i + 1].value;
