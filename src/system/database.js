@@ -106,26 +106,4 @@ async function deleteDataPoint(data) {
     }
 }
 
-function initCSVImport() {
-    dialog.showOpenDialog({
-        properties: ['openFile'],
-        filters: [
-            { name: 'CSV', extensions: ['csv'] }
-        ]
-    }).then(result => {
-        if (result.canceled) return;
-        const filePath = result.filePaths[0];
-        const fileExtension = path.extname(filePath).toLowerCase();
-        if (fileExtension === '.csv') {
-            console.log('Selected file is a CSV file.');
-            // Do something with the CSV file
-        } else {
-            console.log('Selected file is not a CSV file.');
-            // Handle error or notify user
-        }
-    }).catch(err => {
-        console.error('An error occurred:', err);
-    });
-}
-
-module.exports = {initializeDatabase, captureDataPoint, getDataPoints, deleteDataPoint, initCSVImport};
+module.exports = {initializeDatabase, captureDataPoint, getDataPoints, deleteDataPoint};

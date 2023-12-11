@@ -1,4 +1,4 @@
-const { contextBridge, ipcRenderer, shell } = require('electron')
+const {contextBridge, ipcRenderer, shell} = require('electron')
 
 contextBridge.exposeInMainWorld('electronAPI', {
     openLink: (url) => shell.openExternal(url),
@@ -28,5 +28,5 @@ contextBridge.exposeInMainWorld('electronAPI', {
                 console.error("Error getting chart data: ", err);
             });
     },
-    importCSV: (trackerId) => ipcRenderer.invoke('import-csv', trackerId),
+    importCSV: (trackerId) => ipcRenderer.invoke('import-csv', {trackerId}),
 });

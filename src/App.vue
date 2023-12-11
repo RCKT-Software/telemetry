@@ -49,7 +49,7 @@
         <div class="chart-row">
           <chart v-if="appDataStore.activeTracker.recentDataPoints.length > 0"/>
           <div class="chart-placeholder" v-else>
-            <label>This chart will be shown once you have some data to look at...</label>
+            <label>Let's start tracking something...</label>
             <div style="display: flex; flex-direction: row; flex-wrap: nowrap; gap: 20px">
               <button class="btn btn--primary" @click.prevent="modalStore.openModal('capture-data-point')">
                 <Plus :size="16"/>
