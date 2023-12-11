@@ -2,8 +2,8 @@
   <div class="settings-list">
     <div class="setting-item">
       <div class="setting-item__meta">
-        <label class="setting-item__label">Formatting</label>
-        <span class="setting-item__description">How the data points are formatted.</span>
+        <label class="setting-item__label">Number Formatting</label>
+        <span class="setting-item__description">How values are displayed for this tracker.</span>
       </div>
       <div class="setting-item__control">
         <select v-model="appDataStore.activeTracker.numberFormat">
@@ -15,12 +15,12 @@
     </div>
     <div class="setting-item">
       <div class="setting-item__meta">
-        <label class="setting-item__label">Interpolation</label>
-        <span class="setting-item__description">The "smoothness" between points.</span>
+        <label class="setting-item__label">Point Interpolation</label>
+        <span class="setting-item__description">The approach to drawing the chart from your data.</span>
       </div>
       <div class="setting-item__control">
         <select v-model="appDataStore.activeTracker.steppedChart">
-          <option :value="false" selected>Smooth (default)</option>
+          <option :value="false" selected>Smooth</option>
           <option :value="true">Stepped</option>
         </select>
       </div>
@@ -29,7 +29,7 @@
       <div class="setting-item__meta">
         <label class="setting-item__label">Regression Mode</label>
         <span class="setting-item__description">The model used to generate predictions.
-                  <a href="#" class="setting-item__support-link" @click.prevent="interfaceStore.openLink('https://docs.telemetry.software/Understanding+Regression+Modes')" target="_blank">Learn more</a></span>
+                  <a href="#" class="setting-item__support-link" @click.prevent="interfaceStore.openLink('https://docs.telemetry.software/Features/Regression+Modes')" target="_blank">Learn more.</a></span>
       </div>
       <div class="setting-item__control">
         <select v-model="appDataStore.activeTracker.regressionMode">

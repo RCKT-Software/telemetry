@@ -91,6 +91,7 @@
                 <FileInput :size="16"/>
                 <span>Import CSV file</span>
               </button>
+              <a href="#" @click.prevent="interfaceStore.openLink('https://docs.telemetry.software/Features/Import+from+CSV')" style="font-size: 12px; width: 100%; text-align: center; display: block; margin-top: 15px; text-decoration: underline;">How to format CSV files for import</a>
             </section>
           </section>
 
