@@ -77,10 +77,6 @@ const modalStore = useModalStore();
   height: 370px;
   overflow-y: hidden;
 
-  &.goal-box--has-data {
-    background-color: var(--lighter) !important;
-  }
-
   &.goal-box--empty {
     display: flex;
     flex-direction: column;
